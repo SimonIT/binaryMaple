@@ -1,4 +1,6 @@
-package de.szut.simNil.binaryMaple;
+package de.szut.simNil.binaryMaple.standard;
+
+import de.szut.simNil.binaryMaple.AbstractNode;
 
 import java.util.ArrayList;
 

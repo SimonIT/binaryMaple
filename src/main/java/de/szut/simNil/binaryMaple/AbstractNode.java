@@ -1,10 +1,10 @@
 package de.szut.simNil.binaryMaple;
+
 /**
  * Interface fuer Binary Search Tree AbstractNode
  *
  * @author wolke
  * @version 1.0, 19.08.2019
- *
  */
 
 public class AbstractNode<N extends AbstractNode, T extends Comparable<T>> {
@@ -12,11 +12,12 @@ public class AbstractNode<N extends AbstractNode, T extends Comparable<T>> {
     protected N right; // right child
     protected T value; // integer value
 
-    public AbstractNode(){};
+    AbstractNode() {
+    }
 
-    public AbstractNode(T value){
+    AbstractNode(T value) {
         this.value = value;
-    };
+    }
 
     public N getLeft() {
         return left;
@@ -42,7 +43,8 @@ public class AbstractNode<N extends AbstractNode, T extends Comparable<T>> {
         this.value = value;
     }
 
-    public  String toString(){
+    public String toString() {
         return value.toString();
-    };
+    }
+
 }
