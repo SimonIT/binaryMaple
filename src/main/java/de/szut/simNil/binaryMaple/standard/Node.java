@@ -4,11 +4,15 @@ import de.szut.simNil.binaryMaple.AbstractNode;
 
 import java.util.ArrayList;
 
-public class Node<T extends Comparable<T>> extends AbstractNode<T> {
-    public Node(T value, AbstractNode<T> left, AbstractNode<T> right) {
-        this.value = (value);
-        this.left = (left);
-        this.right = (right);
+public class Node<T extends Comparable<T>> extends AbstractNode<Node, T> {
+    public Node(T value) {
+        super(value);
+    }
+
+    public Node(T value, Node<T> left, Node<T> right) {
+        super(value);
+        this.left = left;
+        this.right = right;
     }
 
     public void insert(Node<T> n) {
@@ -16,7 +20,7 @@ public class Node<T extends Comparable<T>> extends AbstractNode<T> {
             if (this.left == null) {
                 this.setLeft(n);
             } else {
-                ((Node<T>) this.left).insert(n);
+                this.left.insert(n);
             }
         } else {
             if (this.right == null) {
@@ -28,8 +32,8 @@ public class Node<T extends Comparable<T>> extends AbstractNode<T> {
     }
 
 
-    public ArrayList<AbstractNode<T>> traversePreOrder() {
-        ArrayList<AbstractNode<T>> result = new ArrayList<>();
+    public ArrayList<Node<T>> traversePreOrder() {
+        ArrayList<Node<T>> result = new ArrayList<>();
 
         result.add(this);
         if (this.left != null) {

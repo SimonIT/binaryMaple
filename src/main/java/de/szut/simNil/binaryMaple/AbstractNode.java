@@ -12,10 +12,10 @@ public class AbstractNode<N extends AbstractNode, T extends Comparable<T>> {
     protected N right; // right child
     protected T value; // integer value
 
-    AbstractNode() {
+    public AbstractNode() {
     }
 
-    AbstractNode(T value) {
+    public AbstractNode(T value) {
         this.value = value;
     }
 
