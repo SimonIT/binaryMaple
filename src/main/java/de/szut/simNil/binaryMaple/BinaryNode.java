@@ -1,21 +1,21 @@
 package de.szut.simNil.binaryMaple;
 
 /**
- * Interface fuer Binary Search Tree AbstractNode
+ * Interface fuer Binary Search StandardBinarySearchTree BinaryNode
  *
  * @author wolke
  * @version 1.0, 19.08.2019
  */
 
-public class AbstractNode<N extends AbstractNode, T extends Comparable<T>> {
+public class BinaryNode<N extends BinaryNode, T extends Comparable<T>> {
     protected N left; // left child
     protected N right; // right child
     protected T value; // integer value
 
-    public AbstractNode() {
+    public BinaryNode() {
     }
 
-    public AbstractNode(T value) {
+    public BinaryNode(T value) {
         this.value = value;
     }
 
