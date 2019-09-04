@@ -3,8 +3,9 @@ package de.szut.simNil.binaryMaple.standard;
 import de.szut.simNil.binaryMaple.AbstractNode;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Node<T extends Comparable<T>> extends AbstractNode<Node, T> {
+public class Node<T extends Comparable<T>> extends AbstractNode<Node<T>, T> {
     public Node(T value) {
         super(value);
     }
@@ -32,8 +33,8 @@ public class Node<T extends Comparable<T>> extends AbstractNode<Node, T> {
     }
 
 
-    public ArrayList<Node<T>> traversePreOrder() {
-        ArrayList<Node<T>> result = new ArrayList<>();
+    public List<Node<T>> traversePreOrder() {
+        List<Node<T>> result = new ArrayList<>();
 
         result.add(this);
         if (this.left != null) {
