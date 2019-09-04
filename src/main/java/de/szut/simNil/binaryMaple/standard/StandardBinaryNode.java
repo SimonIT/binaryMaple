@@ -89,10 +89,4 @@ public class StandardBinaryNode<T extends Comparable<T>> extends BinaryNode<Stan
         if (this.value == null) {return 0;}
         return 1 + Math.max(this.left.getDepth(), this.right.getDepth());
     }
-
-    // TODO: do we need this?
-    @Override
-    public String toString() {
-        return null;
-    }
 }
