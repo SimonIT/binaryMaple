@@ -3,6 +3,7 @@ package de.szut.simNil.binaryMaple.standard;
 import de.szut.simNil.binaryMaple.BNode;
 import de.szut.simNil.binaryMaple.BinarySearchTreeException;
 import de.szut.simNil.binaryMaple.Order;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class StandardBinaryNode<T extends Comparable<T>> extends BNode<T> {
     }
 
     public void addNode(StandardBinaryNode<T> node) throws BinarySearchTreeException {
-        if (this.value == null) {
+        if (this.getValue() == null) {
             // TODO: is there a better way to do this?
             this.value = node.value;
             this.left = node.left;
@@ -40,7 +41,7 @@ public class StandardBinaryNode<T extends Comparable<T>> extends BNode<T> {
         }
     }
 
-
+    @NotNull
     public List<T> traverse(Order order) {
         List<T> result = new ArrayList<>();
         if (this.value == null) {
@@ -79,7 +80,7 @@ public class StandardBinaryNode<T extends Comparable<T>> extends BNode<T> {
         return ((StandardBinaryNode<T>) this.right).hasValue(value);
     }
 
-    public Integer getDepth() {
+    public int getDepth() {
         if (this.value == null) {
             return 0;
         }

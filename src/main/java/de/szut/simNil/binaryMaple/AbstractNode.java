@@ -1,5 +1,7 @@
 package de.szut.simNil.binaryMaple;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Astract class for a node
  * Takes any comparable as Value
@@ -18,6 +20,7 @@ public abstract class AbstractNode<T extends Comparable<T>> {
         this.value = value;
     }
 
+    @Nullable
     public T getValue() {
         return value;
     }

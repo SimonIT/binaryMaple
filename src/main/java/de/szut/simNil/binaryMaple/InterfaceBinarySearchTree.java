@@ -45,4 +45,5 @@ public interface InterfaceBinarySearchTree<T extends Comparable<T>> {
         return null;
     }
 
+    public AbstractNode<T> getRoot();
 }
