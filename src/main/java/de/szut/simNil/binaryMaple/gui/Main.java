@@ -3,10 +3,8 @@ package de.szut.simNil.binaryMaple.gui;
 import de.szut.simNil.binaryMaple.BinarySearchTreeException;
 import de.szut.simNil.binaryMaple.InterfaceBinarySearchTree;
 import de.szut.simNil.binaryMaple.standard.StandardBinarySearchTree;
-import guru.nidi.graphviz.attribute.RankDir;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
-import guru.nidi.graphviz.model.Graph;
 import javafx.application.Application;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
@@ -44,12 +42,7 @@ public class Main extends Application {
 
         TreeVisualizer visualizer = new TreeVisualizer(tree);
 
-        Graph g = graph("example1").directed()
-            .graphAttr().with(RankDir.TOP_TO_BOTTOM)
-            .with(
-                visualizer.getNodes()
-            );
-        gr = Graphviz.fromGraph(g).render(Format.SVG).toImage();
+        gr = Graphviz.fromGraph(graph().with(visualizer.getNodes())).render(Format.SVG).toImage();
         launch(args);
     }
 
