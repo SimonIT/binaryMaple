@@ -1,16 +1,16 @@
 package de.szut.simNil.binaryMaple.standard;
 
-import de.szut.simNil.binaryMaple.BinaryNode;
+import de.szut.simNil.binaryMaple.Node;
 import de.szut.simNil.binaryMaple.BinarySearchTreeException;
 import de.szut.simNil.binaryMaple.Order;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StandardBinaryNode<T extends Comparable<T>> extends BinaryNode<StandardBinaryNode<T>, T> {
+public class StandardBinaryNode<T extends Comparable<T>> extends Node<StandardBinaryNode<T>, T> {
     // package-wide access only because Tree needs to be able to create empty node but user shouldn't do that directly
     StandardBinaryNode() {
-        super(null);    // TODO: bad style?
+        super();    // TODO: bad style?
     }
 
     public StandardBinaryNode(T value) {
@@ -47,27 +47,15 @@ public class StandardBinaryNode<T extends Comparable<T>> extends BinaryNode<Stan
 
         if (order == Order.PREORDER) {
             result.add(this.value);
-            if (this.left != null) {
-                result.addAll(this.left.traverse(Order.PREORDER));
-            }
-            if (this.right != null) {
-                result.addAll(this.right.traverse(Order.PREORDER));
-            }
+            result.addAll(this.left.traverse(Order.PREORDER));
+            result.addAll(this.right.traverse(Order.PREORDER));
         } else if (order == Order.INORDER) {
-            if (this.left != null) {
-                result.addAll(this.left.traverse(Order.INORDER));
-            }
+            result.addAll(this.left.traverse(Order.INORDER));
             result.add(this.value);
-            if (this.right != null) {
-                result.addAll(this.right.traverse(Order.INORDER));
-            }
+            result.addAll(this.right.traverse(Order.INORDER));
         } else if (order == Order.POSTORDER) {
-            if (this.left != null) {
-                result.addAll(this.left.traverse(Order.POSTORDER));
-            }
-            if (this.right != null) {
-                result.addAll(this.right.traverse(Order.POSTORDER));
-            }
+            result.addAll(this.left.traverse(Order.POSTORDER));
+            result.addAll(this.right.traverse(Order.POSTORDER));
             result.add(this.value);
         }
 
