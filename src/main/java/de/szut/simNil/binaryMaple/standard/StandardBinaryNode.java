@@ -32,9 +32,9 @@ public class StandardBinaryNode<T extends Comparable<T>> extends BNode<T> {
             this.left = node.left;
             this.right = node.right;
         } else if (node.getValue().compareTo(this.getValue()) < 0) {
-            this.left.addNode(node);
+            ((StandardBinaryNode<T>) this.left).addNode(node);
         } else if (node.getValue().compareTo(this.getValue()) > 0) {
-            this.right.addNode(node);
+            ((StandardBinaryNode<T>) this.right).addNode(node);
         } else {
             throw new BinarySearchTreeException(String.format("Node with value %s already exists", node.toString()));
         }
@@ -49,15 +49,15 @@ public class StandardBinaryNode<T extends Comparable<T>> extends BNode<T> {
 
         if (order == Order.PREORDER) {
             result.add(this.value);
-            result.addAll(this.left.traverse(Order.PREORDER));
-            result.addAll(this.right.traverse(Order.PREORDER));
+            result.addAll(((StandardBinaryNode<T>) this.left).traverse(Order.PREORDER));
+            result.addAll(((StandardBinaryNode<T>) this.right).traverse(Order.PREORDER));
         } else if (order == Order.INORDER) {
-            result.addAll(this.left.traverse(Order.INORDER));
+            result.addAll(((StandardBinaryNode<T>) this.left).traverse(Order.INORDER));
             result.add(this.value);
-            result.addAll(this.right.traverse(Order.INORDER));
+            result.addAll(((StandardBinaryNode<T>) this.right).traverse(Order.INORDER));
         } else if (order == Order.POSTORDER) {
-            result.addAll(this.left.traverse(Order.POSTORDER));
-            result.addAll(this.right.traverse(Order.POSTORDER));
+            result.addAll(((StandardBinaryNode<T>) this.left).traverse(Order.POSTORDER));
+            result.addAll(((StandardBinaryNode<T>) this.right).traverse(Order.POSTORDER));
             result.add(this.value);
         }
 
@@ -72,15 +72,15 @@ public class StandardBinaryNode<T extends Comparable<T>> extends BNode<T> {
             return true;
         }
         if (value.compareTo(this.value) < 0) {
-            return this.left.hasValue(value);
+            return ((StandardBinaryNode<T>) this.left).hasValue(value);
         }
-        return this.right.hasValue(value);
+        return ((StandardBinaryNode<T>) this.right).hasValue(value);
     }
 
     public Integer getDepth() {
         if (this.value == null) {
             return 0;
         }
-        return 1 + Math.max(this.left.getDepth(), this.right.getDepth());
+        return 1 + Math.max(((StandardBinaryNode<T>) this.left).getDepth(), ((StandardBinaryNode<T>) this.right).getDepth());
     }
 }
