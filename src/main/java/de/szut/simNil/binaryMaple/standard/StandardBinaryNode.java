@@ -59,6 +59,8 @@ public class StandardBinaryNode<T extends Comparable<T>> extends BNode<T> {
             result.addAll(((StandardBinaryNode<T>) this.left).traverse(Order.POSTORDER));
             result.addAll(((StandardBinaryNode<T>) this.right).traverse(Order.POSTORDER));
             result.add(this.value);
+        } else if (order == Order.LEVELORDERR) {
+            // TODO
         }
 
         return result;
