@@ -1,4 +1,8 @@
 package de.szut.simNil.binaryMaple.rb;
+
+import de.szut.simNil.binaryMaple.AbstractNode;
+import guru.nidi.graphviz.attribute.Color;
+
 /**
  * Red Black Binary Tree Node with left and right child
  * and color
@@ -6,12 +10,6 @@ package de.szut.simNil.binaryMaple.rb;
  * @author wolke
  * @version 1.1, 19.08.2019
  */
-
-import de.szut.simNil.binaryMaple.AbstractNode;
-
-import java.awt.*;
-
-
 public class RBNode<T extends Comparable<T>> extends AbstractNode<T> {
     private RBNode<T> left = null;
     private RBNode<T> right = null;
