@@ -12,9 +12,9 @@ import de.szut.simNil.binaryMaple.AbstractNode;
 import java.awt.*;
 
 
-public class RBNode<T extends Comparable<T>> extends AbstractNode {
-    private RBNode left = null;
-    private RBNode right = null;
+public class RBNode<T extends Comparable<T>> extends AbstractNode<T> {
+    private RBNode<T> left = null;
+    private RBNode<T> right = null;
     private Color color = Color.RED;
 
     RBNode() {
@@ -25,19 +25,19 @@ public class RBNode<T extends Comparable<T>> extends AbstractNode {
         this.value = value;
     }
 
-    public RBNode getLeft() {
+    public RBNode<T> getLeft() {
         return left;
     }
 
-    public void setLeft(RBNode left) {
+    public void setLeft(RBNode<T> left) {
         this.left = left;
     }
 
-    public RBNode getRight() {
+    public RBNode<T> getRight() {
         return right;
     }
 
-    public void setRight(RBNode right) {
+    public void setRight(RBNode<T> right) {
         this.right = right;
     }
 
