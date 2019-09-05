@@ -6,10 +6,14 @@ import java.util.List;
  * Interface fuer Binary Search Tress
  *
  * @author wolke
- * @version 1.0, 29.08.2019
+ * @version 1.1, 29.08.2019
  */
 public interface InterfaceBinarySearchTree<T extends Comparable<T>> {
 
+    /**
+     * @param value the value we'd like to add
+     * @throws BinarySearchTreeException should usually not occur
+     */
     void addValue(T value)
         throws BinarySearchTreeException;
 
@@ -26,8 +30,19 @@ public interface InterfaceBinarySearchTree<T extends Comparable<T>> {
      */
     boolean hasValue(T value);
 
-    Integer getDepth();
+    /**
+     * @return height of the tree
+     */
+    default Integer getDepth() {
+        return null;
+    }
 
-    List<T> traverse(Order o);
+    /**
+     * @return list with all values in correct order
+     * LEVELORDER not NECCESARY
+     */
+    default List<T> traverse(Order o) {
+        return null;
+    }
 
 }

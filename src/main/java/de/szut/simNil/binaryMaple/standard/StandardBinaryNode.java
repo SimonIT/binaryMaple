@@ -1,13 +1,13 @@
 package de.szut.simNil.binaryMaple.standard;
 
-import de.szut.simNil.binaryMaple.Node;
+import de.szut.simNil.binaryMaple.BNode;
 import de.szut.simNil.binaryMaple.BinarySearchTreeException;
 import de.szut.simNil.binaryMaple.Order;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StandardBinaryNode<T extends Comparable<T>> extends Node<StandardBinaryNode<T>, T> {
+public class StandardBinaryNode<T extends Comparable<T>> extends BNode<T> {
     // package-wide access only because Tree needs to be able to create empty node but user shouldn't do that directly
     StandardBinaryNode() {
         super();    // TODO: bad style?
@@ -43,7 +43,9 @@ public class StandardBinaryNode<T extends Comparable<T>> extends Node<StandardBi
 
     public List<T> traverse(Order order) {
         List<T> result = new ArrayList<>();
-        if (this.value == null) {return result;}
+        if (this.value == null) {
+            return result;
+        }
 
         if (order == Order.PREORDER) {
             result.add(this.value);
@@ -63,7 +65,9 @@ public class StandardBinaryNode<T extends Comparable<T>> extends Node<StandardBi
     }
 
     public boolean hasValue(T value) {
-        if (this.value == null) {return false;}
+        if (this.value == null) {
+            return false;
+        }
         if (value.compareTo(this.value) == 0) {
             return true;
         }
@@ -74,7 +78,9 @@ public class StandardBinaryNode<T extends Comparable<T>> extends Node<StandardBi
     }
 
     public Integer getDepth() {
-        if (this.value == null) {return 0;}
+        if (this.value == null) {
+            return 0;
+        }
         return 1 + Math.max(this.left.getDepth(), this.right.getDepth());
     }
 }
