@@ -1,6 +1,6 @@
 package de.szut.simNil.binaryMaple.rb;
 
-import de.szut.simNil.binaryMaple.AbstractNode;
+import de.szut.simNil.binaryMaple.BNode;
 import guru.nidi.graphviz.attribute.Color;
 
 /**
@@ -10,21 +10,19 @@ import guru.nidi.graphviz.attribute.Color;
  * @author wolke
  * @version 1.1, 19.08.2019
  */
-public class RBNode<T extends Comparable<T>> extends AbstractNode<T> {
-    private RBNode<T> left = null;
-    private RBNode<T> right = null;
+public class RBNode<T extends Comparable<T>> extends BNode<T> {
     private Color color = Color.RED;
 
     RBNode() {
         super();
     }
 
-    RBNode(T value) {
+    public RBNode(T value) {
         this.value = value;
     }
 
     public RBNode<T> getLeft() {
-        return left;
+        return (RBNode<T>) left;
     }
 
     public void setLeft(RBNode<T> left) {
@@ -32,7 +30,7 @@ public class RBNode<T extends Comparable<T>> extends AbstractNode<T> {
     }
 
     public RBNode<T> getRight() {
-        return right;
+        return (RBNode<T>) right;
     }
 
     public void setRight(RBNode<T> right) {

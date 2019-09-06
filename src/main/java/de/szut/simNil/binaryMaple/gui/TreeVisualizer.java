@@ -41,17 +41,12 @@ public class TreeVisualizer {
 
         if (node instanceof BNode) {
 
+            if (node instanceof RBNode) root = root.with(((RBNode) node).getColor());
+
             root = addBNode(root, ((BNode) node).getLeft());
 
             root = addBNode(root, ((BNode) node).getRight());
 
-        } else if (node instanceof RBNode) {
-
-            root = root.with(((RBNode) node).getColor());
-
-            root = addRBNode(root, ((RBNode) node).getLeft());
-
-            root = addRBNode(root, ((RBNode) node).getRight());
         }
 
         this.nodes.add(root);
@@ -70,17 +65,6 @@ public class TreeVisualizer {
     }
 
     @NotNull
-    private Node addRBNode(@NotNull Node root, @Nullable RBNode node) {
-        if (node != null && node.getValue() != null) {
-            Node graphNode = node(node.toString());
-
-            root = root.link(to(graphNode));
-
-            addNode(node);
-        }
-        return root;
-    }
-
     public Image getGraphvizImage() {
         return SwingFXUtils.toFXImage(Graphviz.fromGraph(graph().with(this.getNodes())).render(Format.SVG).toImage(), null);
     }
