@@ -22,7 +22,6 @@ public class BNode<T extends Comparable<T>> extends AbstractNode<T> {
         this.value = value;
     }
 
-    @Nullable
     public BNode<T> getLeft() {
         return left;
     }
@@ -31,7 +30,6 @@ public class BNode<T extends Comparable<T>> extends AbstractNode<T> {
         this.left = left;
     }
 
-    @Nullable
     public BNode<T> getRight() {
         return right;
     }

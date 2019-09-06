@@ -39,7 +39,6 @@ public class Main extends Application {
         } catch (BinarySearchTreeException e) {
             e.printStackTrace();
         }
-
         TreeVisualizer visualizer = new TreeVisualizer(tree);
 
         gr = Graphviz.fromGraph(graph().with(visualizer.getNodes())).render(Format.SVG).toImage();
