@@ -3,55 +3,70 @@ package de.szut.simNil.binaryMaple.gui;
 import de.szut.simNil.binaryMaple.BinarySearchTreeException;
 import de.szut.simNil.binaryMaple.InterfaceBinarySearchTree;
 import de.szut.simNil.binaryMaple.standard.StandardBinarySearchTree;
-import guru.nidi.graphviz.engine.Format;
-import guru.nidi.graphviz.engine.Graphviz;
 import javafx.application.Application;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.awt.image.BufferedImage;
-
-import static guru.nidi.graphviz.model.Factory.graph;
 
 public class Main extends Application {
 
-    static BufferedImage gr;
+    private InterfaceBinarySearchTree<Integer> tree;
 
     public static void main(String[] args) {
-
-        InterfaceBinarySearchTree<Integer> tree = new StandardBinarySearchTree<>();
-        try {
-            tree.addValue(1);
-            tree.addValue(3);
-            tree.addValue(10);
-            tree.addValue(11);
-            tree.addValue(2);
-            tree.addValue(4);
-            tree.addValue(7);
-            tree.addValue(5);
-            tree.addValue(6);
-            tree.addValue(8);
-            tree.addValue(9);
-        } catch (BinarySearchTreeException e) {
-            e.printStackTrace();
-        }
-
-        TreeVisualizer visualizer = new TreeVisualizer(tree);
-
-        gr = Graphviz.fromGraph(graph().with(visualizer.getNodes())).render(Format.SVG).toImage();
         launch(args);
     }
 
     @Override
     public void start(Stage stage) {
-        Pane p = new Pane();
-        WritableImage i = new WritableImage(gr.getWidth(), gr.getHeight());
-        SwingFXUtils.toFXImage(gr, i);
-        p.getChildren().add(new ImageView(i));
+
+        tree = new StandardBinarySearchTree<>();
+
+        TreeVisualizer visualizer = new TreeVisualizer(tree);
+
+        ImageView imageView = new ImageView(visualizer.getGraphvizImage());
+
+        HBox p = new HBox();
+
+        VBox gridPane = new VBox();
+
+        TextField value = new TextField();
+
+        gridPane.getChildren().add(value);
+
+        Button addButton = new Button("Hinzufügen");
+
+        addButton.setOnAction(event -> {
+            try {
+                tree.addValue(Integer.valueOf(value.getText()));
+                imageView.setImage(visualizer.getGraphvizImage());
+            } catch (BinarySearchTreeException e) {
+                System.out.println(e.getMessage());
+            }
+        });
+
+        gridPane.getChildren().add(addButton);
+
+        Button delButton = new Button("Löschen");
+
+        delButton.setOnAction(event -> {
+            try {
+                tree.delValue(Integer.valueOf(value.getText()));
+                imageView.setImage(visualizer.getGraphvizImage());
+            } catch (BinarySearchTreeException e) {
+                System.out.println(e.getMessage());
+            }
+        });
+
+        gridPane.getChildren().add(delButton);
+
+        p.getChildren().add(gridPane);
+
+        p.getChildren().add(new ScrollPane(imageView));
         stage.setScene(new Scene(p));
         stage.show();
     }

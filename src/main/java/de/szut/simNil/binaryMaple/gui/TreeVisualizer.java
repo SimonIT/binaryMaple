@@ -5,15 +5,18 @@ import de.szut.simNil.binaryMaple.BNode;
 import de.szut.simNil.binaryMaple.InterfaceBinarySearchTree;
 import de.szut.simNil.binaryMaple.rb.RBNode;
 import guru.nidi.graphviz.attribute.Style;
+import guru.nidi.graphviz.engine.Format;
+import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.Node;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static guru.nidi.graphviz.model.Factory.node;
-import static guru.nidi.graphviz.model.Factory.to;
+import static guru.nidi.graphviz.model.Factory.*;
 
 public class TreeVisualizer {
     public static Style circleStyle = Style.SOLID;
@@ -76,5 +79,9 @@ public class TreeVisualizer {
             addNode(node);
         }
         return root;
+    }
+
+    public Image getGraphvizImage() {
+        return SwingFXUtils.toFXImage(Graphviz.fromGraph(graph().with(this.getNodes())).render(Format.SVG).toImage(), null);
     }
 }
