@@ -1,0 +1,23 @@
+language: java
+jdk:
+  - openjdk11
+
+before_deploy:
+  - mvn package
+
+deploy:
+  provider: releases
+  pre-release: true
+  skip_cleanup: true
+  api_key: ${GH_TOKEN}
+  file_glob: true
+  file: target/binaryMaple-*.jar
+  on:
+    repo: SimonIT/binaryMaple
+    tags: true
+    all_branches: true
+
+cache:
+  directories:
+    - .autoconf
+    - $HOME/.m2
