@@ -1,5 +1,5 @@
 package de.szut.simNil.binaryMaple;
 
 public enum Order {
-    INORDER, PREORDER, POSTORDER, LEVELORDERR
+    INORDER, PREORDER, POSTORDER, LEVELORDER
 }
