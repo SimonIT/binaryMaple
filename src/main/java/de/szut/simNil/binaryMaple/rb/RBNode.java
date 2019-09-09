@@ -2,6 +2,7 @@ package de.szut.simNil.binaryMaple.rb;
 
 import de.szut.simNil.binaryMaple.BNode;
 import guru.nidi.graphviz.attribute.Color;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Red Black Binary Tree Node with left and right child
@@ -11,6 +12,7 @@ import guru.nidi.graphviz.attribute.Color;
  * @version 1.1, 19.08.2019
  */
 public class RBNode<T extends Comparable<T>> extends BNode<T> {
+    @NotNull
     private Color color = Color.RED;
 
     RBNode() {
@@ -37,12 +39,20 @@ public class RBNode<T extends Comparable<T>> extends BNode<T> {
         this.right = right;
     }
 
+    @NotNull
     public Color getColor() {
         return this.color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(@NotNull Color color) {
         this.color = color;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof RBNode && super.equals(obj)) {
+            return this.getColor().equals(((RBNode) obj).color);
+        }
+        return false;
+    }
 }

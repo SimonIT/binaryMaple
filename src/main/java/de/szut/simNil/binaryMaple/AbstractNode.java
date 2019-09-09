@@ -11,12 +11,13 @@ import org.jetbrains.annotations.Nullable;
  */
 
 public abstract class AbstractNode<T extends Comparable<T>> {
+    @Nullable
     protected T value; // integer value
 
     public AbstractNode() {
     }
 
-    public AbstractNode(T value) {
+    public AbstractNode(@Nullable T value) {
         this.value = value;
     }
 
@@ -25,12 +26,23 @@ public abstract class AbstractNode<T extends Comparable<T>> {
         return value;
     }
 
-    public void setValue(T value) {
+    public void setValue(@Nullable T value) {
         this.value = value;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof AbstractNode) {
+            if (this.getValue() != null && ((AbstractNode) obj).getValue() != null) {
+                return ((AbstractNode) obj).getValue().equals(this.getValue());
+            } else
+                return true;
+        }
+        return false;
+    }
+
     public String toString() {
-        return value.toString();
+        return value != null ? value.toString() : "null";
     }
 
 }

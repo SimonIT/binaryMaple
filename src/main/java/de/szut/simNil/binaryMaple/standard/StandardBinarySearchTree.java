@@ -210,4 +210,12 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
     public Integer getNodeCount() {
         return this.nodeCount;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof StandardBinarySearchTree) {
+            return this.getRoot().equals(((StandardBinarySearchTree) obj).getRoot());
+        }
+        return false;
+    }
 }
