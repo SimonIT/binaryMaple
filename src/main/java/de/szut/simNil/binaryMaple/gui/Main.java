@@ -42,7 +42,10 @@ public class Main extends Application {
 
         CheckBox checkShowNull = new CheckBox();
 
-        checkShowNull.setOnAction(actionEvent -> showNullNodes = checkShowNull.isSelected());
+        checkShowNull.setOnAction(actionEvent -> {
+            showNullNodes = checkShowNull.isSelected();
+            imageView.setImage(visualizer.getGraphvizImage(this.showNullNodes));
+        });
 
         gridPane.getChildren().add(checkShowNull);
 
