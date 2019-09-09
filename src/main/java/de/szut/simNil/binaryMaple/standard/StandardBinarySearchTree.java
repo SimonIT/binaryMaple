@@ -1,6 +1,7 @@
 package de.szut.simNil.binaryMaple.standard;
 
 import de.szut.simNil.binaryMaple.*;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -48,7 +49,7 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
             if (c == 0) {
                 boolean leftChildExists = current.getLeft().getValue() != null;
                 boolean rightChildExists = current.getRight().getValue() != null;
-                boolean currentIsLeftChild = parent.getValue() == null ? true : current.getValue().compareTo(parent.getValue()) < 0;
+                boolean currentIsLeftChild = parent.getValue() == null || current.getValue().compareTo(parent.getValue()) < 0;
                 if (!leftChildExists && !rightChildExists) {
                     if (parent.getValue() == null) {
                         this.root = new BNode<>();
@@ -108,6 +109,20 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
             current = c < 0 ? current.getLeft() : current.getRight();
         }
         return false;
+    }
+
+    @Override
+    @Nullable
+    public BNode<T> getNodeWithValue(T value) {
+        BNode<T> current = this.root;
+        while (current.getValue() != null) {
+            int c = value.compareTo(current.getValue());
+            if (c == 0) {
+                return current;
+            }
+            current = c < 0 ? current.getLeft() : current.getRight();
+        }
+        return null;
     }
 
     @Override

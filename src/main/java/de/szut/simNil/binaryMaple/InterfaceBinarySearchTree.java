@@ -1,5 +1,7 @@
 package de.szut.simNil.binaryMaple;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 /**
@@ -29,6 +31,9 @@ public interface InterfaceBinarySearchTree<T extends Comparable<T>> {
      * @return True or False(we couldn't find it)
      */
     boolean hasValue(T value);
+
+    @Nullable
+    AbstractNode<T> getNodeWithValue(T value);
 
     /**
      * @return height of the tree

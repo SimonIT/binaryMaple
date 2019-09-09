@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     private InterfaceBinarySearchTree<Integer> tree;
-    private boolean showNullNodes = false;
 
     public static void main(String[] args) {
         launch(args);
@@ -30,7 +29,7 @@ public class Main extends Application {
 
         TreeVisualizer visualizer = new TreeVisualizer(tree);
 
-        ImageView imageView = new ImageView(visualizer.getGraphvizImage(showNullNodes));
+        ImageView imageView = new ImageView(visualizer.getGraphvizImage());
 
         HBox p = new HBox();
 
@@ -43,8 +42,8 @@ public class Main extends Application {
         CheckBox checkShowNull = new CheckBox();
 
         checkShowNull.setOnAction(actionEvent -> {
-            showNullNodes = checkShowNull.isSelected();
-            imageView.setImage(visualizer.getGraphvizImage(this.showNullNodes));
+            visualizer.setShowNullNodes(checkShowNull.isSelected());
+            imageView.setImage(visualizer.getGraphvizImage());
         });
 
         gridPane.getChildren().add(checkShowNull);
@@ -54,7 +53,7 @@ public class Main extends Application {
         addButton.setOnAction(event -> {
             try {
                 tree.addValue(Integer.valueOf(value.getText()));
-                imageView.setImage(visualizer.getGraphvizImage(this.showNullNodes));
+                imageView.setImage(visualizer.getGraphvizImage());
             } catch (BinarySearchTreeException e) {
                 System.out.println(e.getMessage());
             }
@@ -67,13 +66,25 @@ public class Main extends Application {
         delButton.setOnAction(event -> {
             try {
                 tree.delValue(Integer.valueOf(value.getText()));
-                imageView.setImage(visualizer.getGraphvizImage(this.showNullNodes));
+                imageView.setImage(visualizer.getGraphvizImage());
             } catch (BinarySearchTreeException e) {
                 System.out.println(e.getMessage());
             }
         });
 
         gridPane.getChildren().add(delButton);
+
+        Button searchButton = new Button("Suchen");
+
+        searchButton.setOnAction(event -> {
+            if (value.getText().isEmpty())
+                visualizer.setHighlightedNode(null);
+            else
+                visualizer.setHighlightedNode(tree.getNodeWithValue(Integer.valueOf(value.getText())));
+            imageView.setImage(visualizer.getGraphvizImage());
+        });
+
+        gridPane.getChildren().add(searchButton);
 
         p.getChildren().add(gridPane);
 
