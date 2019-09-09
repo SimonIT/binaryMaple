@@ -6,6 +6,7 @@ import de.szut.simNil.binaryMaple.standard.StandardBinarySearchTree;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -16,6 +17,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     private InterfaceBinarySearchTree<Integer> tree;
+    private boolean showNullNodes = false;
 
     public static void main(String[] args) {
         launch(args);
@@ -28,7 +30,7 @@ public class Main extends Application {
 
         TreeVisualizer visualizer = new TreeVisualizer(tree);
 
-        ImageView imageView = new ImageView(visualizer.getGraphvizImage());
+        ImageView imageView = new ImageView(visualizer.getGraphvizImage(showNullNodes));
 
         HBox p = new HBox();
 
@@ -38,12 +40,18 @@ public class Main extends Application {
 
         gridPane.getChildren().add(value);
 
+        CheckBox checkShowNull = new CheckBox();
+
+        checkShowNull.setOnAction(actionEvent -> showNullNodes = checkShowNull.isSelected());
+
+        gridPane.getChildren().add(checkShowNull);
+
         Button addButton = new Button("Hinzufügen");
 
         addButton.setOnAction(event -> {
             try {
                 tree.addValue(Integer.valueOf(value.getText()));
-                imageView.setImage(visualizer.getGraphvizImage());
+                imageView.setImage(visualizer.getGraphvizImage(this.showNullNodes));
             } catch (BinarySearchTreeException e) {
                 System.out.println(e.getMessage());
             }
@@ -56,7 +64,7 @@ public class Main extends Application {
         delButton.setOnAction(event -> {
             try {
                 tree.delValue(Integer.valueOf(value.getText()));
-                imageView.setImage(visualizer.getGraphvizImage());
+                imageView.setImage(visualizer.getGraphvizImage(this.showNullNodes));
             } catch (BinarySearchTreeException e) {
                 System.out.println(e.getMessage());
             }
