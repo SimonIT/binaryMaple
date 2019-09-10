@@ -1,49 +1,117 @@
-package de.szut.simNil.binaryMaple.standard;
+package de.szut.simNil.binaryMaple.rb;
 
 import de.szut.simNil.binaryMaple.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class StandardBinarySearchTree<T extends Comparable<T>> implements InterfaceBinarySearchTree<T> {
-    private BNode<T> root;
+public class RedBlackBinarySearchTree<T extends Comparable<T>> implements InterfaceBinarySearchTree<T> {
+    private RBNode<T> root;
     private Integer nodeCount;
 
-    public StandardBinarySearchTree() {
-        this.root = new BNode<>();
+    public RedBlackBinarySearchTree() {
+        this.root = new RBNode<>();
         nodeCount = 0;
     }
 
-    public StandardBinarySearchTree(T value) {
+    public RedBlackBinarySearchTree(T value) {
         // TODO: what if value is null?
-        this.root = new BNode<>(value);
-        this.root.setLeft(new BNode<>());
-        this.root.setRight(new BNode<>());
+        this.root = new RBNode<>(value);
+        this.root.setLeft(new RBNode<>());
+        this.root.setRight(new RBNode<>());
         nodeCount = 1;
+    }
+
+    private void rebalanceInsertion(RBNode<T> current, Stack<RBNode<T>> ancestors) {
+        // E0
+        if (ancestors.isEmpty()) {
+            current.setColor(RBNode.Color.BLACK);
+            return;
+        }
+
+        RBNode<T> parent = ancestors.pop();
+
+        // E1
+        if (parent.getColor() == RBNode.Color.BLACK) {
+            return;
+        }
+
+        RBNode<T> grandparent = ancestors.pop();
+
+        boolean currentIsLeftChild = current.getValue().compareTo(parent.getValue()) < 0;
+        boolean parentIsLeftChild = parent.getValue().compareTo(grandparent.getValue()) < 0;
+        RBNode<T> pibling = parentIsLeftChild ? grandparent.getRight() : grandparent.getLeft();
+
+        if (pibling.getColor() == RBNode.Color.BLACK) {
+            if (currentIsLeftChild != parentIsLeftChild) {
+                // E3
+                if (parentIsLeftChild) {
+                    grandparent.setLeft(current);
+                    parent.setRight(current.getLeft());
+                    current.setLeft(parent);
+                } else {
+                    grandparent.setRight(current);
+                    parent.setLeft(current.getRight());
+                    current.setRight(parent);
+                }
+                RBNode temp = current;
+                current = parent;
+                parent = temp;
+            }
+
+            // E4
+            if (parentIsLeftChild) {
+                grandparent.setLeft(parent.getRight());
+                parent.setRight(grandparent);
+            } else {
+                grandparent.setRight(parent.getLeft());
+                parent.setLeft(grandparent);
+            }
+            parent.setColor(RBNode.Color.BLACK);
+            grandparent.setColor(RBNode.Color.RED);
+            if (ancestors.isEmpty()) {
+                this.root = parent;
+            } else {
+                RBNode<T> newGrandparent = ancestors.pop();
+                if (parent.getValue().compareTo(newGrandparent.getValue()) < 0) {
+                    newGrandparent.setLeft(parent);
+                } else {
+                    newGrandparent.setRight(parent);
+                }
+            }
+        } else {
+            parent.setColor(RBNode.Color.BLACK);
+            pibling.setColor(RBNode.Color.BLACK);
+            grandparent.setColor(RBNode.Color.RED);
+            rebalanceInsertion(grandparent, ancestors);
+        }
     }
 
     @Override
     public void addValue(T value) throws BinarySearchTreeException {
-        ++nodeCount;    // TODO: is this always the case?
-        BNode<T> current = this.root;
+        ++nodeCount;
+        Stack<RBNode<T>> ancestors = new Stack<>();
+        RBNode<T> current = this.root;
         while (current.getValue() != null) {
             int c = value.compareTo(current.getValue());
             if (c == 0) {
                 throw new BinarySearchTreeException(String.format("Node with value %s already exists", value));
             }
+            ancestors.push(current);
             current = c < 0 ? current.getLeft() : current.getRight();
         }
         current.setValue(value);
-        current.setLeft(new BNode<>());
-        current.setRight(new BNode<>());
+        current.setLeft(new RBNode<>());
+        current.setRight(new RBNode<>());
+        rebalanceInsertion(current, ancestors);
     }
 
     @Override
     public void delValue(T value) throws BinarySearchTreeException {
         // TODO: make method shorter & less redundant
-        --nodeCount;    // TODO: is this always the case?
-        BNode<T> current = this.root;
-        BNode<T> parent = new BNode<>();
+        --nodeCount;
+        RBNode<T> current = this.root;
+        RBNode<T> parent = new RBNode<>();
         while (current.getValue() != null) {
             int c = value.compareTo(current.getValue());
             if (c == 0) {
@@ -52,17 +120,17 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
                 boolean currentIsLeftChild = parent.getValue() == null || current.getValue().compareTo(parent.getValue()) < 0;
                 if (!leftChildExists && !rightChildExists) {
                     if (parent.getValue() == null) {
-                        this.root = new BNode<>();
+                        this.root = new RBNode<>();
                     } else {
                         if (currentIsLeftChild) {
-                            parent.setLeft(new BNode<>());
+                            parent.setLeft(new RBNode<>());
                         } else {
-                            parent.setRight(new BNode<>());
+                            parent.setRight(new RBNode<>());
                         }
                     }
                 } else if (leftChildExists && rightChildExists) {
                     parent = current;
-                    BNode<T> smallestInRightTree = current.getRight();
+                    RBNode<T> smallestInRightTree = current.getRight();
                     while (smallestInRightTree.getLeft().getValue() != null) {
                         parent = smallestInRightTree;
                         smallestInRightTree = smallestInRightTree.getLeft();
@@ -72,13 +140,13 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
                         current.setRight(smallestInRightTree.getRight());
                     } else {
                         if (smallestInRightTree.getValue().compareTo(parent.getValue()) < 0) {
-                            parent.setLeft(new BNode<>());
+                            parent.setLeft(new RBNode<>());
                         } else {
-                            parent.setRight(new BNode<>());
+                            parent.setRight(new RBNode<>());
                         }
                     }
                 } else {
-                    BNode<T> b = leftChildExists ? current.getLeft() : current.getRight();
+                    RBNode<T> b = leftChildExists ? current.getLeft() : current.getRight();
                     if (parent.getValue() == null) {
                         this.root = b;
                     } else {
@@ -100,7 +168,7 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
 
     @Override
     public boolean hasValue(T value) {
-        BNode<T> current = this.root;
+        RBNode<T> current = this.root;
         while (current.getValue() != null) {
             int c = value.compareTo(current.getValue());
             if (c == 0) {
@@ -113,8 +181,8 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
 
     @Override
     @Nullable
-    public BNode<T> getNodeWithValue(T value) {
-        BNode<T> current = this.root;
+    public RBNode<T> getNodeWithValue(T value) {
+        RBNode<T> current = this.root;
         while (current.getValue() != null) {
             int c = value.compareTo(current.getValue());
             if (c == 0) {
@@ -128,13 +196,13 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
     @Override
     public Integer getDepth() {
         Integer depth = -1;
-        Queue<BNode<T>> q = new LinkedList<>();
+        Queue<RBNode<T>> q = new LinkedList<>();
         q.add(this.root);
         while (!q.isEmpty()) {
             ++depth;
             int levelSize = q.size();
             while (levelSize-- > 0) {
-                BNode<T> node = q.poll();
+                RBNode<T> node = q.poll();
                 if (node.getValue() != null) {
                     q.add(node.getLeft());
                     q.add(node.getRight());
@@ -148,10 +216,10 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
     public List<T> traverse(Order order) {
         List<T> result = new ArrayList<>();
         if (order == Order.PREORDER) {
-            Stack<BNode<T>> s = new Stack<>();
+            Stack<RBNode<T>> s = new Stack<>();
             s.push(this.root);
             while (!s.isEmpty()) {
-                BNode<T> p = s.pop();
+                RBNode<T> p = s.pop();
                 if (p.getValue() != null) {
                     result.add(p.getValue());
                     s.push(p.getRight());
@@ -159,8 +227,8 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
                 }
             }
         } else if (order == Order.INORDER) {
-            Stack<BNode<T>> s = new Stack<>();
-            BNode<T> node = this.root;
+            Stack<RBNode<T>> s = new Stack<>();
+            RBNode<T> node = this.root;
             while (true) {
                 while (node.getValue() != null) {
                     s.push(node);
@@ -169,15 +237,15 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
                 if (s.isEmpty()) {
                     break;
                 }
-                BNode<T> p = s.pop();
+                RBNode<T> p = s.pop();
                 result.add(p.getValue());
                 node = p.getRight();
             }
         } else if (order == Order.POSTORDER) {
-            Stack<BNode<T>> s = new Stack<>(), s2 = new Stack<>();
+            Stack<RBNode<T>> s = new Stack<>(), s2 = new Stack<>();
             s.push(this.root);
             while (!s.isEmpty()) {
-                BNode<T> p = s.pop();
+                RBNode<T> p = s.pop();
                 if (p.getValue() != null) {
                     s2.push(p);
                     s.push(p.getLeft());
@@ -188,10 +256,10 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
                 result.add(s2.pop().getValue());
             }
         } else if (order == Order.LEVELORDER) {
-            Queue<BNode<T>> q = new LinkedList<>();
+            Queue<RBNode<T>> q = new LinkedList<>();
             q.add(root);
             while (!q.isEmpty()) {
-                BNode<T> p = q.poll();
+                RBNode<T> p = q.poll();
                 if (p.getValue() != null) {
                     result.add(p.getValue());
                     q.add(p.getLeft());
@@ -213,8 +281,8 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof StandardBinarySearchTree) {
-            return this.getRoot().equals(((StandardBinarySearchTree) obj).getRoot());
+        if (obj instanceof RedBlackBinarySearchTree) {
+            return this.getRoot().equals(((RedBlackBinarySearchTree) obj).getRoot());
         }
         return false;
     }

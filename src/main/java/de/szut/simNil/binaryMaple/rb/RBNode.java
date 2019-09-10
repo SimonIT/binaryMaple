@@ -12,15 +12,19 @@ import org.jetbrains.annotations.NotNull;
  * @version 1.1, 19.08.2019
  */
 public class RBNode<T extends Comparable<T>> extends BNode<T> {
-    @NotNull
-    private Color color = Color.RED;
+    public enum Color {
+        RED, BLACK
+    }
+    private Color color;
 
     RBNode() {
         super();
+        this.color = Color.BLACK;   // initialize terminal nodes as black
     }
 
     public RBNode(T value) {
         this.value = value;
+        this.color = Color.RED; // initalize nodes with values as red
     }
 
     public RBNode<T> getLeft() {
@@ -39,12 +43,11 @@ public class RBNode<T extends Comparable<T>> extends BNode<T> {
         this.right = right;
     }
 
-    @NotNull
     public Color getColor() {
         return this.color;
     }
 
-    public void setColor(@NotNull Color color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 
