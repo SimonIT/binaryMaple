@@ -24,7 +24,6 @@ import java.util.List;
 import static guru.nidi.graphviz.model.Factory.*;
 
 public class TreeVisualizer {
-    public static Style circleStyle = Style.SOLID;
     private int nullNodeNumber = 0;
     private InterfaceBinarySearchTree tree;
     private List<Node> nodes = new ArrayList<>();
@@ -52,17 +51,17 @@ public class TreeVisualizer {
     private void addNode(@Nullable AbstractNode node) {
         if (node == null || node.getValue() == null) return;
 
-        Node root = node(node.toString()).with(circleStyle);
+        Node root = node(node.toString()).with(Style.FILLED, Color.WHITE.fill(), Color.BLACK.font());
 
         if (node instanceof BNode) {
 
             if (node instanceof RBNode) {
                 switch (((RBNode) node).getColor()) {
                     case RED:
-                        root = root.with(Style.FILLED, Color.RED);
+                        root = root.with(Color.RED.fill());
                         break;
                     case BLACK:
-                        root = root.with(Style.FILLED, Color.BLACK);
+                        root = root.with(Color.BLACK.fill(), Color.WHITE.font());
                         break;
                 }
             }
@@ -77,7 +76,7 @@ public class TreeVisualizer {
 
         }
 
-        if (this.highlightedNode != null && highlightedNode.equals(node)) root = root.with(Style.FILLED, Color.PINK);
+        if (this.highlightedNode != null && highlightedNode.equals(node)) root = root.with(Color.PINK);
 
         this.nodes.add(root);
     }
