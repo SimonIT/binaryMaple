@@ -35,14 +35,13 @@ public abstract class AbstractNode<T extends Comparable<T>> {
         if (obj instanceof AbstractNode) {
             if (this.getValue() != null && ((AbstractNode) obj).getValue() != null) {
                 return ((AbstractNode) obj).getValue().equals(this.getValue());
-            } else
-                return true;
+            } else return this.getValue() == null && ((AbstractNode) obj).getValue() == null;
         }
         return false;
     }
 
     public String toString() {
-        return value != null ? value.toString() : "null";
+        return getValue() != null ? getValue().toString() : "null";
     }
 
 }

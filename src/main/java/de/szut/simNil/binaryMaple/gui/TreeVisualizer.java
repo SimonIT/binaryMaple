@@ -58,7 +58,8 @@ public class TreeVisualizer {
 
             if (node instanceof RBNode) root = root.with(Style.FILLED, ((RBNode) node).getColor());
 
-            if (((BNode) node).getLeft().getValue() == null && ((BNode) node).getRight().getValue() == null)
+            if (((BNode) node).getLeft() != null && ((BNode) node).getRight() != null &&
+                ((BNode) node).getLeft().getValue() == null && ((BNode) node).getRight().getValue() == null)
                 root = root.with(Color.GREEN);
 
             root = addBNode(root, ((BNode) node).getLeft());
