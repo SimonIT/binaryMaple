@@ -26,6 +26,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
         // E0
         if (ancestors.isEmpty()) {
             current.setColor(RBNode.Color.BLACK);
+            System.out.println("CASE E0");
             return;
         }
 
@@ -33,6 +34,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
 
         // E1
         if (parent.getColor() == RBNode.Color.BLACK) {
+            System.out.println("CASE E1");
             return;
         }
 
@@ -45,6 +47,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
         if (pibling.getColor() == RBNode.Color.BLACK) {
             if (currentIsLeftChild != parentIsLeftChild) {
                 // E3
+                System.out.println("CASE E3");
                 if (parentIsLeftChild) {
                     grandparent.setLeft(current);
                     parent.setRight(current.getLeft());
@@ -60,6 +63,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
             }
 
             // E4
+            System.out.println("CASE E4");
             if (parentIsLeftChild) {
                 grandparent.setLeft(parent.getRight());
                 parent.setRight(grandparent);
@@ -80,6 +84,8 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
                 }
             }
         } else {
+            // E5
+            System.out.println("CASE E5");
             parent.setColor(RBNode.Color.BLACK);
             pibling.setColor(RBNode.Color.BLACK);
             grandparent.setColor(RBNode.Color.RED);
@@ -100,6 +106,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
             ancestors.push(current);
             current = c < 0 ? current.getLeft() : current.getRight();
         }
+        current.setColor(RBNode.Color.RED);
         current.setValue(value);
         current.setLeft(new RBNode<>());
         current.setRight(new RBNode<>());
