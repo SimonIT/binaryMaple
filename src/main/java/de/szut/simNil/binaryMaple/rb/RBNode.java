@@ -1,7 +1,6 @@
 package de.szut.simNil.binaryMaple.rb;
 
 import de.szut.simNil.binaryMaple.BNode;
-import guru.nidi.graphviz.attribute.Color;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -12,9 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * @version 1.1, 19.08.2019
  */
 public class RBNode<T extends Comparable<T>> extends BNode<T> {
-    public enum Color {
-        RED, BLACK
-    }
+    @NotNull
     private Color color;
 
     RBNode() {
@@ -43,11 +40,12 @@ public class RBNode<T extends Comparable<T>> extends BNode<T> {
         this.right = right;
     }
 
+    @NotNull
     public Color getColor() {
         return this.color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(@NotNull Color color) {
         this.color = color;
     }
 
@@ -57,5 +55,9 @@ public class RBNode<T extends Comparable<T>> extends BNode<T> {
             return this.getColor().equals(((RBNode) obj).color);
         }
         return false;
+    }
+
+    public enum Color {
+        RED, BLACK
     }
 }

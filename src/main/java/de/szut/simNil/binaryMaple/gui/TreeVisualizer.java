@@ -56,7 +56,16 @@ public class TreeVisualizer {
 
         if (node instanceof BNode) {
 
-            if (node instanceof RBNode) root = root.with(Style.FILLED, ((RBNode) node).getColor());
+            if (node instanceof RBNode) {
+                switch (((RBNode) node).getColor()) {
+                    case RED:
+                        root = root.with(Style.FILLED, Color.RED);
+                        break;
+                    case BLACK:
+                        root = root.with(Style.FILLED, Color.BLACK);
+                        break;
+                }
+            }
 
             if (((BNode) node).getLeft() != null && ((BNode) node).getRight() != null &&
                 ((BNode) node).getLeft().getValue() == null && ((BNode) node).getRight().getValue() == null)
