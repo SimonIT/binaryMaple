@@ -24,13 +24,15 @@ import java.util.List;
 import static guru.nidi.graphviz.model.Factory.*;
 
 public class TreeVisualizer {
-    private int nullNodeNumber = 0;
+    private int duplicateNodeNumber = 0;
     private InterfaceBinarySearchTree tree;
     private List<Node> nodes = new ArrayList<>();
 
     @Getter
     @Setter
     private AbstractNode highlightedNode;
+
+    private List<AbstractNode> collapseNodes = new ArrayList<>();
 
     @Getter
     @Setter
@@ -40,10 +42,18 @@ public class TreeVisualizer {
         this.tree = tree;
     }
 
+    public void addCollapseNode(AbstractNode node) {
+        this.collapseNodes.add(node);
+    }
+
+    public void removeCollapseNode(AbstractNode node) {
+        this.collapseNodes.remove(node);
+    }
+
     @NotNull
     public List<Node> getNodes() {
         this.nodes.clear();
-        this.nullNodeNumber = 0;
+        this.duplicateNodeNumber = 0;
         addNode(this.tree.getRoot());
         return this.nodes;
     }
@@ -84,14 +94,19 @@ public class TreeVisualizer {
     @NotNull
     private Node addBNode(@NotNull Node root, @Nullable BNode node) {
         if (node != null && node.getValue() != null) {
-            Node graphNode = node(node.toString());
+            if (!this.collapseNodes.contains(node)) {
 
-            root = root.link(to(graphNode));
+                Node graphNode = node(node.toString());
 
-            addNode(node);
+                root = root.link(to(graphNode));
+
+                addNode(node);
+            } else {
+                root = root.link(to(node(String.format("collapse%d", duplicateNodeNumber++)).with(Label.of(""), Shape.TRIANGLE)));
+            }
         } else {
             if (this.showNullNodes)
-                root = root.link(to(node(String.format("null%d", nullNodeNumber++)).with(Shape.RECTANGLE, Label.of("null"))));
+                root = root.link(to(node(String.format("null%d", duplicateNodeNumber++)).with(Shape.RECTANGLE, Label.of("null"))));
         }
         return root;
     }

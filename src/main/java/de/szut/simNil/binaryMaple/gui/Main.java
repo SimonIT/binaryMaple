@@ -86,6 +86,15 @@ public class Main extends Application {
 
         gridPane.getChildren().add(searchButton);
 
+        Button collapseButton = new Button("Einklappen");
+
+        collapseButton.setOnAction(event -> {
+            visualizer.addCollapseNode(tree.getNodeWithValue(Integer.valueOf(value.getText())));
+            imageView.setImage(visualizer.getGraphvizImage());
+        });
+
+        gridPane.getChildren().add(collapseButton);
+
         p.getChildren().add(gridPane);
 
         p.getChildren().add(new ScrollPane(imageView));
