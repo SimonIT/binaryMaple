@@ -57,7 +57,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
                     parent.setLeft(current.getRight());
                     current.setRight(parent);
                 }
-                RBNode temp = current;
+                RBNode<T> temp = current;
                 current = parent;
                 parent = temp;
             }
