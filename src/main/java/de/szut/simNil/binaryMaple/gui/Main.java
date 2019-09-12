@@ -2,17 +2,19 @@ package de.szut.simNil.binaryMaple.gui;
 
 import de.szut.simNil.binaryMaple.BinarySearchTreeException;
 import de.szut.simNil.binaryMaple.InterfaceBinarySearchTree;
+import de.szut.simNil.binaryMaple.Order;
+import de.szut.simNil.binaryMaple.rb.RedBlackBinarySearchTree;
 import de.szut.simNil.binaryMaple.standard.StandardBinarySearchTree;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.util.List;
+import java.util.Random;
 
 public class Main extends Application {
 
@@ -33,11 +35,49 @@ public class Main extends Application {
 
         HBox p = new HBox();
 
-        VBox gridPane = new VBox();
+        VBox controlsBox = new VBox();
+
+        ToggleGroup treeToggle = new ToggleGroup();
+
+        RadioButton checkBoxStandardTree = new RadioButton();
+
+        checkBoxStandardTree.setToggleGroup(treeToggle);
+
+        checkBoxStandardTree.setOnAction(actionEvent -> {
+            List<Integer> values = tree.traverse(Order.PREORDER);
+            this.tree = new StandardBinarySearchTree<>();
+            try {
+                addValuesToTree(values);
+            } catch (BinarySearchTreeException e) {
+                e.printStackTrace();
+            }
+            visualizer.setTree(tree);
+            imageView.setImage(visualizer.getGraphvizImage());
+        });
+
+        controlsBox.getChildren().add(checkBoxStandardTree);
+
+        RadioButton checkBoxRedBlackTree = new RadioButton();
+
+        checkBoxRedBlackTree.setToggleGroup(treeToggle);
+
+        checkBoxRedBlackTree.setOnAction(actionEvent -> {
+            List<Integer> values = tree.traverse(Order.PREORDER);
+            this.tree = new RedBlackBinarySearchTree<>();
+            try {
+                addValuesToTree(values);
+            } catch (BinarySearchTreeException e) {
+                e.printStackTrace();
+            }
+            visualizer.setTree(tree);
+            imageView.setImage(visualizer.getGraphvizImage());
+        });
+
+        controlsBox.getChildren().add(checkBoxRedBlackTree);
 
         TextField value = new TextField();
 
-        gridPane.getChildren().add(value);
+        controlsBox.getChildren().add(value);
 
         CheckBox checkShowNull = new CheckBox();
 
@@ -46,7 +86,7 @@ public class Main extends Application {
             imageView.setImage(visualizer.getGraphvizImage());
         });
 
-        gridPane.getChildren().add(checkShowNull);
+        controlsBox.getChildren().add(checkShowNull);
 
         Button addButton = new Button("Hinzufügen");
 
@@ -59,7 +99,7 @@ public class Main extends Application {
             }
         });
 
-        gridPane.getChildren().add(addButton);
+        controlsBox.getChildren().add(addButton);
 
         Button delButton = new Button("Löschen");
 
@@ -72,7 +112,7 @@ public class Main extends Application {
             }
         });
 
-        gridPane.getChildren().add(delButton);
+        controlsBox.getChildren().add(delButton);
 
         Button searchButton = new Button("Suchen");
 
@@ -84,7 +124,7 @@ public class Main extends Application {
             imageView.setImage(visualizer.getGraphvizImage());
         });
 
-        gridPane.getChildren().add(searchButton);
+        controlsBox.getChildren().add(searchButton);
 
         Button collapseButton = new Button("Einklappen");
 
@@ -93,12 +133,33 @@ public class Main extends Application {
             imageView.setImage(visualizer.getGraphvizImage());
         });
 
-        gridPane.getChildren().add(collapseButton);
+        controlsBox.getChildren().add(collapseButton);
 
-        p.getChildren().add(gridPane);
+        Button generateRandomButton = new Button("Zufall");
+
+        generateRandomButton.setOnAction(event -> {
+            Random random = new Random();
+            for (int i = 0; i < Integer.parseInt(value.getText()); i++) {
+                try {
+                    tree.addValue(random.nextInt(i * 4 + 1));
+                } catch (BinarySearchTreeException e) {
+                    i--;
+                }
+            }
+            imageView.setImage(visualizer.getGraphvizImage());
+        });
+
+        controlsBox.getChildren().add(generateRandomButton);
+
+        p.getChildren().add(controlsBox);
 
         p.getChildren().add(new ScrollPane(imageView));
         stage.setScene(new Scene(p));
         stage.show();
+    }
+
+    void addValuesToTree(List<Integer> integers) throws BinarySearchTreeException {
+        for (int i : integers)
+            tree.addValue(i);
     }
 }

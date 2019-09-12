@@ -25,6 +25,7 @@ import static guru.nidi.graphviz.model.Factory.*;
 
 public class TreeVisualizer {
     private int duplicateNodeNumber = 0;
+    @Setter
     private InterfaceBinarySearchTree tree;
     private List<Node> nodes = new ArrayList<>();
 
