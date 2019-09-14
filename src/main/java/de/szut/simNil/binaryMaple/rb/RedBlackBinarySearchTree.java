@@ -1,6 +1,9 @@
 package de.szut.simNil.binaryMaple.rb;
 
-import de.szut.simNil.binaryMaple.*;
+import de.szut.simNil.binaryMaple.AbstractNode;
+import de.szut.simNil.binaryMaple.BinarySearchTreeException;
+import de.szut.simNil.binaryMaple.InterfaceBinarySearchTree;
+import de.szut.simNil.binaryMaple.Order;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -175,15 +178,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
 
     @Override
     public boolean hasValue(T value) {
-        RBNode<T> current = this.root;
-        while (current.getValue() != null) {
-            int c = value.compareTo(current.getValue());
-            if (c == 0) {
-                return true;
-            }
-            current = c < 0 ? current.getLeft() : current.getRight();
-        }
-        return false;
+        return getNodeWithValue(value) != null;
     }
 
     @Override
@@ -282,7 +277,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
         return this.root;
     }
 
-    public Integer getNodeCount() {
+    public int getNodeCount() {
         return this.nodeCount;
     }
 

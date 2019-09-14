@@ -47,6 +47,10 @@ public class TreeVisualizer {
         this.collapseNodes.add(node);
     }
 
+    public boolean isCollapsed(AbstractNode node) {
+        return this.collapseNodes.contains(node);
+    }
+
     public void removeCollapseNode(AbstractNode node) {
         this.collapseNodes.remove(node);
     }

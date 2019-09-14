@@ -100,15 +100,7 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
 
     @Override
     public boolean hasValue(T value) {
-        BNode<T> current = this.root;
-        while (current.getValue() != null) {
-            int c = value.compareTo(current.getValue());
-            if (c == 0) {
-                return true;
-            }
-            current = c < 0 ? current.getLeft() : current.getRight();
-        }
-        return false;
+        return getNodeWithValue(value) != null;
     }
 
     @Override
@@ -207,7 +199,7 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
         return this.root;
     }
 
-    public Integer getNodeCount() {
+    public int getNodeCount() {
         return this.nodeCount;
     }
 

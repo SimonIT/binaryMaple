@@ -1,5 +1,6 @@
 package de.szut.simNil.binaryMaple.gui;
 
+import de.szut.simNil.binaryMaple.AbstractNode;
 import de.szut.simNil.binaryMaple.BinarySearchTreeException;
 import de.szut.simNil.binaryMaple.InterfaceBinarySearchTree;
 import de.szut.simNil.binaryMaple.Order;
@@ -39,11 +40,12 @@ public class Main extends Application {
 
         ToggleGroup treeToggle = new ToggleGroup();
 
-        RadioButton checkBoxStandardTree = new RadioButton();
+        RadioButton radioButtonStandardTree = new RadioButton();
 
-        checkBoxStandardTree.setToggleGroup(treeToggle);
+        radioButtonStandardTree.setSelected(true);
+        radioButtonStandardTree.setToggleGroup(treeToggle);
 
-        checkBoxStandardTree.setOnAction(actionEvent -> {
+        radioButtonStandardTree.setOnAction(actionEvent -> {
             List<Integer> values = tree.traverse(Order.PREORDER);
             this.tree = new StandardBinarySearchTree<>();
             try {
@@ -55,13 +57,13 @@ public class Main extends Application {
             imageView.setImage(visualizer.getGraphvizImage());
         });
 
-        controlsBox.getChildren().add(checkBoxStandardTree);
+        controlsBox.getChildren().add(radioButtonStandardTree);
 
-        RadioButton checkBoxRedBlackTree = new RadioButton();
+        RadioButton radioButtonRedBlackTree = new RadioButton();
 
-        checkBoxRedBlackTree.setToggleGroup(treeToggle);
+        radioButtonRedBlackTree.setToggleGroup(treeToggle);
 
-        checkBoxRedBlackTree.setOnAction(actionEvent -> {
+        radioButtonRedBlackTree.setOnAction(actionEvent -> {
             List<Integer> values = tree.traverse(Order.PREORDER);
             this.tree = new RedBlackBinarySearchTree<>();
             try {
@@ -73,7 +75,7 @@ public class Main extends Application {
             imageView.setImage(visualizer.getGraphvizImage());
         });
 
-        controlsBox.getChildren().add(checkBoxRedBlackTree);
+        controlsBox.getChildren().add(radioButtonRedBlackTree);
 
         TextField value = new TextField();
 
@@ -126,10 +128,14 @@ public class Main extends Application {
 
         controlsBox.getChildren().add(searchButton);
 
-        Button collapseButton = new Button("Einklappen");
+        Button collapseButton = new Button("Ein-/Ausklappen");
 
         collapseButton.setOnAction(event -> {
-            visualizer.addCollapseNode(tree.getNodeWithValue(Integer.valueOf(value.getText())));
+            AbstractNode collapseNode = tree.getNodeWithValue(Integer.valueOf(value.getText()));
+            if (visualizer.isCollapsed(collapseNode))
+                visualizer.removeCollapseNode(collapseNode);
+            else
+                visualizer.addCollapseNode(collapseNode);
             imageView.setImage(visualizer.getGraphvizImage());
         });
 
@@ -141,7 +147,7 @@ public class Main extends Application {
             Random random = new Random();
             for (int i = 0; i < Integer.parseInt(value.getText()); i++) {
                 try {
-                    tree.addValue(random.nextInt(i * 4 + 1));
+                    tree.addValue(random.nextInt(Math.max(20, 2 * tree.getNodeCount())));
                 } catch (BinarySearchTreeException e) {
                     i--;
                 }
