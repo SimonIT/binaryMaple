@@ -18,6 +18,8 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,8 @@ public class TreeVisualizer {
     @Getter
     @Setter
     private AbstractNode highlightedNode;
+
+    private Graphviz graphviz;
 
     private List<AbstractNode> collapseNodes = new ArrayList<>();
 
@@ -116,8 +120,16 @@ public class TreeVisualizer {
         return root;
     }
 
+    public void createGraphviz() {
+        this.graphviz = Graphviz.fromGraph(graph().with(this.getNodes()));
+    }
+
     @NotNull
     public Image getGraphvizImage() {
-        return SwingFXUtils.toFXImage(Graphviz.fromGraph(graph().with(this.getNodes())).render(Format.SVG).toImage(), null);
+        return SwingFXUtils.toFXImage(this.graphviz.render(Format.SVG).toImage(), null);
+    }
+
+    public void saveGraphviz(File file, Format format) throws IOException {
+        this.graphviz.render(format).toFile(file);
     }
 }

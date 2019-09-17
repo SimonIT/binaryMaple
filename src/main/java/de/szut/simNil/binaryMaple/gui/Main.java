@@ -20,6 +20,9 @@ import java.util.Random;
 public class Main extends Application {
 
     private InterfaceBinarySearchTree<Integer> tree;
+    private TreeVisualizer visualizer;
+
+    private ImageView imageView;
 
     public static void main(String[] args) {
         launch(args);
@@ -30,9 +33,9 @@ public class Main extends Application {
 
         tree = new StandardBinarySearchTree<>();
 
-        TreeVisualizer visualizer = new TreeVisualizer(tree);
+        visualizer = new TreeVisualizer(tree);
 
-        ImageView imageView = new ImageView(visualizer.getGraphvizImage());
+        imageView = new ImageView();
 
         HBox p = new HBox();
 
@@ -54,7 +57,7 @@ public class Main extends Application {
                 e.printStackTrace();
             }
             visualizer.setTree(tree);
-            imageView.setImage(visualizer.getGraphvizImage());
+            updateGraphvizImage();
         });
 
         controlsBox.getChildren().add(radioButtonStandardTree);
@@ -72,7 +75,7 @@ public class Main extends Application {
                 e.printStackTrace();
             }
             visualizer.setTree(tree);
-            imageView.setImage(visualizer.getGraphvizImage());
+            updateGraphvizImage();
         });
 
         controlsBox.getChildren().add(radioButtonRedBlackTree);
@@ -85,7 +88,7 @@ public class Main extends Application {
 
         checkShowNull.setOnAction(actionEvent -> {
             visualizer.setShowNullNodes(checkShowNull.isSelected());
-            imageView.setImage(visualizer.getGraphvizImage());
+            updateGraphvizImage();
         });
 
         controlsBox.getChildren().add(checkShowNull);
@@ -95,7 +98,7 @@ public class Main extends Application {
         addButton.setOnAction(event -> {
             try {
                 tree.addValue(Integer.valueOf(value.getText()));
-                imageView.setImage(visualizer.getGraphvizImage());
+                updateGraphvizImage();
             } catch (BinarySearchTreeException e) {
                 System.out.println(e.getMessage());
             }
@@ -108,7 +111,7 @@ public class Main extends Application {
         delButton.setOnAction(event -> {
             try {
                 tree.delValue(Integer.valueOf(value.getText()));
-                imageView.setImage(visualizer.getGraphvizImage());
+                updateGraphvizImage();
             } catch (BinarySearchTreeException e) {
                 System.out.println(e.getMessage());
             }
@@ -123,7 +126,7 @@ public class Main extends Application {
                 visualizer.setHighlightedNode(null);
             else
                 visualizer.setHighlightedNode(tree.getNodeWithValue(Integer.valueOf(value.getText())));
-            imageView.setImage(visualizer.getGraphvizImage());
+            updateGraphvizImage();
         });
 
         controlsBox.getChildren().add(searchButton);
@@ -136,7 +139,7 @@ public class Main extends Application {
                 visualizer.removeCollapseNode(collapseNode);
             else
                 visualizer.addCollapseNode(collapseNode);
-            imageView.setImage(visualizer.getGraphvizImage());
+            updateGraphvizImage();
         });
 
         controlsBox.getChildren().add(collapseButton);
@@ -152,7 +155,7 @@ public class Main extends Application {
                     i--;
                 }
             }
-            imageView.setImage(visualizer.getGraphvizImage());
+            updateGraphvizImage();
         });
 
         controlsBox.getChildren().add(generateRandomButton);
@@ -164,8 +167,13 @@ public class Main extends Application {
         stage.show();
     }
 
-    void addValuesToTree(List<Integer> integers) throws BinarySearchTreeException {
+    private void addValuesToTree(List<Integer> integers) throws BinarySearchTreeException {
         for (int i : integers)
             tree.addValue(i);
+    }
+
+    private void updateGraphvizImage() {
+        this.visualizer.createGraphviz();
+        this.imageView.setImage(this.visualizer.getGraphvizImage());
     }
 }
