@@ -111,11 +111,16 @@ public class TreeVisualizer {
 
                 addNode(node);
             } else {
-                root = root.link(to(node(String.format("collapse%d", duplicateNodeNumber++)).with(Label.of(""), Shape.TRIANGLE)));
+                Node nodeCollapse = node(String.format("collapse%d", duplicateNodeNumber++)).with(Label.of(""), Shape.TRIANGLE);
+                this.nodes.add(nodeCollapse);
+                root = root.link(to(nodeCollapse));
             }
         } else {
-            if (this.showNullNodes)
-                root = root.link(to(node(String.format("null%d", duplicateNodeNumber++)).with(Shape.RECTANGLE, Label.of("null"))));
+            if (this.showNullNodes) {
+                Node nodeNull = node(String.format("null%d", duplicateNodeNumber++)).with(Shape.RECTANGLE, Label.of("null"));
+                this.nodes.add(nodeNull);
+                root = root.link(to(nodeNull));
+            }
         }
         return root;
     }
