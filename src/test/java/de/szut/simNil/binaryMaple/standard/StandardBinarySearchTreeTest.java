@@ -44,6 +44,8 @@ class StandardBinarySearchTreeTest {
         for (int i = 0; i < 99; i++)
             tree.addValue(i);
         assertEquals(100, tree.getNodeCount());
+        tree.delValue(0);
+        assertEquals(99, tree.getNodeCount());
     }
 
     @Test
