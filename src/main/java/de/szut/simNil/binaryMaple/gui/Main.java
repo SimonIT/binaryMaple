@@ -6,22 +6,28 @@ import de.szut.simNil.binaryMaple.InterfaceBinarySearchTree;
 import de.szut.simNil.binaryMaple.Order;
 import de.szut.simNil.binaryMaple.rb.RedBlackBinarySearchTree;
 import de.szut.simNil.binaryMaple.standard.StandardBinarySearchTree;
+import guru.nidi.graphviz.engine.Format;
+import guru.nidi.graphviz.engine.FormatExtensionFilter;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class Main extends Application {
 
+    private static final Map<FileChooser.ExtensionFilter, Format> EXTENSIONS = FormatExtensionFilter.getFilters();
     private InterfaceBinarySearchTree<Integer> tree;
     private TreeVisualizer visualizer;
-
     private ImageView imageView;
 
     public static void main(String[] args) {
@@ -36,6 +42,29 @@ public class Main extends Application {
         visualizer = new TreeVisualizer(tree);
 
         imageView = new ImageView();
+
+        VBox box = new VBox();
+
+        Menu fileMenu = new Menu("File");
+
+        MenuItem save = new MenuItem("Save as");
+
+        save.setOnAction(actionEvent -> {
+            FileChooser chooser = new FileChooser();
+            chooser.getExtensionFilters().addAll(EXTENSIONS.keySet());
+            File file = chooser.showSaveDialog(stage);
+            if (file != null) {
+                try {
+                    visualizer.saveGraphviz(file, EXTENSIONS.get(chooser.getSelectedExtensionFilter()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        fileMenu.getItems().add(save);
+
+        box.getChildren().add(new MenuBar(fileMenu));
 
         HBox p = new HBox();
 
@@ -163,7 +192,10 @@ public class Main extends Application {
         p.getChildren().add(controlsBox);
 
         p.getChildren().add(new ScrollPane(imageView));
-        stage.setScene(new Scene(p));
+
+        box.getChildren().add(p);
+
+        stage.setScene(new Scene(box));
         stage.show();
     }
 
