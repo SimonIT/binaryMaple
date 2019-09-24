@@ -1,5 +1,7 @@
 package de.szut.simNil.binaryMaple.gui;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
 import de.szut.simNil.binaryMaple.AbstractNode;
 import de.szut.simNil.binaryMaple.BinarySearchTreeException;
 import de.szut.simNil.binaryMaple.InterfaceBinarySearchTree;
@@ -17,7 +19,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +29,10 @@ import java.util.Random;
 
 public class Main extends Application {
 
-    private static final Map<FileChooser.ExtensionFilter, Format> EXTENSIONS = FormatExtensionFilter.getFilters();
+    private static final FileChooser.ExtensionFilter[] TREE_EXTENSION = new FileChooser.ExtensionFilter[]{
+        new FileChooser.ExtensionFilter("XML", "*.xml")
+    };
+    private static final Map<FileChooser.ExtensionFilter, Format> GRAPHVIZ_EXTENSIONS = FormatExtensionFilter.getFilters();
     private InterfaceBinarySearchTree<Integer> tree;
     private TreeVisualizer visualizer;
     private ImageView imageView;
@@ -47,22 +54,42 @@ public class Main extends Application {
 
         Menu fileMenu = new Menu("File");
 
-        MenuItem save = new MenuItem("Save as");
+        MenuItem saveTree = new MenuItem("Save Tree as");
 
-        save.setOnAction(actionEvent -> {
+        saveTree.setOnAction(actionEvent -> {
             FileChooser chooser = new FileChooser();
-            chooser.getExtensionFilters().addAll(EXTENSIONS.keySet());
+            chooser.getExtensionFilters().setAll(TREE_EXTENSION);
             File file = chooser.showSaveDialog(stage);
             if (file != null) {
+                XStream xStream = new XStream(new StaxDriver());
                 try {
-                    visualizer.saveGraphviz(file, EXTENSIONS.get(chooser.getSelectedExtensionFilter()));
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                    xStream.toXML(tree, writer);
+                    writer.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
 
-        fileMenu.getItems().add(save);
+        fileMenu.getItems().add(saveTree);
+
+        MenuItem saveGraphviz = new MenuItem("Save Image as");
+
+        saveGraphviz.setOnAction(actionEvent -> {
+            FileChooser chooser = new FileChooser();
+            chooser.getExtensionFilters().addAll(GRAPHVIZ_EXTENSIONS.keySet());
+            File file = chooser.showSaveDialog(stage);
+            if (file != null) {
+                try {
+                    visualizer.saveGraphviz(file, GRAPHVIZ_EXTENSIONS.get(chooser.getSelectedExtensionFilter()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        fileMenu.getItems().add(saveGraphviz);
 
         box.getChildren().add(new MenuBar(fileMenu));
 
