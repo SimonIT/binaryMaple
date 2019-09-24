@@ -1,7 +1,6 @@
 package de.szut.simNil.binaryMaple.standard;
 
 import de.szut.simNil.binaryMaple.BinarySearchTreeException;
-import de.szut.simNil.binaryMaple.rb.RedBlackBinarySearchTree;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -50,14 +49,5 @@ class StandardBinarySearchTreeTest {
 
     @Test
     void getNodeWithValue() {
-    }
-
-    @Test
-    void testEquals() {
-        assertEquals(new StandardBinarySearchTree<>(), new StandardBinarySearchTree<>());
-        assertEquals(new StandardBinarySearchTree<>(5), new StandardBinarySearchTree<>(5));
-        assertNotEquals(new StandardBinarySearchTree<>(5), new StandardBinarySearchTree<>(6));
-        assertNotEquals(new StandardBinarySearchTree<>(5), new StandardBinarySearchTree<>(5.1));
-        assertNotEquals(new StandardBinarySearchTree<>(), new RedBlackBinarySearchTree<>());
     }
 }
