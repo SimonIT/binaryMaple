@@ -178,10 +178,11 @@ public class Main extends Application {
         Button searchButton = new Button("Suchen");
 
         searchButton.setOnAction(event -> {
-            if (value.getText().isEmpty())
+            if (value.getText().isEmpty()) {
                 visualizer.setHighlightedNode(null);
-            else
+            } else {
                 visualizer.setHighlightedNode(tree.getNodeWithValue(Integer.valueOf(value.getText())));
+            }
             updateGraphvizImage();
         });
 
@@ -191,10 +192,11 @@ public class Main extends Application {
 
         collapseButton.setOnAction(event -> {
             AbstractNode collapseNode = tree.getNodeWithValue(Integer.valueOf(value.getText()));
-            if (visualizer.isCollapsed(collapseNode))
+            if (visualizer.isCollapsed(collapseNode)) {
                 visualizer.removeCollapseNode(collapseNode);
-            else
+            } else {
                 visualizer.addCollapseNode(collapseNode);
+            }
             updateGraphvizImage();
         });
 
@@ -227,8 +229,9 @@ public class Main extends Application {
     }
 
     private void addValuesToTree(List<Integer> integers) throws BinarySearchTreeException {
-        for (int i : integers)
+        for (int i : integers) {
             tree.addValue(i);
+        }
     }
 
     private void updateGraphvizImage() {

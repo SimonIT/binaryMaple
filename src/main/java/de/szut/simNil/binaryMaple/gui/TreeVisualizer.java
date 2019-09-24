@@ -68,7 +68,9 @@ public class TreeVisualizer {
     }
 
     private void addNode(@Nullable AbstractNode node) {
-        if (node == null || node.getValue() == null) return;
+        if (node == null || node.getValue() == null) {
+            return;
+        }
 
         Node root = node(node.toString()).with(Style.FILLED, Color.WHITE.fill(), Color.BLACK.font());
 
@@ -86,8 +88,9 @@ public class TreeVisualizer {
             }
 
             if (((BNode) node).getLeft() != null && ((BNode) node).getRight() != null &&
-                ((BNode) node).getLeft().getValue() == null && ((BNode) node).getRight().getValue() == null)
+                ((BNode) node).getLeft().getValue() == null && ((BNode) node).getRight().getValue() == null) {
                 root = root.with(Color.GREEN);
+            }
 
             root = addBNode(root, ((BNode) node).getLeft());
 
