@@ -21,7 +21,7 @@ public class RBNode<T extends Comparable<T>> extends BNode<T> {
 
     public RBNode(T value) {
         this.value = value;
-        this.color = Color.RED; // initalize nodes with values as red
+        this.color = Color.RED; // initialize nodes with values as red
     }
 
     public RBNode<T> getLeft() {
