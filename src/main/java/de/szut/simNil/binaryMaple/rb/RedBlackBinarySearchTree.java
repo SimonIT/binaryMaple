@@ -15,8 +15,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
         nodeCount = 0;
     }
 
-    public RedBlackBinarySearchTree(T value) {
-        // TODO: what if value is null?
+    public RedBlackBinarySearchTree(@NotNull T value) {
         this.root = new RBNode<>(value);
         this.root.setLeft(new RBNode<>());
         this.root.setRight(new RBNode<>());
@@ -95,7 +94,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
     }
 
     @Override
-    public void addValue(T value) throws BinarySearchTreeException {
+    public void addValue(@NotNull T value) throws BinarySearchTreeException {
         ++nodeCount;
         Stack<RBNode<T>> ancestors = new Stack<>();
         RBNode<T> current = this.root;
@@ -308,13 +307,13 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
     }
 
     @Override
-    public boolean hasValue(T value) {
+    public boolean hasValue(@NotNull T value) {
         return getNodeWithValue(value) != null;
     }
 
     @Override
     @Nullable
-    public RBNode<T> getNodeWithValue(T value) {
+    public RBNode<T> getNodeWithValue(@NotNull T value) {
         RBNode<T> current = this.root;
         while (current.getValue() != null) {
             int c = value.compareTo(current.getValue());
