@@ -49,14 +49,6 @@ public class RBNode<T extends Comparable<T>> extends BNode<T> {
         this.color = color;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof RBNode && super.equals(obj)) {
-            return this.getColor().equals(((RBNode) obj).color);
-        }
-        return false;
-    }
-
     public enum Color {
         RED, BLACK
     }

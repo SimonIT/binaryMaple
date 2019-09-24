@@ -95,7 +95,7 @@ public class TreeVisualizer {
 
         }
 
-        if (this.highlightedNode != null && highlightedNode.equals(node)) root = root.with(Color.PINK);
+        // if (this.highlightedNode != null && highlightedNode.equals(node)) root = root.with(Color.PINK);
 
         this.nodes.add(root);
     }

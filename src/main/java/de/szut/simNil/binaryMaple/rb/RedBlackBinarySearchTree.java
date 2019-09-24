@@ -411,12 +411,4 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
     public int getNodeCount() {
         return this.nodeCount;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof RedBlackBinarySearchTree) {
-            return this.getRoot().equals(((RedBlackBinarySearchTree) obj).getRoot());
-        }
-        return false;
-    }
 }
