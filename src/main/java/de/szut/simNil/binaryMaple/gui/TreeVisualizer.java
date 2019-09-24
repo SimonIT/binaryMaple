@@ -25,37 +25,37 @@ import java.util.List;
 
 import static guru.nidi.graphviz.model.Factory.*;
 
-public class TreeVisualizer {
+public class TreeVisualizer<T extends Comparable<T>> {
     private int duplicateNodeNumber = 0;
     @Setter
-    private InterfaceBinarySearchTree tree;
+    private InterfaceBinarySearchTree<T> tree;
     private List<Node> nodes = new ArrayList<>();
 
     @Getter
     @Setter
-    private AbstractNode highlightedNode;
+    private AbstractNode<T> highlightedNode;
 
     private Graphviz graphviz;
 
-    private List<AbstractNode> collapseNodes = new ArrayList<>();
+    private List<AbstractNode<T>> collapseNodes = new ArrayList<>();
 
     @Getter
     @Setter
     private boolean showNullNodes = false;
 
-    public TreeVisualizer(@NotNull InterfaceBinarySearchTree tree) {
+    public TreeVisualizer(@NotNull InterfaceBinarySearchTree<T> tree) {
         this.tree = tree;
     }
 
-    public void addCollapseNode(AbstractNode node) {
+    public void addCollapseNode(AbstractNode<T> node) {
         this.collapseNodes.add(node);
     }
 
-    public boolean isCollapsed(AbstractNode node) {
+    public boolean isCollapsed(AbstractNode<T> node) {
         return this.collapseNodes.contains(node);
     }
 
-    public void removeCollapseNode(AbstractNode node) {
+    public void removeCollapseNode(AbstractNode<T> node) {
         this.collapseNodes.remove(node);
     }
 
@@ -67,7 +67,7 @@ public class TreeVisualizer {
         return this.nodes;
     }
 
-    private void addNode(@Nullable AbstractNode node) {
+    private void addNode(@Nullable AbstractNode<T> node) {
         if (node == null || node.getValue() == null) {
             return;
         }
@@ -75,7 +75,6 @@ public class TreeVisualizer {
         Node root = node(node.toString()).with(Style.FILLED, Color.WHITE.fill(), Color.BLACK.font());
 
         if (node instanceof BNode) {
-
             if (node instanceof RBNode) {
                 switch (((RBNode) node).getColor()) {
                     case RED:
@@ -87,8 +86,9 @@ public class TreeVisualizer {
                 }
             }
 
-            if (((BNode) node).getLeft() != null && ((BNode) node).getRight() != null &&
-                ((BNode) node).getLeft().getValue() == null && ((BNode) node).getRight().getValue() == null) {
+            BNode<T> left = ((BNode<T>) node).getLeft();
+            BNode<T> right = ((BNode<T>) node).getRight();
+            if (left != null && right != null && left.getValue() == null && right.getValue() == null) {
                 root = root.with(Color.GREEN);
             }
 
@@ -98,7 +98,9 @@ public class TreeVisualizer {
 
         }
 
-        // if (this.highlightedNode != null && highlightedNode.equals(node)) root = root.with(Color.PINK);
+        if (this.highlightedNode != null && this.highlightedNode.getValue() != null && this.highlightedNode.getValue().compareTo(node.getValue()) == 0) {
+            root = root.with(Color.PINK);
+        }
 
         this.nodes.add(root);
     }
