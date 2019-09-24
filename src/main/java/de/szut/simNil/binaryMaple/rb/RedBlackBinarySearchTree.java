@@ -1,6 +1,9 @@
 package de.szut.simNil.binaryMaple.rb;
 
-import de.szut.simNil.binaryMaple.*;
+import de.szut.simNil.binaryMaple.AbstractNode;
+import de.szut.simNil.binaryMaple.BinarySearchTreeException;
+import de.szut.simNil.binaryMaple.InterfaceBinarySearchTree;
+import de.szut.simNil.binaryMaple.Order;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -95,7 +98,6 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
 
     @Override
     public void addValue(@NotNull T value) throws BinarySearchTreeException {
-        ++nodeCount;
         Stack<RBNode<T>> ancestors = new Stack<>();
         RBNode<T> current = this.root;
         while (current.getValue() != null) {
@@ -111,6 +113,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
         current.setLeft(new RBNode<>());
         current.setRight(new RBNode<>());
         rebalanceInsertion(current, ancestors);
+        ++this.nodeCount;
     }
 
     // current = n (on Wikipedia)
@@ -296,7 +299,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
                     }
                 }
 
-                --nodeCount;
+                --this.nodeCount;
                 return;
             } else {
                 ancestors.push(current);
@@ -407,6 +410,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
         return this.root;
     }
 
+    @Override
     public int getNodeCount() {
         return this.nodeCount;
     }
