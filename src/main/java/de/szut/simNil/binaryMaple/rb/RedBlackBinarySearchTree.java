@@ -406,7 +406,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
     }
 
     @Override
-    public AbstractNode<T> getRoot() {
+    public RBNode<T> getRoot() {
         return this.root;
     }
 

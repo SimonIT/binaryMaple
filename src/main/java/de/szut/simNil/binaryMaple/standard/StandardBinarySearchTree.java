@@ -185,7 +185,7 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
     }
 
     @Override
-    public AbstractNode<T> getRoot() {
+    public BNode<T> getRoot() {
         return this.root;
     }
 

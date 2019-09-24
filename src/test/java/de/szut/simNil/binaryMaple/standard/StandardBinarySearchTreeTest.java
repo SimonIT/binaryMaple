@@ -1,6 +1,5 @@
 package de.szut.simNil.binaryMaple.standard;
 
-import de.szut.simNil.binaryMaple.BNode;
 import de.szut.simNil.binaryMaple.BinarySearchTreeException;
 import de.szut.simNil.binaryMaple.Order;
 import org.junit.jupiter.api.Test;
@@ -21,7 +20,7 @@ class StandardBinarySearchTreeTest {
             e.printStackTrace();
         }
         assertEquals(5, tree.getRoot().getValue());
-        assertNull(((BNode) tree.getRoot()).getLeft().getValue());
+        assertNull(tree.getRoot().getLeft().getValue());
     }
 
     @Test
