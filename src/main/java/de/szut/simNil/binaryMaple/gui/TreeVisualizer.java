@@ -131,7 +131,7 @@ public class TreeVisualizer<T extends Comparable<T>> {
     }
 
     public void createGraphviz() {
-        this.graphviz = Graphviz.fromGraph(graph().with(this.getNodes()));
+        this.graphviz = Graphviz.fromGraph(graph().with(this.getNodes()).graphAttr().with(Color.rgba("00000000").background()));
     }
 
     @NotNull
