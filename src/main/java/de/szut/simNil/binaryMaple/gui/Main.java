@@ -54,6 +54,21 @@ public class Main extends Application {
 
         Menu fileMenu = new Menu("File");
 
+        MenuItem loadTree = new MenuItem("Load Tree");
+
+        loadTree.setOnAction(actionEvent -> {
+            FileChooser chooser = new FileChooser();
+            chooser.getExtensionFilters().setAll(TREE_EXTENSION);
+            File file = chooser.showOpenDialog(stage);
+            if (file != null) {
+                XStream xStream = new XStream(new StaxDriver());
+                this.tree = (InterfaceBinarySearchTree<Integer>) xStream.fromXML(file);
+                updateGraphvizImage();
+            }
+        });
+
+        fileMenu.getItems().add(loadTree);
+
         MenuItem saveTree = new MenuItem("Save Tree as");
 
         saveTree.setOnAction(actionEvent -> {
@@ -130,7 +145,6 @@ public class Main extends Application {
             } catch (BinarySearchTreeException e) {
                 e.printStackTrace();
             }
-            visualizer.setTree(tree);
             updateGraphvizImage();
         });
 
@@ -235,6 +249,7 @@ public class Main extends Application {
     }
 
     private void updateGraphvizImage() {
+        this.visualizer.setTree(this.tree);
         this.visualizer.createGraphviz();
         this.imageView.setImage(this.visualizer.getGraphvizImage());
     }
