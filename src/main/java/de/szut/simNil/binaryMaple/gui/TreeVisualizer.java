@@ -106,7 +106,7 @@ public class TreeVisualizer<T extends Comparable<T>> {
         }
 
         if (this.highlightedNode != null && this.highlightedNode.getValue() != null && this.highlightedNode.getValue().compareTo(node.getValue()) == 0) {
-            root = root.with(Color.PURPLE.fill(), Color.PURPLE, Color.WHITE.font());
+            root = root.with(Color.PURPLE.fill(), Color.WHITE.font());
         }
 
         this.nodes.add(root);
