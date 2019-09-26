@@ -115,6 +115,7 @@ public class Main extends Application {
         HBox p = new HBox();
 
         VBox controlsBox = new VBox();
+        controlsBox.setMinWidth(200);
 
         ToggleGroup treeToggle = new ToggleGroup();
 
@@ -257,7 +258,7 @@ public class Main extends Application {
             this.visualizer.setTree(this.tree);
             this.visualizer.createGraphviz();
             Image graphviz = this.visualizer.getGraphvizImage();
-            Platform.runLater(() -> this.imageView.setImage(graphviz));
+            Platform.runLater(() -> this.imageView.setImage(this.tree.getNodeCount() > 0 ? graphviz : null));
         }).start();
     }
 }
