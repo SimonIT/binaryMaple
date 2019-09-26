@@ -4,33 +4,34 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
+<VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
       fx:controller="de.szut.simNil.binaryMaple.gui.Controller">
     <fx:define>
         <ToggleGroup fx:id="treeType"/>
     </fx:define>
     <MenuBar>
         <Menu text="File">
-            <MenuItem text="Load Tree" onAction="#loadTree"/>
-            <MenuItem text="Save Tree as" onAction="#saveTree"/>
-            <MenuItem text="Save Image as" onAction="#saveImage"/>
+            <MenuItem onAction="#loadTree" text="Load Tree"/>
+            <MenuItem onAction="#saveTree" text="Save Tree as"/>
+            <MenuItem onAction="#saveImage" text="Save Image as"/>
         </Menu>
     </MenuBar>
     <HBox VBox.vgrow="ALWAYS">
         <VBox minWidth="200.0" spacing="10.0">
-            <RadioButton toggleGroup="$treeType" selected="true" text="Standard-Baum"
-                         onAction="#convertToStandardTree"/>
-            <RadioButton toggleGroup="$treeType" text="Rot-Schwarz-Baum" onAction="#convertToRedBlackTree"/>
+            <RadioButton onAction="#convertToStandardTree" selected="true" text="Standard-Baum"
+                         toggleGroup="$treeType"/>
+            <RadioButton onAction="#convertToRedBlackTree" text="Rot-Schwarz-Baum" toggleGroup="$treeType"/>
             <Separator prefWidth="200.0"/>
-            <CheckBox text="Terminal-Knoten anzeigen" onAction="#showNullNodes" fx:id="showNullCheckBox"/>
+            <CheckBox fx:id="showNullCheckBox" onAction="#showNullNodes" text="Terminal-Knoten anzeigen"/>
             <CheckBox mnemonicParsing="false" text="Blätter grün anzeigen"/>
             <Separator prefWidth="200.0"/>
             <TextField fx:id="valueField"/>
-            <Button maxWidth="1.7976931348623157E308" text="Hinzufügen" onAction="#addValue"/>
-            <Button maxWidth="1.7976931348623157E308" text="Löschen" onAction="#delValue"/>
-            <Button maxWidth="1.7976931348623157E308" text="Suchen" onAction="#searchValue"/>
-            <Button maxWidth="1.7976931348623157E308" text="Ein-/Ausklappen" onAction="#collapseAtValue"/>
-            <Button maxWidth="1.7976931348623157E308" text="Zufall" onAction="#generateValueTimes"/>
+            <Button maxWidth="1.7976931348623157E308" onAction="#addValue" text="Hinzufügen"/>
+            <Button maxWidth="1.7976931348623157E308" onAction="#delValue" text="Löschen"/>
+            <Button maxWidth="1.7976931348623157E308" onAction="#searchValue" text="Suchen"/>
+            <Button maxWidth="1.7976931348623157E308" onAction="#collapseAtValue" text="Ein-/Ausklappen"/>
+            <Button maxWidth="1.7976931348623157E308" onAction="#generateValueTimes" text="Zufall"/>
+            <ProgressIndicator fx:id="showProgress" maxWidth="1.7976931348623157E308" progress="0.0"/>
             <HBox.margin>
                 <Insets/>
             </HBox.margin>

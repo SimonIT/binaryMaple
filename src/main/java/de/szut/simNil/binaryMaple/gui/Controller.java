@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -38,16 +39,20 @@ public class Controller implements Initializable {
         new FileChooser.ExtensionFilter("XML", "*.xml")
     };
     private static final Map<FileChooser.ExtensionFilter, Format> GRAPHVIZ_EXTENSIONS = FormatExtensionFilter.getFilters();
-    @FXML
-    public CheckBox showNullCheckBox;
+
     @Setter
     private Stage stage;
     private InterfaceBinarySearchTree<Integer> tree;
     private TreeVisualizer<Integer> visualizer;
+
+    @FXML
+    private CheckBox showNullCheckBox;
     @FXML
     private ImageView graphvizImageView;
     @FXML
     private TextField valueField;
+    @FXML
+    private ProgressIndicator showProgress;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
