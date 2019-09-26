@@ -1,6 +1,5 @@
 package de.szut.simNil.binaryMaple.rb;
 
-import de.szut.simNil.binaryMaple.AbstractNode;
 import de.szut.simNil.binaryMaple.BinarySearchTreeException;
 import de.szut.simNil.binaryMaple.InterfaceBinarySearchTree;
 import de.szut.simNil.binaryMaple.Order;
@@ -38,7 +37,6 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
             System.out.println("insertion case 1");
             return;
         }
-
 
         if (ancestors.isEmpty()) {
             System.out.println("insertion case 2");
@@ -118,33 +116,29 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
 
     // current = n (on Wikipedia)
     public void rebalanceDeletion(RBNode<T> current, T originalCurrentValue, Stack<RBNode<T>> ancestors) {
-        // L0
         if (ancestors.isEmpty()) {
-            System.out.println("insertion case L0");
+            System.out.println("deletion case 0");
             return;
         }
 
         RBNode<T> parent = ancestors.pop();
-        boolean currentIsLeftChild = originalCurrentValue.compareTo(parent.getValue()) < 0;
+        boolean isLeftChild = originalCurrentValue.compareTo(parent.getValue()) < 0;
+        RBNode<T> sibling = isLeftChild ? parent.getRight() : parent.getLeft();
 
-        RBNode<T> sibling = currentIsLeftChild ? parent.getRight() : parent.getLeft();
-
-        // L2
         if (sibling.getColor() == RBNode.Color.RED) {
-            System.out.println("insertion case L2");
+            System.out.println("deletion case 2");
             if (ancestors.isEmpty()) {
                 this.root = sibling;
             } else {
                 RBNode<T> grandparent = ancestors.peek();
-                boolean parentIsLeftChild = parent.getValue().compareTo(grandparent.getValue()) < 0;
-                if (parentIsLeftChild) {
+                if (parent.getValue().compareTo(grandparent.getValue()) < 0) {
                     grandparent.setLeft(sibling);
                 } else {
                     grandparent.setRight(sibling);
                 }
             }
 
-            if (currentIsLeftChild) {
+            if (isLeftChild) {
                 parent.setRight(sibling.getLeft());
                 sibling.setLeft(parent);
             } else {
@@ -162,38 +156,34 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
 
         if (sibling.getValue() == null || sibling.getLeft().getColor() == RBNode.Color.BLACK && sibling.getRight().getColor() == RBNode.Color.BLACK) {
             if (parent.getColor() == RBNode.Color.BLACK) {
-                // L1
-                System.out.println("insertion case L1");
+                System.out.println("deletion case 1");
                 sibling.setColor(RBNode.Color.RED);
                 rebalanceDeletion(parent, parent.getValue(), ancestors);
                 return;
             } else {
-                // L3
-                System.out.println("insertion case L3");
+                System.out.println("deletion case 3");
                 parent.setColor(RBNode.Color.BLACK);
                 sibling.setColor(RBNode.Color.RED);
                 return;
             }
         }
 
-        RBNode<T> farNephew = currentIsLeftChild ? sibling.getRight() : sibling.getLeft();
+        RBNode<T> farNephew = isLeftChild ? sibling.getRight() : sibling.getLeft();
 
-        // L5
         if (farNephew.getColor() == RBNode.Color.RED) {
-            System.out.println("insertion case L5");
+            System.out.println("deletion case 5");
             if (ancestors.isEmpty()) {
                 this.root = sibling;
             } else {
                 RBNode<T> grandparent = ancestors.peek();
-                boolean parentIsLeftChild = parent.getValue().compareTo(grandparent.getValue()) < 0;
-                if (parentIsLeftChild) {
+                if (parent.getValue().compareTo(grandparent.getValue()) < 0) {
                     grandparent.setLeft(sibling);
                 } else {
                     grandparent.setRight(sibling);
                 }
             }
 
-            if (currentIsLeftChild) {
+            if (isLeftChild) {
                 parent.setRight(sibling.getLeft());
                 sibling.setLeft(parent);
             } else {
@@ -207,12 +197,9 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
             return;
         }
 
-        // L4
-        System.out.println("insertion case L4");
-        RBNode<T> closeNephew = currentIsLeftChild ? sibling.getLeft() : sibling.getRight();
-        assert (closeNephew.getColor() == RBNode.Color.RED); // must be red
-
-        if (currentIsLeftChild) {
+        System.out.println("deletion case 4");
+        RBNode<T> closeNephew = isLeftChild ? sibling.getLeft() : sibling.getRight(); // must be red
+        if (isLeftChild) {
             parent.setRight(closeNephew);
             sibling.setLeft(closeNephew.getRight());
             closeNephew.setRight(sibling);
@@ -221,9 +208,10 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
             sibling.setRight(closeNephew.getLeft());
             closeNephew.setLeft(sibling);
         }
-
         sibling.setColor(RBNode.Color.RED);
         closeNephew.setColor(RBNode.Color.BLACK);
+        ancestors.push(parent);
+        rebalanceDeletion(current, originalCurrentValue, ancestors);
     }
 
     @Override
@@ -233,27 +221,27 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
         while (current.getValue() != null) {
             int c = value.compareTo(current.getValue());
             if (c == 0) {
-                boolean leftChildExists = current.getLeft().getValue() != null;
-                boolean rightChildExists = current.getRight().getValue() != null;
-                boolean currentIsLeftChild = ancestors.isEmpty() || current.getValue().compareTo(ancestors.peek().getValue()) < 0;
+                boolean hasLeftValue = current.getLeft().getValue() != null;
+                boolean hasRightValue = current.getRight().getValue() != null;
+                boolean isLeftChild = ancestors.isEmpty() || current.getValue().compareTo(ancestors.peek().getValue()) < 0;
 
                 RBNode<T> r;    // node to be deleted
 
-                if (leftChildExists && rightChildExists) {
+                if (hasLeftValue && hasRightValue) {
                     ancestors.push(current);
-                    RBNode<T> smallestInRightTree = current.getRight();
-                    while (smallestInRightTree.getLeft().getValue() != null) {
-                        ancestors.push(smallestInRightTree);
-                        smallestInRightTree = smallestInRightTree.getLeft();
+                    RBNode<T> nodeWithLargestValueInLeftSubtree = current.getLeft();
+                    while (nodeWithLargestValueInLeftSubtree.getRight().getValue() != null) {
+                        ancestors.push(nodeWithLargestValueInLeftSubtree);
+                        nodeWithLargestValueInLeftSubtree = nodeWithLargestValueInLeftSubtree.getRight();
                     }
 
-                    r = smallestInRightTree;
+                    r = nodeWithLargestValueInLeftSubtree;
                     // update stuff because r != current
-                    leftChildExists = r.getLeft().getValue() != null;
-                    rightChildExists = r.getRight().getValue() != null;
-                    currentIsLeftChild = r.getValue().compareTo(ancestors.peek().getValue()) < 0;
-                    // save value of node that will be deleted
-                    current.setValue(smallestInRightTree.getValue());
+                    hasLeftValue = r.getLeft().getValue() != null;
+                    hasRightValue = r.getRight().getValue() != null;
+                    isLeftChild = r.getValue().compareTo(ancestors.peek().getValue()) < 0;
+                    // transfer value of r to current before it will be deleted
+                    current.setValue(r.getValue());
                 } else {
                     r = current;
                 }
@@ -262,40 +250,31 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
                     // easy insertion case 1
                     if (ancestors.isEmpty()) {
                         this.root = new RBNode<>();
+                    } else if (isLeftChild) {
+                        ancestors.peek().setLeft(new RBNode<>());
                     } else {
-                        if (currentIsLeftChild) {
-                            ancestors.peek().setLeft(new RBNode<>());
-                        } else {
-                            ancestors.peek().setRight(new RBNode<>());
-                        }
+                        ancestors.peek().setRight(new RBNode<>());
                     }
-                } else if (leftChildExists || rightChildExists) {   // can only have one child at most
+                } else if (hasLeftValue || hasRightValue) {   // can only have one child at most
                     // easy insertion case 2
-                    RBNode<T> child = leftChildExists ? r.getLeft() : r.getRight();
+                    RBNode<T> child = hasLeftValue ? r.getLeft() : r.getRight();
                     if (ancestors.isEmpty()) {
                         this.root = child;
+                    } else if (isLeftChild) {
+                        ancestors.peek().setLeft(child);
                     } else {
-                        if (currentIsLeftChild) {
-                            ancestors.peek().setLeft(child);
-                        } else {
-                            ancestors.peek().setRight(child);
-                        }
+                        ancestors.peek().setRight(child);
                     }
                     child.setColor(RBNode.Color.BLACK);
                 } else {
-                    // TODO: is this a bit too explicit?
                     if (ancestors.isEmpty()) {
                         this.root = new RBNode<>();
+                    } else if (isLeftChild) {
+                        ancestors.peek().setLeft(new RBNode<>());
+                        rebalanceDeletion(ancestors.peek().getLeft(), r.getValue(), ancestors);
                     } else {
-                        RBNode<T> n;
-                        if (currentIsLeftChild) {
-                            ancestors.peek().setLeft(new RBNode<>());
-                            n = ancestors.peek().getLeft();
-                        } else {
-                            ancestors.peek().setRight(new RBNode<>());
-                            n = ancestors.peek().getRight();
-                        }
-                        rebalanceDeletion(n, r.getValue(), ancestors);
+                        ancestors.peek().setRight(new RBNode<>());
+                        rebalanceDeletion(ancestors.peek().getRight(), r.getValue(), ancestors);
                     }
                 }
 
