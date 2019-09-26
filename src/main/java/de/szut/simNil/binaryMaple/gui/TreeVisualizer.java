@@ -75,7 +75,7 @@ public class TreeVisualizer<T extends Comparable<T>> {
             return;
         }
 
-        Node root = node(node.toString()).with(Style.FILLED, Color.WHITE.fill(), Color.BLACK.font());
+        Node root = node(node.toString()).with(Style.FILLED.and(Style.lineWidth(4)), Color.WHITE.fill(), Color.BLACK.font());
 
         if (node instanceof BNode) {
             if (node instanceof RBNode) {
@@ -95,21 +95,21 @@ public class TreeVisualizer<T extends Comparable<T>> {
                 root = root.with(Color.GREEN);
             }
 
-            root = addBNode(root, ((BNode) node).getLeft());
+            root = addBNode(root, ((BNode<T>) node).getLeft());
 
-            root = addBNode(root, ((BNode) node).getRight());
+            root = addBNode(root, ((BNode<T>) node).getRight());
 
         }
 
         if (this.highlightedNode != null && this.highlightedNode.getValue() != null && this.highlightedNode.getValue().compareTo(node.getValue()) == 0) {
-            root = root.with(Color.PINK);
+            root = root.with(Color.PURPLE);
         }
 
         this.nodes.add(root);
     }
 
     @NotNull
-    private Node addBNode(@NotNull Node root, @Nullable BNode node) {
+    private Node addBNode(@NotNull Node root, @Nullable BNode<T> node) {
         if (node != null && node.getValue() != null) {
             if (!this.collapseNodes.contains(node)) {
 
