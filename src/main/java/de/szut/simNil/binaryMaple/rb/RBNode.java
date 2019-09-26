@@ -2,14 +2,8 @@ package de.szut.simNil.binaryMaple.rb;
 
 import de.szut.simNil.binaryMaple.BNode;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-/**
- * Red Black Binary Tree Node with left and right child
- * and color
- *
- * @author wolke
- * @version 1.1, 19.08.2019
- */
 public class RBNode<T extends Comparable<T>> extends BNode<T> {
     @NotNull
     private Color color;
@@ -19,24 +13,26 @@ public class RBNode<T extends Comparable<T>> extends BNode<T> {
         this.color = Color.BLACK;   // initialize terminal nodes as black
     }
 
-    public RBNode(T value) {
+    public RBNode(@NotNull T value) {
         this.value = value;
         this.color = Color.RED; // initialize nodes with values as red
     }
 
+    @Nullable
     public RBNode<T> getLeft() {
         return (RBNode<T>) left;
     }
 
-    public void setLeft(RBNode<T> left) {
+    public void setLeft(@NotNull RBNode<T> left) {
         this.left = left;
     }
 
+    @Nullable
     public RBNode<T> getRight() {
         return (RBNode<T>) right;
     }
 
-    public void setRight(RBNode<T> right) {
+    public void setRight(@NotNull RBNode<T> right) {
         this.right = right;
     }
 

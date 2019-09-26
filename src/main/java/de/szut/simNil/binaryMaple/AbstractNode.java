@@ -1,5 +1,6 @@
 package de.szut.simNil.binaryMaple;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractNode<T extends Comparable<T>> {
@@ -9,7 +10,7 @@ public abstract class AbstractNode<T extends Comparable<T>> {
     public AbstractNode() {
     }
 
-    public AbstractNode(@Nullable T value) {
+    public AbstractNode(@NotNull T value) {
         this.value = value;
     }
 
@@ -18,7 +19,7 @@ public abstract class AbstractNode<T extends Comparable<T>> {
         return value;
     }
 
-    public void setValue(@Nullable T value) {
+    public void setValue(@NotNull T value) {
         this.value = value;
     }
 
