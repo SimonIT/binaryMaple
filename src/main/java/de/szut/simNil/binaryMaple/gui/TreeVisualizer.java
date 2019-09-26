@@ -75,13 +75,13 @@ public class TreeVisualizer<T extends Comparable<T>> {
             return;
         }
 
-        Node root = node(node.toString()).with(Style.FILLED.and(Style.lineWidth(4)), Color.WHITE.fill(), Color.BLACK.font());
+        Node root = node(node.toString()).with(Style.FILLED.and(Style.lineWidth(2)), Color.WHITE.fill(), Color.BLACK.font());
 
         if (node instanceof BNode) {
             if (node instanceof RBNode) {
                 switch (((RBNode) node).getColor()) {
                     case RED:
-                        root = root.with(Color.RED.fill());
+                        root = root.with(Color.RED.fill(), Color.RED);
                         break;
                     case BLACK:
                         root = root.with(Color.BLACK.fill(), Color.WHITE.font());
@@ -101,8 +101,12 @@ public class TreeVisualizer<T extends Comparable<T>> {
 
         }
 
+        if (this.tree.getRoot().equals(node)) {
+            root = root.with(Color.BROWN.fill(), Color.BROWN, Color.WHITE.font());
+        }
+
         if (this.highlightedNode != null && this.highlightedNode.getValue() != null && this.highlightedNode.getValue().compareTo(node.getValue()) == 0) {
-            root = root.with(Color.PURPLE);
+            root = root.with(Color.PURPLE.fill(), Color.PURPLE, Color.WHITE.font());
         }
 
         this.nodes.add(root);

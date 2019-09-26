@@ -11,8 +11,10 @@ import de.szut.simNil.binaryMaple.standard.StandardBinarySearchTree;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.FormatExtensionFilter;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -34,7 +36,7 @@ public class Main extends Application {
     };
     private static final Map<FileChooser.ExtensionFilter, Format> GRAPHVIZ_EXTENSIONS = FormatExtensionFilter.getFilters();
     private InterfaceBinarySearchTree<Integer> tree;
-    private TreeVisualizer visualizer;
+    private TreeVisualizer<Integer> visualizer;
     private ImageView imageView;
 
     public static void main(String[] args) {
@@ -44,11 +46,13 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
 
-        tree = new StandardBinarySearchTree<>();
+        this.tree = new StandardBinarySearchTree<>();
 
-        visualizer = new TreeVisualizer(tree);
+        this.visualizer = new TreeVisualizer<>(tree);
 
-        imageView = new ImageView();
+        this.imageView = new ImageView();
+
+        updateGraphvizImage();
 
         VBox box = new VBox();
 
@@ -205,7 +209,7 @@ public class Main extends Application {
         Button collapseButton = new Button("Ein-/Ausklappen");
 
         collapseButton.setOnAction(event -> {
-            AbstractNode collapseNode = tree.getNodeWithValue(Integer.valueOf(value.getText()));
+            AbstractNode<Integer> collapseNode = tree.getNodeWithValue(Integer.valueOf(value.getText()));
             if (visualizer.isCollapsed(collapseNode)) {
                 visualizer.removeCollapseNode(collapseNode);
             } else {
@@ -222,7 +226,7 @@ public class Main extends Application {
             Random random = new Random();
             for (int i = 0; i < Integer.parseInt(value.getText()); i++) {
                 try {
-                    tree.addValue(random.nextInt(Math.max(20, 2 * tree.getNodeCount())));
+                    tree.addValue(random.nextInt(Math.max(20, 4 * tree.getNodeCount())) - 2 * tree.getNodeCount());
                 } catch (BinarySearchTreeException e) {
                     i--;
                 }
@@ -249,8 +253,11 @@ public class Main extends Application {
     }
 
     private void updateGraphvizImage() {
-        this.visualizer.setTree(this.tree);
-        this.visualizer.createGraphviz();
-        this.imageView.setImage(this.visualizer.getGraphvizImage());
+        new Thread(() -> {
+            this.visualizer.setTree(this.tree);
+            this.visualizer.createGraphviz();
+            Image graphviz = this.visualizer.getGraphvizImage();
+            Platform.runLater(() -> this.imageView.setImage(graphviz));
+        }).start();
     }
 }
