@@ -26,18 +26,23 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
     }
 
     private void rebalanceInsertion(RBNode<T> current, Stack<RBNode<T>> ancestors) {
-        // E0
         if (ancestors.isEmpty()) {
+            System.out.println("insertion case 0");
             current.setColor(RBNode.Color.BLACK);
-            System.out.println("CASE E0");
             return;
         }
 
         RBNode<T> parent = ancestors.pop();
 
-        // E1
         if (parent.getColor() == RBNode.Color.BLACK) {
-            System.out.println("CASE E1");
+            System.out.println("insertion case 1");
+            return;
+        }
+
+
+        if (ancestors.isEmpty()) {
+            System.out.println("insertion case 2");
+            parent.setColor(RBNode.Color.BLACK);
             return;
         }
 
@@ -49,8 +54,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
 
         if (pibling.getColor() == RBNode.Color.BLACK) {
             if (currentIsLeftChild != parentIsLeftChild) {
-                // E3
-                System.out.println("CASE E3");
+                System.out.println("insertion case 3");
                 if (parentIsLeftChild) {
                     grandparent.setLeft(current);
                     parent.setRight(current.getLeft());
@@ -60,13 +64,10 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
                     parent.setLeft(current.getRight());
                     current.setRight(parent);
                 }
-                RBNode<T> temp = current;
-                current = parent;
-                parent = temp;
+                parent = current;   // current is not needed for insertion case E4
             }
 
-            // E4
-            System.out.println("CASE E4");
+            System.out.println("insertion case 4");
             if (parentIsLeftChild) {
                 grandparent.setLeft(parent.getRight());
                 parent.setRight(grandparent);
@@ -87,8 +88,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
                 }
             }
         } else {
-            // E5
-            System.out.println("CASE E5");
+            System.out.println("insertion case 5");
             parent.setColor(RBNode.Color.BLACK);
             pibling.setColor(RBNode.Color.BLACK);
             grandparent.setColor(RBNode.Color.RED);
@@ -120,7 +120,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
     public void rebalanceDeletion(RBNode<T> current, T originalCurrentValue, Stack<RBNode<T>> ancestors) {
         // L0
         if (ancestors.isEmpty()) {
-            System.out.println("CASE L0");
+            System.out.println("insertion case L0");
             return;
         }
 
@@ -131,7 +131,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
 
         // L2
         if (sibling.getColor() == RBNode.Color.RED) {
-            System.out.println("CASE L2");
+            System.out.println("insertion case L2");
             if (ancestors.isEmpty()) {
                 this.root = sibling;
             } else {
@@ -163,13 +163,13 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
         if (sibling.getValue() == null || sibling.getLeft().getColor() == RBNode.Color.BLACK && sibling.getRight().getColor() == RBNode.Color.BLACK) {
             if (parent.getColor() == RBNode.Color.BLACK) {
                 // L1
-                System.out.println("CASE L1");
+                System.out.println("insertion case L1");
                 sibling.setColor(RBNode.Color.RED);
                 rebalanceDeletion(parent, parent.getValue(), ancestors);
                 return;
             } else {
                 // L3
-                System.out.println("CASE L3");
+                System.out.println("insertion case L3");
                 parent.setColor(RBNode.Color.BLACK);
                 sibling.setColor(RBNode.Color.RED);
                 return;
@@ -180,7 +180,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
 
         // L5
         if (farNephew.getColor() == RBNode.Color.RED) {
-            System.out.println("CASE L5");
+            System.out.println("insertion case L5");
             if (ancestors.isEmpty()) {
                 this.root = sibling;
             } else {
@@ -208,7 +208,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
         }
 
         // L4
-        System.out.println("CASE L4");
+        System.out.println("insertion case L4");
         RBNode<T> closeNephew = currentIsLeftChild ? sibling.getLeft() : sibling.getRight();
         assert (closeNephew.getColor() == RBNode.Color.RED); // must be red
 
@@ -259,7 +259,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
                 }
 
                 if (r.getColor() == RBNode.Color.RED) {
-                    // easy case 1
+                    // easy insertion case 1
                     if (ancestors.isEmpty()) {
                         this.root = new RBNode<>();
                     } else {
@@ -270,7 +270,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
                         }
                     }
                 } else if (leftChildExists || rightChildExists) {   // can only have one child at most
-                    // easy case 2
+                    // easy insertion case 2
                     RBNode<T> child = leftChildExists ? r.getLeft() : r.getRight();
                     if (ancestors.isEmpty()) {
                         this.root = child;
