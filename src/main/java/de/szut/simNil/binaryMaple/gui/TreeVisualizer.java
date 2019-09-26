@@ -18,6 +18,9 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -136,7 +139,25 @@ public class TreeVisualizer<T extends Comparable<T>> {
 
     @NotNull
     public Image getGraphvizImage() {
-        return SwingFXUtils.toFXImage(this.graphviz.render(Format.SVG).toImage(), null);
+        BufferedImage grass = null;
+        try {
+            grass = ImageIO.read(TreeVisualizer.class.getResourceAsStream("grass_PNG10856.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        BufferedImage graphviz = this.graphviz.render(Format.SVG).toImage();
+
+        BufferedImage combined = new BufferedImage(graphviz.getWidth(), graphviz.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+        Graphics g = combined.getGraphics();
+        if (grass != null) {
+            for (int i = 0; i < Math.ceil(graphviz.getWidth() / (double) grass.getWidth()); ++i) {
+                g.drawImage(grass, i * grass.getWidth(), 0, null);
+            }
+        }
+        g.drawImage(graphviz, 0, 0, null);
+
+        return SwingFXUtils.toFXImage(combined, null);
     }
 
     public void saveGraphviz(File file, Format format) throws IOException {
