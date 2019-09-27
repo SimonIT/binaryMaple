@@ -74,7 +74,10 @@ public class Controller implements Initializable {
             this.visualizer.setTree(this.tree);
             this.visualizer.createGraphviz();
             Image graphviz = this.visualizer.getGraphvizImage();
-            Platform.runLater(() -> this.graphvizImageView.setImage(this.tree.getNodeCount() > 0 ? graphviz : null));
+            Platform.runLater(() -> {
+                this.graphvizImageView.setImage(this.tree.getNodeCount() > 0 ? graphviz : null);
+                this.showProgress.setProgress(1);
+            });
         }).start();
     }
 
@@ -83,6 +86,7 @@ public class Controller implements Initializable {
         chooser.getExtensionFilters().setAll(TREE_EXTENSION);
         File file = chooser.showOpenDialog(this.stage);
         if (file != null) {
+            this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
             XStream xStream = new XStream(new StaxDriver());
             this.tree = (InterfaceBinarySearchTree<Integer>) xStream.fromXML(file);
             updateGraphvizImage();
@@ -94,6 +98,7 @@ public class Controller implements Initializable {
         chooser.getExtensionFilters().setAll(TREE_EXTENSION);
         File file = chooser.showSaveDialog(this.stage);
         if (file != null) {
+            this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
             XStream xStream = new XStream(new StaxDriver());
             try {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
@@ -102,6 +107,7 @@ public class Controller implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            this.showProgress.setProgress(1);
         }
     }
 
@@ -119,6 +125,7 @@ public class Controller implements Initializable {
     }
 
     public void convertToStandardTree(ActionEvent actionEvent) {
+        this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         List<Integer> values = this.tree.traverse(Order.PREORDER);
         this.tree = new StandardBinarySearchTree<>();
         try {
@@ -131,40 +138,48 @@ public class Controller implements Initializable {
     }
 
     public void convertToRedBlackTree(ActionEvent actionEvent) {
+        this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         List<Integer> values = this.tree.traverse(Order.PREORDER);
         this.tree = new RedBlackBinarySearchTree<>();
         try {
             addValuesToTree(values);
+            updateGraphvizImage();
         } catch (BinarySearchTreeException e) {
             e.printStackTrace();
+            this.showProgress.setProgress(0);
         }
-        updateGraphvizImage();
     }
 
     public void showNullNodes(ActionEvent actionEvent) {
+        this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         this.visualizer.setShowNullNodes(this.showNullCheckBox.isSelected());
         updateGraphvizImage();
     }
 
     public void addValue(ActionEvent actionEvent) {
+        this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         try {
             this.tree.addValue(Integer.valueOf(this.valueField.getText()));
             updateGraphvizImage();
         } catch (BinarySearchTreeException e) {
             System.out.println(e.getMessage());
+            this.showProgress.setProgress(0);
         }
     }
 
     public void delValue(ActionEvent actionEvent) {
+        this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         try {
             this.tree.delValue(Integer.valueOf(this.valueField.getText()));
             updateGraphvizImage();
         } catch (BinarySearchTreeException e) {
             System.out.println(e.getMessage());
+            this.showProgress.setProgress(0);
         }
     }
 
     public void searchValue(ActionEvent actionEvent) {
+        this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         if (this.valueField.getText().isEmpty()) {
             this.visualizer.setHighlightedNode(null);
         } else {
@@ -174,6 +189,7 @@ public class Controller implements Initializable {
     }
 
     public void collapseAtValue(ActionEvent actionEvent) {
+        this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         AbstractNode<Integer> collapseNode = this.tree.getNodeWithValue(Integer.valueOf(this.valueField.getText()));
         if (this.visualizer.isCollapsed(collapseNode)) {
             this.visualizer.removeCollapseNode(collapseNode);
@@ -184,6 +200,7 @@ public class Controller implements Initializable {
     }
 
     public void generateValueTimes(ActionEvent actionEvent) {
+        this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         new Thread(() -> {
             Random random = new Random();
             for (int i = 0; i < Integer.parseInt(this.valueField.getText()); i++) {

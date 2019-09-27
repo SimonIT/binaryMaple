@@ -40,7 +40,7 @@
             </padding>
         </VBox>
 
-        <ScrollPane HBox.hgrow="ALWAYS">
+        <ScrollPane fitToHeight="true" fitToWidth="true" HBox.hgrow="ALWAYS">
             <ImageView fx:id="graphvizImageView">
 
             </ImageView>
