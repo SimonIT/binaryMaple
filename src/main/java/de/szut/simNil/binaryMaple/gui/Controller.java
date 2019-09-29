@@ -14,6 +14,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
@@ -23,10 +24,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.Setter;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
@@ -73,11 +71,22 @@ public class Controller implements Initializable {
         new Thread(() -> {
             this.visualizer.setTree(this.tree);
             this.visualizer.createGraphviz();
-            Image graphviz = this.visualizer.getGraphvizImage();
-            Platform.runLater(() -> {
-                this.graphvizImageView.setImage(this.tree.getNodeCount() > 0 ? graphviz : null);
-                this.showProgress.setProgress(1);
-            });
+            try {
+                Image graphviz = this.visualizer.getGraphvizImage();
+                Platform.runLater(() -> {
+                    this.graphvizImageView.setImage(this.tree.getNodeCount() > 0 ? graphviz : null);
+                    this.showProgress.setProgress(1);
+                });
+            } catch (OutOfMemoryError e) {
+                Platform.runLater(() -> {
+                    this.graphvizImageView.setImage(null);
+                    this.showProgress.setProgress(0);
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText("Fehler beim Erstellen des Bildes!");
+                    alert.setContentText("Es scheint, als hätte Java zu wenig Arbeitsspeicher zur Verfügung um das Graphviz zu erstellen.");
+                    alert.show();
+                });
+            }
         }).start();
     }
 
@@ -87,9 +96,20 @@ public class Controller implements Initializable {
         File file = chooser.showOpenDialog(this.stage);
         if (file != null) {
             this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
-            XStream xStream = new XStream(new StaxDriver());
-            this.tree = (InterfaceBinarySearchTree<Integer>) xStream.fromXML(file);
-            updateGraphvizImage();
+            new Thread(() -> {
+                try {
+                    BufferedReader reader = new BufferedReader(new FileReader(file));
+                    if (chooser.getSelectedExtensionFilter().equals(TREE_EXTENSION[0])) {
+                        XStream xStream = new XStream(new StaxDriver());
+                        this.tree = (InterfaceBinarySearchTree<Integer>) xStream.fromXML(reader);
+                    }
+                    reader.close();
+                    updateGraphvizImage();
+                } catch (IOException e) {
+                    Platform.runLater(() -> this.showProgress.setProgress(0));
+                    e.printStackTrace();
+                }
+            }).start();
         }
     }
 
@@ -99,15 +119,20 @@ public class Controller implements Initializable {
         File file = chooser.showSaveDialog(this.stage);
         if (file != null) {
             this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
-            XStream xStream = new XStream(new StaxDriver());
-            try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                xStream.toXML(this.tree, writer);
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            this.showProgress.setProgress(1);
+            new Thread(() -> {
+                try {
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                    if (chooser.getSelectedExtensionFilter().equals(TREE_EXTENSION[0])) {
+                        XStream xStream = new XStream(new StaxDriver());
+                        xStream.toXML(this.tree, writer);
+                    }
+                    writer.close();
+                } catch (IOException e) {
+                    Platform.runLater(() -> this.showProgress.setProgress(0));
+                    e.printStackTrace();
+                }
+                Platform.runLater(() -> this.showProgress.setProgress(1));
+            }).start();
         }
     }
 
@@ -145,8 +170,8 @@ public class Controller implements Initializable {
             addValuesToTree(values);
             updateGraphvizImage();
         } catch (BinarySearchTreeException e) {
-            e.printStackTrace();
             this.showProgress.setProgress(0);
+            e.printStackTrace();
         }
     }
 
