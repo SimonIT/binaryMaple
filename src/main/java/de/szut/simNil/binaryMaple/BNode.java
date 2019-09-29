@@ -15,7 +15,7 @@ public class BNode<T extends Comparable<T>> extends AbstractNode<T> {
     }
 
     public BNode(@NotNull T value) {
-        this.value = value;
+        super(value);
     }
 
     @Nullable

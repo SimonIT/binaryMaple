@@ -14,7 +14,7 @@ public class RBNode<T extends Comparable<T>> extends BNode<T> {
     }
 
     public RBNode(@NotNull T value) {
-        this.value = value;
+        super(value);
         this.color = Color.RED; // initialize nodes with values as red
     }
 
