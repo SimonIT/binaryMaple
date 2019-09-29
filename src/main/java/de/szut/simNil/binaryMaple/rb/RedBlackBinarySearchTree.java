@@ -115,14 +115,14 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
     }
 
     // current = n (on Wikipedia)
-    public void rebalanceDeletion(RBNode<T> current, T originalCurrentValue, Stack<RBNode<T>> ancestors) {
+    public void rebalanceDeletion(T deletedValue, Stack<RBNode<T>> ancestors) {
         if (ancestors.isEmpty()) {
             System.out.println("deletion case 0");
             return;
         }
 
         RBNode<T> parent = ancestors.pop();
-        boolean isLeftChild = originalCurrentValue.compareTo(parent.getValue()) < 0;
+        boolean isLeftChild = deletedValue.compareTo(parent.getValue()) < 0;
         RBNode<T> sibling = isLeftChild ? parent.getRight() : parent.getLeft();
 
         if (sibling.getColor() == RBNode.Color.RED) {
@@ -150,7 +150,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
             sibling.setColor(RBNode.Color.BLACK);
             ancestors.push(sibling);
             ancestors.push(parent);
-            rebalanceDeletion(current, originalCurrentValue, ancestors);
+            rebalanceDeletion(deletedValue, ancestors);
             return;
         }
 
@@ -158,7 +158,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
             if (parent.getColor() == RBNode.Color.BLACK) {
                 System.out.println("deletion case 1");
                 sibling.setColor(RBNode.Color.RED);
-                rebalanceDeletion(parent, parent.getValue(), ancestors);
+                rebalanceDeletion(parent.getValue(), ancestors);
                 return;
             } else {
                 System.out.println("deletion case 3");
@@ -211,7 +211,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
         sibling.setColor(RBNode.Color.RED);
         closeNephew.setColor(RBNode.Color.BLACK);
         ancestors.push(parent);
-        rebalanceDeletion(current, originalCurrentValue, ancestors);
+        rebalanceDeletion(deletedValue, ancestors);
     }
 
     @Override
@@ -224,9 +224,10 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
                 boolean hasLeftValue = current.getLeft().getValue() != null;
                 boolean hasRightValue = current.getRight().getValue() != null;
                 boolean isLeftChild = ancestors.isEmpty() || current.getValue().compareTo(ancestors.peek().getValue()) < 0;
+                boolean updateCurrentValueAtEnd = false;
+                T newCurrentValue = current.getValue();
 
                 RBNode<T> r;    // node to be deleted
-
                 if (hasLeftValue && hasRightValue) {
                     ancestors.push(current);
                     RBNode<T> nodeWithLargestValueInLeftSubtree = current.getLeft();
@@ -240,14 +241,16 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
                     hasLeftValue = r.getLeft().getValue() != null;
                     hasRightValue = r.getRight().getValue() != null;
                     isLeftChild = r.getValue().compareTo(ancestors.peek().getValue()) < 0;
-                    // transfer value of r to current before it will be deleted
-                    current.setValue(r.getValue());
+
+                    // save value of r before it will be deleted
+                    updateCurrentValueAtEnd = true;
+                    newCurrentValue = r.getValue();
                 } else {
                     r = current;
                 }
 
                 if (r.getColor() == RBNode.Color.RED) {
-                    // easy insertion case 1
+                    // easy deletion case 1
                     if (ancestors.isEmpty()) {
                         this.root = new RBNode<>();
                     } else if (isLeftChild) {
@@ -256,7 +259,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
                         ancestors.peek().setRight(new RBNode<>());
                     }
                 } else if (hasLeftValue || hasRightValue) {   // can only have one child at most
-                    // easy insertion case 2
+                    // easy deletion case 2
                     RBNode<T> child = hasLeftValue ? r.getLeft() : r.getRight();
                     if (ancestors.isEmpty()) {
                         this.root = child;
@@ -271,11 +274,14 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
                         this.root = new RBNode<>();
                     } else if (isLeftChild) {
                         ancestors.peek().setLeft(new RBNode<>());
-                        rebalanceDeletion(ancestors.peek().getLeft(), r.getValue(), ancestors);
+                        rebalanceDeletion(r.getValue(), ancestors);
                     } else {
                         ancestors.peek().setRight(new RBNode<>());
-                        rebalanceDeletion(ancestors.peek().getRight(), r.getValue(), ancestors);
+                        rebalanceDeletion(r.getValue(), ancestors);
                     }
+                }
+                if (updateCurrentValueAtEnd) {
+                    current.setValue(newCurrentValue);
                 }
 
                 --this.nodeCount;
