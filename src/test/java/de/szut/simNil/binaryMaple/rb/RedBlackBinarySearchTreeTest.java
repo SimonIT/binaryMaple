@@ -91,7 +91,229 @@ class RedBlackBinarySearchTreeTest {
     }
 
     @Test
+    void delValueEasyCase1() {
+        RedBlackBinarySearchTree<Integer> tree = new RedBlackBinarySearchTree<>();
+        try {
+            tree.addValue(3);
+            tree.addValue(4);
+            tree.addValue(-5);
+            tree.addValue(7);
+            tree.delValue(7);
+        } catch (BinarySearchTreeException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(3, tree.getRoot().getValue());
+        assertEquals(RBNode.Color.BLACK, tree.getRoot().getColor());
+
+        assertEquals(-5, tree.getRoot().getLeft().getValue());
+        assertEquals(RBNode.Color.BLACK, tree.getRoot().getLeft().getColor());
+        assertNull(tree.getRoot().getLeft().getLeft().getValue());
+        assertNull(tree.getRoot().getLeft().getRight().getValue());
+
+
+        assertEquals(4, tree.getRoot().getRight().getValue());
+        assertEquals(RBNode.Color.BLACK, tree.getRoot().getRight().getColor());
+        assertNull(tree.getRoot().getRight().getLeft().getValue());
+        assertNull(tree.getRoot().getRight().getRight().getValue());
+    }
+
+    @Test
+    void delValueEasyCase2() {
+        RedBlackBinarySearchTree<Integer> tree = new RedBlackBinarySearchTree<>();
+        try {
+            tree.addValue(3);
+            tree.addValue(4);
+            tree.addValue(-5);
+            tree.addValue(7);
+            tree.delValue(4);
+        } catch (BinarySearchTreeException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(3, tree.getRoot().getValue());
+        assertEquals(RBNode.Color.BLACK, tree.getRoot().getColor());
+
+        assertEquals(-5, tree.getRoot().getLeft().getValue());
+        assertEquals(RBNode.Color.BLACK, tree.getRoot().getLeft().getColor());
+        assertNull(tree.getRoot().getLeft().getLeft().getValue());
+        assertNull(tree.getRoot().getLeft().getRight().getValue());
+
+
+        assertEquals(7, tree.getRoot().getRight().getValue());
+        assertEquals(RBNode.Color.BLACK, tree.getRoot().getRight().getColor());
+        assertNull(tree.getRoot().getRight().getLeft().getValue());
+        assertNull(tree.getRoot().getRight().getRight().getValue());
+    }
+
+    @Test
+    void delValueCase0() {
+        RedBlackBinarySearchTree<Integer> tree = new RedBlackBinarySearchTree<>();
+        try {
+            tree.addValue(3);
+            tree.delValue(3);
+        } catch (BinarySearchTreeException e) {
+            e.printStackTrace();
+        }
+
+        assertNull(tree.getRoot().getValue());
+    }
+
+    @Test
+    void delValueCase1() {
+        RedBlackBinarySearchTree<Integer> tree = new RedBlackBinarySearchTree<>();
+        try {
+            tree.addValue(3);
+            tree.addValue(4);
+            tree.addValue(-5);
+            tree.addValue(7);
+            tree.delValue(7);   // assuming that easy case 1 works
+            tree.delValue(4);
+        } catch (BinarySearchTreeException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(3, tree.getRoot().getValue());
+        assertEquals(RBNode.Color.BLACK, tree.getRoot().getColor());
+
+        assertEquals(-5, tree.getRoot().getLeft().getValue());
+        assertEquals(RBNode.Color.RED, tree.getRoot().getLeft().getColor());
+        assertNull(tree.getRoot().getLeft().getLeft().getValue());
+        assertNull(tree.getRoot().getLeft().getRight().getValue());
+
+        assertNull(tree.getRoot().getRight().getValue());
+    }
+
+    @Test
+    void delValueCase2() {
+        // deletion case 3 is also tested because it is immediately followed by this scenario
+        RedBlackBinarySearchTree<Integer> tree = new RedBlackBinarySearchTree<>();
+        try {
+            tree.addValue(3);
+            tree.addValue(4);
+            tree.addValue(-5);
+            tree.addValue(7);
+            tree.addValue(10);
+            tree.addValue(13);
+            tree.delValue(-5);
+        } catch (BinarySearchTreeException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(7, tree.getRoot().getValue());
+        assertEquals(RBNode.Color.BLACK, tree.getRoot().getColor());
+
+        assertEquals(3, tree.getRoot().getLeft().getValue());
+        assertEquals(RBNode.Color.BLACK, tree.getRoot().getLeft().getColor());
+        assertNull(tree.getRoot().getLeft().getLeft().getValue());
+
+        assertEquals(4, tree.getRoot().getLeft().getRight().getValue());
+        assertEquals(RBNode.Color.RED, tree.getRoot().getLeft().getRight().getColor());
+        assertNull(tree.getRoot().getLeft().getRight().getLeft().getValue());
+        assertNull(tree.getRoot().getLeft().getRight().getRight().getValue());
+
+        assertEquals(10, tree.getRoot().getRight().getValue());
+        assertEquals(RBNode.Color.BLACK, tree.getRoot().getRight().getColor());
+        assertNull(tree.getRoot().getRight().getLeft().getValue());
+
+        assertEquals(13, tree.getRoot().getRight().getRight().getValue());
+        assertEquals(RBNode.Color.RED, tree.getRoot().getRight().getRight().getColor());
+        assertNull(tree.getRoot().getRight().getRight().getLeft().getValue());
+        assertNull(tree.getRoot().getRight().getRight().getRight().getValue());
+    }
+
+    @Test
+    void delValueCase3() {
+        RedBlackBinarySearchTree<Integer> tree = new RedBlackBinarySearchTree<>();
+        try {
+            tree.addValue(3);
+            tree.addValue(4);
+            tree.addValue(-5);
+            tree.addValue(7);
+            tree.addValue(8);
+            tree.addValue(9);
+            tree.delValue(9);   // assuming that easy case 1 works
+            tree.delValue(4);
+        } catch (BinarySearchTreeException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(3, tree.getRoot().getValue());
+        assertEquals(RBNode.Color.BLACK, tree.getRoot().getColor());
+
+        assertEquals(-5, tree.getRoot().getLeft().getValue());
+        assertEquals(RBNode.Color.BLACK, tree.getRoot().getLeft().getColor());
+        assertNull(tree.getRoot().getLeft().getLeft().getValue());
+        assertNull(tree.getRoot().getLeft().getRight().getValue());
+
+        assertEquals(7, tree.getRoot().getRight().getValue());
+        assertEquals(RBNode.Color.BLACK, tree.getRoot().getRight().getColor());
+        assertNull(tree.getRoot().getRight().getLeft().getValue());
+
+        assertEquals(8, tree.getRoot().getRight().getRight().getValue());
+        assertEquals(RBNode.Color.RED, tree.getRoot().getRight().getRight().getColor());
+        assertNull(tree.getRoot().getRight().getRight().getLeft().getValue());
+        assertNull(tree.getRoot().getRight().getRight().getRight().getValue());
+    }
+
+    @Test
+    void delValueCase4() {
+        // deletion case 5 is also tested because it is immediately followed by this scenario
+        RedBlackBinarySearchTree<Integer> tree = new RedBlackBinarySearchTree<>();
+        try {
+            tree.addValue(2);
+            tree.addValue(7);
+            tree.addValue(-6);
+            tree.addValue(5);
+            tree.delValue(-6);
+        } catch (BinarySearchTreeException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(5, tree.getRoot().getValue());
+        assertEquals(RBNode.Color.BLACK, tree.getRoot().getColor());
+
+        assertEquals(2, tree.getRoot().getLeft().getValue());
+        assertEquals(RBNode.Color.BLACK, tree.getRoot().getLeft().getColor());
+        assertNull(tree.getRoot().getLeft().getLeft().getValue());
+        assertNull(tree.getRoot().getLeft().getRight().getValue());
+
+        assertEquals(7, tree.getRoot().getRight().getValue());
+        assertEquals(RBNode.Color.BLACK, tree.getRoot().getRight().getColor());
+        assertNull(tree.getRoot().getRight().getLeft().getValue());
+        assertNull(tree.getRoot().getRight().getRight().getValue());
+    }
+
+    @Test
+    void delValueCase5() {
+        RedBlackBinarySearchTree<Integer> tree = new RedBlackBinarySearchTree<>();
+        try {
+            tree.addValue(2);
+            tree.addValue(7);
+            tree.addValue(-6);
+            tree.addValue(10);
+            tree.delValue(-6);
+        } catch (BinarySearchTreeException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(7, tree.getRoot().getValue());
+        assertEquals(RBNode.Color.BLACK, tree.getRoot().getColor());
+
+        assertEquals(2, tree.getRoot().getLeft().getValue());
+        assertEquals(RBNode.Color.BLACK, tree.getRoot().getLeft().getColor());
+        assertNull(tree.getRoot().getLeft().getLeft().getValue());
+        assertNull(tree.getRoot().getLeft().getRight().getValue());
+
+        assertEquals(10, tree.getRoot().getRight().getValue());
+        assertEquals(RBNode.Color.BLACK, tree.getRoot().getRight().getColor());
+        assertNull(tree.getRoot().getRight().getLeft().getValue());
+        assertNull(tree.getRoot().getRight().getRight().getValue());
+    }
+
+    @Test
     void delValue() {
+        // done in separate tests
     }
 
     @Test
