@@ -66,7 +66,11 @@ public class TreeVisualizer<T extends Comparable<T>> {
     public List<Node> getNodes() {
         this.nodes.clear();
         this.duplicateNodeNumber = 0;
-        addNode(this.tree.getRoot());
+        if (this.collapseNodes.contains(this.tree.getRoot())) {
+            this.nodes.add(createCollapseNode(this.tree.getRoot()));
+        } else {
+            addNode(this.tree.getRoot());
+        }
         return this.nodes;
     }
 
@@ -123,7 +127,7 @@ public class TreeVisualizer<T extends Comparable<T>> {
 
                 addNode(node);
             } else {
-                Node nodeCollapse = node(String.format("collapse%d", duplicateNodeNumber++)).with(Label.of(""), Shape.TRIANGLE);
+                Node nodeCollapse = createCollapseNode(node);
                 this.nodes.add(nodeCollapse);
                 root = root.link(to(nodeCollapse));
             }
@@ -135,6 +139,10 @@ public class TreeVisualizer<T extends Comparable<T>> {
             }
         }
         return root;
+    }
+
+    private Node createCollapseNode(AbstractNode<T> node) {
+        return node(String.format("collapse%d", duplicateNodeNumber++)).with(Label.of(node.toString()), Shape.TRIANGLE);
     }
 
     public void createGraphviz() {
