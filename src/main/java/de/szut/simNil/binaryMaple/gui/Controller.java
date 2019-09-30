@@ -107,11 +107,11 @@ public class Controller implements Initializable {
                     if (chooser.getSelectedExtensionFilter().equals(TREE_EXTENSION[0])) {
                         XStream xStream = new XStream(new StaxDriver());
                         this.tree = (InterfaceBinarySearchTree<Integer>) xStream.fromXML(reader);
-                        this.standardTree.setSelected(this.tree instanceof StandardBinarySearchTree);
-                        this.redBlackTree.setSelected(this.tree instanceof RedBlackBinarySearchTree);
-                        this.avlTree.setSelected(this.tree instanceof AVLBinarySearchTree);
                     }
                     reader.close();
+                    this.standardTree.setSelected(this.tree instanceof StandardBinarySearchTree);
+                    this.redBlackTree.setSelected(this.tree instanceof RedBlackBinarySearchTree);
+                    this.avlTree.setSelected(this.tree instanceof AVLBinarySearchTree);
                     updateGraphvizImage();
                 } catch (IOException e) {
                     Platform.runLater(() -> this.showProgress.setProgress(0));

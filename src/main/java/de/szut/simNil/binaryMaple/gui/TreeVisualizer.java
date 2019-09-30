@@ -50,18 +50,31 @@ public class TreeVisualizer<T extends Comparable<T>> {
         this.tree = tree;
     }
 
+    /**
+     * @param node the node where to collapse
+     */
     public void addCollapseNode(AbstractNode<T> node) {
         this.collapseNodes.add(node);
     }
 
+    /**
+     * @param node the node to check if collapsed
+     * @return if the node is collapsed
+     */
     public boolean isCollapsed(AbstractNode<T> node) {
         return this.collapseNodes.contains(node);
     }
 
+    /**
+     * @param node the node to uncollapse
+     */
     public void removeCollapseNode(AbstractNode<T> node) {
         this.collapseNodes.remove(node);
     }
 
+    /**
+     * @return all abstract nodes of the tree as graphviz nodes
+     */
     @NotNull
     public List<Node> getNodes() {
         this.nodes.clear();
@@ -141,14 +154,26 @@ public class TreeVisualizer<T extends Comparable<T>> {
         return root;
     }
 
+    /**
+     * @param node a binary tree node
+     * @return a graphviz triangle node with the value of the binary tree node
+     */
     private Node createCollapseNode(AbstractNode<T> node) {
         return node(String.format("collapse%d", duplicateNodeNumber++)).with(Label.of(node.toString()), Shape.TRIANGLE);
     }
 
+    /**
+     * creates the graphviz from the nodes
+     */
     public void createGraphviz() {
         this.graphviz = Graphviz.fromGraph(graph().with(this.getNodes()).graphAttr().with(Color.rgba("00000000").background()));
     }
 
+    /**
+     * creates a JavaFX image with grass as background and the graphviz in the foreground
+     *
+     * @return a JavaFX image
+     */
     @NotNull
     public Image getGraphvizImage() {
         BufferedImage grass = null;
@@ -172,6 +197,13 @@ public class TreeVisualizer<T extends Comparable<T>> {
         return SwingFXUtils.toFXImage(combined, null);
     }
 
+    /**
+     * saves the graphviz
+     *
+     * @param file   where to save
+     * @param format the format
+     * @throws IOException not possible to save the file
+     */
     public void saveGraphviz(File file, Format format) throws IOException {
         this.graphviz.render(format).toFile(file);
     }
