@@ -15,10 +15,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -43,6 +40,13 @@ public class Controller implements Initializable {
     private Stage stage;
     private InterfaceBinarySearchTree<Integer> tree;
     private TreeVisualizer<Integer> visualizer;
+
+    @FXML
+    private RadioButton standardTree;
+    @FXML
+    private RadioButton redBlackTree;
+    @FXML
+    private RadioButton avlTree;
 
     @FXML
     private CheckBox showNullCheckBox;
@@ -103,6 +107,9 @@ public class Controller implements Initializable {
                     if (chooser.getSelectedExtensionFilter().equals(TREE_EXTENSION[0])) {
                         XStream xStream = new XStream(new StaxDriver());
                         this.tree = (InterfaceBinarySearchTree<Integer>) xStream.fromXML(reader);
+                        this.standardTree.setSelected(this.tree instanceof StandardBinarySearchTree);
+                        this.redBlackTree.setSelected(this.tree instanceof RedBlackBinarySearchTree);
+                        this.avlTree.setSelected(this.tree instanceof AVLBinarySearchTree);
                     }
                     reader.close();
                     updateGraphvizImage();
