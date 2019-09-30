@@ -6,6 +6,7 @@ import de.szut.simNil.binaryMaple.AbstractNode;
 import de.szut.simNil.binaryMaple.BinarySearchTreeException;
 import de.szut.simNil.binaryMaple.InterfaceBinarySearchTree;
 import de.szut.simNil.binaryMaple.Order;
+import de.szut.simNil.binaryMaple.avl.AVLBinarySearchTree;
 import de.szut.simNil.binaryMaple.rb.RedBlackBinarySearchTree;
 import de.szut.simNil.binaryMaple.standard.StandardBinarySearchTree;
 import guru.nidi.graphviz.engine.Format;
@@ -166,6 +167,19 @@ public class Controller implements Initializable {
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         List<Integer> values = this.tree.traverse(Order.PREORDER);
         this.tree = new RedBlackBinarySearchTree<>();
+        try {
+            addValuesToTree(values);
+            updateGraphvizImage();
+        } catch (BinarySearchTreeException e) {
+            this.showProgress.setProgress(0);
+            e.printStackTrace();
+        }
+    }
+
+    public void convertToAvlTree(ActionEvent actionEvent) {
+        this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+        List<Integer> values = this.tree.traverse(Order.PREORDER);
+        this.tree = new AVLBinarySearchTree<>();
         try {
             addValuesToTree(values);
             updateGraphvizImage();

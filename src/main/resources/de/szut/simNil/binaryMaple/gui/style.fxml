@@ -21,6 +21,7 @@
             <RadioButton onAction="#convertToStandardTree" selected="true" text="Standard-Baum"
                          toggleGroup="$treeType"/>
             <RadioButton onAction="#convertToRedBlackTree" text="Rot-Schwarz-Baum" toggleGroup="$treeType"/>
+            <RadioButton onAction="#convertToAvlTree" text="AVL-Baum" toggleGroup="$treeType"/>
             <Separator prefWidth="200.0"/>
             <CheckBox fx:id="showNullCheckBox" onAction="#showNullNodes" text="Terminal-Knoten anzeigen"/>
             <CheckBox mnemonicParsing="false" text="Blätter grün anzeigen"/>
