@@ -18,11 +18,11 @@
     </MenuBar>
     <HBox VBox.vgrow="ALWAYS">
         <VBox minWidth="200.0" spacing="10.0">
-            <RadioButton onAction="#convertToStandardTree" selected="true" text="Standard-Baum"
-                         toggleGroup="$treeType" fx:id="standardTree"/>
-            <RadioButton onAction="#convertToRedBlackTree" text="Rot-Schwarz-Baum" toggleGroup="$treeType"
-                         fx:id="redBlackTree"/>
-            <RadioButton onAction="#convertToAvlTree" text="AVL-Baum" toggleGroup="$treeType" fx:id="avlTree"/>
+            <RadioButton fx:id="standardTree" onAction="#convertToStandardTree" selected="true" text="Standard-Baum"
+                         toggleGroup="$treeType"/>
+            <RadioButton fx:id="redBlackTree" onAction="#convertToRedBlackTree" text="Rot-Schwarz-Baum"
+                         toggleGroup="$treeType"/>
+            <RadioButton fx:id="avlTree" onAction="#convertToAvlTree" text="AVL-Baum" toggleGroup="$treeType"/>
             <Separator prefWidth="200.0"/>
             <CheckBox fx:id="showNullCheckBox" onAction="#showNullNodes" text="Terminal-Knoten anzeigen"/>
             <CheckBox mnemonicParsing="false" text="Blätter grün anzeigen"/>
@@ -34,6 +34,8 @@
             <Button maxWidth="1.7976931348623157E308" onAction="#collapseAtValue" text="Ein-/Ausklappen"/>
             <Button maxWidth="1.7976931348623157E308" onAction="#generateValueTimes" text="Zufall"/>
             <ProgressIndicator fx:id="showProgress" maxWidth="1.7976931348623157E308" progress="0.0"/>
+            <Label>Fun Facts:</Label>
+            <Label fx:id="treeMessage" maxWidth="200.0" wrapText="true"/>
             <HBox.margin>
                 <Insets/>
             </HBox.margin>

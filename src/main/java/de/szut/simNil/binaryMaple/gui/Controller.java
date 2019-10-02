@@ -36,6 +36,10 @@ public class Controller implements Initializable {
     };
     private static final Map<FileChooser.ExtensionFilter, Format> GRAPHVIZ_EXTENSIONS = FormatExtensionFilter.getFilters();
 
+    private static final String standardTreeMessage = "Dieser Baum ist einfach gestrickt, kann aber ganz schön listig werden.";
+    private static final String redBlackTreeMessage = "Als dieser Baum noch jung war, konnte er sich nie entscheiden, ob er einen Knoten rot oder schwarz färben sollte, sodass am Ende alle Knoten dunkelrot waren.";
+    private static final String avlTreeMessage = "Von seinen Freunden wird er liebevoll ApVeL-Baum genannt.";
+
     @Setter
     private Stage stage;
     private InterfaceBinarySearchTree<Integer> tree;
@@ -56,6 +60,8 @@ public class Controller implements Initializable {
     private TextField valueField;
     @FXML
     private ProgressIndicator showProgress;
+    @FXML
+    private Label treeMessage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -64,6 +70,25 @@ public class Controller implements Initializable {
         this.visualizer = new TreeVisualizer<>(this.tree);
 
         updateGraphvizImage();
+        this.treeMessage.setText(standardTreeMessage);
+
+        this.standardTree.selectedProperty().addListener((observableValue, aBoolean, t1) -> {
+            if (t1) {
+                this.treeMessage.setText(standardTreeMessage);
+            }
+        });
+
+        this.redBlackTree.selectedProperty().addListener((observableValue, aBoolean, t1) -> {
+            if (t1) {
+                this.treeMessage.setText(redBlackTreeMessage);
+            }
+        });
+
+        this.avlTree.selectedProperty().addListener((observableValue, aBoolean, t1) -> {
+            if (t1) {
+                this.treeMessage.setText(avlTreeMessage);
+            }
+        });
     }
 
     private void addValuesToTree(List<Integer> integers) throws BinarySearchTreeException {
