@@ -51,9 +51,10 @@ public class Controller implements Initializable {
     private RadioButton redBlackTree;
     @FXML
     private RadioButton avlTree;
-
     @FXML
     private CheckBox showNullCheckBox;
+    @FXML
+    private CheckBox showGrassCheckBox;
     @FXML
     private ImageView graphvizImageView;
     @FXML
@@ -102,7 +103,7 @@ public class Controller implements Initializable {
             this.visualizer.setTree(this.tree);
             this.visualizer.createGraphviz();
             try {
-                Image graphviz = this.visualizer.getGraphvizImage();
+                Image graphviz = this.visualizer.getGraphvizImage(this.showGrassCheckBox.isSelected());
                 Platform.runLater(() -> {
                     this.graphvizImageView.setImage(this.tree.getNodeCount() > 0 ? graphviz : null);
                     this.showProgress.setProgress(1);
@@ -283,5 +284,10 @@ public class Controller implements Initializable {
             }
             updateGraphvizImage();
         }).start();
+    }
+
+    public void showGrass(ActionEvent actionEvent) {
+        this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+        updateGraphvizImage();
     }
 }

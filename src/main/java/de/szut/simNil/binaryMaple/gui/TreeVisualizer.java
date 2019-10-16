@@ -175,24 +175,30 @@ public class TreeVisualizer<T extends Comparable<T>> {
      * @return a JavaFX image
      */
     @NotNull
-    public Image getGraphvizImage() {
-        BufferedImage grass = null;
-        try {
-            grass = ImageIO.read(TreeVisualizer.class.getResourceAsStream("grass_PNG10856.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Image getGraphvizImage(boolean withGrass) {
         BufferedImage graphviz = this.graphviz.render(Format.SVG).toImage();
 
-        BufferedImage combined = new BufferedImage(graphviz.getWidth(), graphviz.getHeight(), BufferedImage.TYPE_INT_ARGB);
-
-        Graphics g = combined.getGraphics();
-        if (grass != null) {
-            for (int i = 0; i < Math.ceil(graphviz.getWidth() / (double) grass.getWidth()); ++i) {
-                g.drawImage(grass, i * grass.getWidth(), 0, null);
+        BufferedImage combined;
+        if (withGrass) {
+            BufferedImage grass = null;
+            try {
+                grass = ImageIO.read(TreeVisualizer.class.getResourceAsStream("grass_PNG10856.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
+            combined = new BufferedImage(graphviz.getWidth(), graphviz.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+            Graphics g = combined.getGraphics();
+            if (grass != null) {
+                for (int i = 0; i < Math.ceil(graphviz.getWidth() / (double) grass.getWidth()); ++i) {
+                    g.drawImage(grass, i * grass.getWidth(), 0, null);
+                }
+            }
+            g.drawImage(graphviz, 0, 0, null);
+        } else {
+            combined = graphviz;
         }
-        g.drawImage(graphviz, 0, 0, null);
 
         return SwingFXUtils.toFXImage(combined, null);
     }

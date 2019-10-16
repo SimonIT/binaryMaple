@@ -25,7 +25,8 @@
             <RadioButton fx:id="avlTree" onAction="#convertToAvlTree" text="AVL-Baum" toggleGroup="$treeType"/>
             <Separator prefWidth="200.0"/>
             <CheckBox fx:id="showNullCheckBox" onAction="#showNullNodes" text="Terminal-Knoten anzeigen"/>
-            <CheckBox mnemonicParsing="false" text="Blätter grün anzeigen"/>
+            <CheckBox text="Blätter grün anzeigen" selected="true"/>
+            <CheckBox fx:id="showGrassCheckBox" onAction="#showGrass" text="Grass anzeigen" selected="true"/>
             <Separator prefWidth="200.0"/>
             <TextField fx:id="valueField"/>
             <Button maxWidth="1.7976931348623157E308" onAction="#addValue" text="Hinzufügen"/>
