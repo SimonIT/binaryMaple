@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class AVLNode<T extends Comparable<T>> extends BNode<T> {
     @NotNull
-    private Integer heightLeft, heightRight;
+    private int heightLeft, heightRight;
 
     AVLNode() {
         super();
@@ -38,19 +38,19 @@ public class AVLNode<T extends Comparable<T>> extends BNode<T> {
         this.right = right;
     }
 
-    Integer getHeightLeft() {
+    int getHeightLeft() {
         return this.heightLeft;
     }
 
-    void setHeightLeft(@NotNull Integer heightLeft) {
+    void setHeightLeft(int heightLeft) {
         this.heightLeft = heightLeft;
     }
 
-    Integer getHeightRight() {
+    int getHeightRight() {
         return this.heightRight;
     }
 
-    void setHeightRight(@NotNull Integer heightRight) {
+    void setHeightRight(int heightRight) {
         this.heightRight = heightRight;
     }
 
@@ -68,5 +68,9 @@ public class AVLNode<T extends Comparable<T>> extends BNode<T> {
 
     void decreaseHeightRight() {
         --this.heightRight;
+    }
+
+    int getBalanceFactor() {
+        return this.heightRight - this.heightLeft;
     }
 }
