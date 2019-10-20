@@ -35,7 +35,7 @@
             <Button maxWidth="1.7976931348623157E308" onAction="#collapseAtValue" text="Ein-/Ausklappen"/>
             <Button maxWidth="1.7976931348623157E308" onAction="#generateValueTimes" text="Zufall"/>
             <ProgressIndicator fx:id="showProgress" maxWidth="1.7976931348623157E308" progress="0.0"/>
-            <Label>Fun Facts:</Label>
+            <Label>Fun Fact:</Label>
             <Label fx:id="treeMessage" maxWidth="200.0" wrapText="true"/>
             <HBox.margin>
                 <Insets/>

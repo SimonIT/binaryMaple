@@ -37,7 +37,7 @@ public class Controller implements Initializable {
     private static final Map<FileChooser.ExtensionFilter, Format> GRAPHVIZ_EXTENSIONS = FormatExtensionFilter.getFilters();
 
     private static final String standardTreeMessage = "Dieser Baum ist einfach gestrickt, kann aber ganz schön listig werden.";
-    private static final String redBlackTreeMessage = "Als dieser Baum noch jung war, konnte er sich nie entscheiden, ob er einen Knoten rot oder schwarz färben sollte, sodass am Ende alle Knoten dunkelrot waren.";
+    private static final String redBlackTreeMessage = "Als dieser Baum noch jung war, konnte er sich nie für eine Farbe entscheiden, sodass am Ende alle Knoten dunkelrot waren.";
     private static final String avlTreeMessage = "Von seinen Freunden wird er liebevoll ApVeL-Baum genannt.";
 
     @Setter
