@@ -25,15 +25,35 @@
             <RadioButton fx:id="avlTree" onAction="#convertToAvlTree" text="AVL-Baum" toggleGroup="$treeType"/>
             <Separator prefWidth="200.0"/>
             <CheckBox fx:id="showNullCheckBox" text="Terminal-Knoten anzeigen"/>
-            <CheckBox fx:id="showLeafsGreenCheckBox" text="Blätter grün anzeigen" selected="true"/>
-            <CheckBox fx:id="showGrassCheckBox" text="Grass anzeigen" selected="true"/>
+            <CheckBox fx:id="showLeafsGreenCheckBox" selected="true" text="Blätter grün anzeigen"/>
+            <CheckBox fx:id="showGrassCheckBox" selected="true" text="Grass anzeigen"/>
             <Separator prefWidth="200.0"/>
             <TextField fx:id="valueField"/>
-            <Button maxWidth="1.7976931348623157E308" onAction="#addValue" text="Hinzufügen"/>
-            <Button maxWidth="1.7976931348623157E308" onAction="#delValue" text="Löschen"/>
-            <Button maxWidth="1.7976931348623157E308" onAction="#searchValue" text="Suchen"/>
-            <Button maxWidth="1.7976931348623157E308" onAction="#collapseAtValue" text="Ein-/Ausklappen"/>
-            <Button maxWidth="1.7976931348623157E308" onAction="#generateValueTimes" text="Zufall"/>
+            <Button maxWidth="1.7976931348623157E308" onAction="#addValue" text="Hinzufügen">
+                <tooltip>
+                    <Tooltip text="Hinzufügen der Wertes"/>
+                </tooltip>
+            </Button>
+            <Button maxWidth="1.7976931348623157E308" onAction="#delValue" text="Löschen">
+                <tooltip>
+                    <Tooltip text="Löschen des Wertes"/>
+                </tooltip>
+            </Button>
+            <Button maxWidth="1.7976931348623157E308" onAction="#searchValue" text="Suchen">
+                <tooltip>
+                    <Tooltip text="Sucht und hebt den Wert hervor"/>
+                </tooltip>
+            </Button>
+            <Button maxWidth="1.7976931348623157E308" onAction="#collapseAtValue" text="Ein-/Ausklappen">
+                <tooltip>
+                    <Tooltip text="Klappt den Baum beim angegebenen Wert ein oder aus"/>
+                </tooltip>
+            </Button>
+            <Button maxWidth="1.7976931348623157E308" onAction="#generateValueTimes" text="Zufall">
+                <tooltip>
+                    <Tooltip text="Fügt die angegebene Zahl an Zufallszahlen hinzu"/>
+                </tooltip>
+            </Button>
             <ProgressIndicator fx:id="showProgress" maxWidth="1.7976931348623157E308" progress="0.0"/>
             <HBox.margin>
                 <Insets/>
