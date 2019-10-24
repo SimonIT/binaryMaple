@@ -70,9 +70,9 @@
             </HBox.margin>
         </ScrollPane>
 
-        <VBox minWidth="200.0" spacing="10.0">
+        <VBox minWidth="230.0" spacing="10.0">
             <Label>Fun Fact:</Label>
-            <Label fx:id="treeMessage" maxWidth="200.0" wrapText="true"/>
+            <Label fx:id="treeMessage" maxWidth="230.0" wrapText="true"/>
             <ImageView fx:id="treeImage"/>
             <HBox.margin>
                 <Insets/>

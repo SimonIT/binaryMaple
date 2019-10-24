@@ -3,14 +3,24 @@ package de.szut.simNil.binaryMaple;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * This class for nodes contains the most basic methods all nodes (such as Red-Black or AVL nodes) have in common.
+ * @param <T> type parameter of node value (for example Integer or String)
+ * @author Jürgen Wolkenhauer
+ * @author Simon Bullik
+ * @author Nils Malte Kiele
+ */
 public abstract class AbstractNode<T extends Comparable<T>> {
+    /**
+     * value of node, must be of type T
+     */
     @Nullable
-    protected T value;
+    private T value;
 
-    public AbstractNode() {
+    AbstractNode() {
     }
 
-    public AbstractNode(@NotNull T value) {
+    AbstractNode(@NotNull T value) {
         this.value = value;
     }
 
@@ -23,6 +33,9 @@ public abstract class AbstractNode<T extends Comparable<T>> {
         this.value = value;
     }
 
+    /**
+     * @return value of node as string
+     */
     public String toString() {
         return getValue() != null ? getValue().toString() : "null";
     }
