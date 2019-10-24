@@ -36,8 +36,11 @@ public class Controller implements Initializable {
     private static final Map<FileChooser.ExtensionFilter, Format> GRAPHVIZ_EXTENSIONS = FormatExtensionFilter.getFilters();
 
     private static final String standardTreeMessage = "Dieser Baum ist einfach gestrickt, kann aber ganz schön listig werden.";
+    private static final Image standardImage = new Image(Controller.class.getResource("normal.png").toString());
     private static final String redBlackTreeMessage = "Als dieser Baum noch jung war, konnte er sich nie für eine Farbe entscheiden, sodass am Ende alle Knoten dunkelrot waren.";
+    private static final Image redBlackImage = new Image(Controller.class.getResource("redblack.png").toString());
     private static final String avlTreeMessage = "Von seinen Freunden wird er liebevoll ApVeL-Baum genannt.";
+    private static final Image avlImage = new Image(Controller.class.getResource("avl.png").toString());
 
     @Setter
     private Stage stage;
@@ -64,6 +67,8 @@ public class Controller implements Initializable {
     private ProgressIndicator showProgress;
     @FXML
     private Label treeMessage;
+    @FXML
+    private ImageView treeImage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -73,22 +78,26 @@ public class Controller implements Initializable {
 
         updateGraphvizImage();
         this.treeMessage.setText(standardTreeMessage);
+        this.treeImage.setImage(standardImage);
 
         this.standardTree.selectedProperty().addListener((observableValue, aBoolean, t1) -> {
             if (t1) {
                 this.treeMessage.setText(standardTreeMessage);
+                this.treeImage.setImage(standardImage);
             }
         });
 
         this.redBlackTree.selectedProperty().addListener((observableValue, aBoolean, t1) -> {
             if (t1) {
                 this.treeMessage.setText(redBlackTreeMessage);
+                this.treeImage.setImage(redBlackImage);
             }
         });
 
         this.avlTree.selectedProperty().addListener((observableValue, aBoolean, t1) -> {
             if (t1) {
                 this.treeMessage.setText(avlTreeMessage);
+                this.treeImage.setImage(avlImage);
             }
         });
 

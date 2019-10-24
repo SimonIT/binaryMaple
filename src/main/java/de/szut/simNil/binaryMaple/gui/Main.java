@@ -20,6 +20,7 @@ public class Main extends Application {
         Parent root = loader.load();
         ((Controller) loader.getController()).setStage(stage);
         stage.setTitle("BinaryMaple");
+        stage.setMaximized(true);
         stage.setScene(new Scene(root));
         stage.show();
     }
