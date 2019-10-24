@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 
 /**
- * This BNode class is an extension of AbstractNode and has two additional variables for its left and right child.
+ * This class is an extension of AbstractNode and has two additional variables for its left and right child.
  * These children can either be of type BNode or null.
  * @param <T> type parameter of node value (for example Integer or String)
  * @author Jürgen Wolkenhauer
