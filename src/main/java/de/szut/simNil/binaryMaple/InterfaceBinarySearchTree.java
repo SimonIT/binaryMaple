@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * This interface for binary search trees contains the most basic methods all binary search trees (such as Red-Black or
  * AVL trees) have in common.
+ *
  * @param <T> type parameter of node values (for example Integer or String)
  * @author Jürgen Wolkenhauer
  * @author Simon Bullik

@@ -2,6 +2,7 @@ package de.szut.simNil.binaryMaple;
 
 /**
  * This exception can be used when something goes wrong within a method of a binary search tree.
+ *
  * @author Jürgen Wolkenhauer
  */
 public class BinarySearchTreeException extends Exception {
