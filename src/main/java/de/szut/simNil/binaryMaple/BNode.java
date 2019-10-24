@@ -4,9 +4,23 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 
+/**
+ * This BNode class is an extension of AbstractNode and has two additional variables for its left and right child.
+ * These children can either be of type BNode or null.
+ * @param <T> type parameter of node value (for example Integer or String)
+ * @author Jürgen Wolkenhauer
+ * @author Simon Bullik
+ * @author Nils Malte Kiele
+ */
 public class BNode<T extends Comparable<T>> extends AbstractNode<T> {
+    /**
+     * left child of node
+     */
     @Nullable
     protected BNode<T> left = null;
+    /**
+     * right child of node
+     */
     @Nullable
     protected BNode<T> right = null;
 
