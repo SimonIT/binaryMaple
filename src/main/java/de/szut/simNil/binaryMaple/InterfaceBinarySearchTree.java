@@ -55,7 +55,7 @@ public interface InterfaceBinarySearchTree<T extends Comparable<T>> {
      * @return root of the tree or Null if the tree is empty
      */
     @Nullable
-    public AbstractNode<T> getRoot();
+    AbstractNode<T> getRoot();
 
     /**
      * @return amount of nodes in tree
