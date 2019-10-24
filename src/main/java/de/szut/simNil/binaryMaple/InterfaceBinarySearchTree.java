@@ -44,7 +44,7 @@ public interface InterfaceBinarySearchTree<T extends Comparable<T>> {
     /**
      * @return depth (number of levels) of tree
      */
-    Integer getDepth();
+    int getDepth();
 
     /**
      * @param order element of Enum order

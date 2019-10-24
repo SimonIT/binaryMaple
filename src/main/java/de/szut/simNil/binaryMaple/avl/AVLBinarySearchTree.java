@@ -313,8 +313,8 @@ public class AVLBinarySearchTree<T extends Comparable<T>> implements InterfaceBi
     }
 
     @Override
-    public Integer getDepth() {
-        Integer depth = -1;
+    public int getDepth() {
+        int depth = 0;
         Queue<AVLNode<T>> q = new LinkedList<>();
         q.add(this.root);
         while (!q.isEmpty()) {
@@ -328,7 +328,7 @@ public class AVLBinarySearchTree<T extends Comparable<T>> implements InterfaceBi
                 }
             }
         }
-        return depth;
+        return depth - 1;   // "- 1" compensates for terminal nodes
     }
 
     public Integer getDepth2(AVLNode<T> x) {
