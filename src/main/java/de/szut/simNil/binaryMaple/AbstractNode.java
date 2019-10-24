@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * This abstract class
+ * This class for nodes contains the most basic methods all nodes (such as Red-Black or AVL nodes) have in common.
  * @param <T> type parameter of node value (for example Integer or String)
  * @author Jürgen Wolkenhauer
  * @author Simon Bullik
