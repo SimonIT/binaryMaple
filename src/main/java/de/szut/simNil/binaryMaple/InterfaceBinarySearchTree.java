@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * This interface for binary search trees contains the most basic methods all binary search trees (such as Red-Black or
  * AVL trees) have in common.
+ *
  * @param <T> type parameter of node values (for example Integer or String)
  * @author Jürgen Wolkenhauer
  * @author Simon Bullik
@@ -43,7 +44,7 @@ public interface InterfaceBinarySearchTree<T extends Comparable<T>> {
     /**
      * @return depth (number of levels) of tree
      */
-    Integer getDepth();
+    int getDepth();
 
     /**
      * @param order element of Enum order
@@ -55,7 +56,7 @@ public interface InterfaceBinarySearchTree<T extends Comparable<T>> {
      * @return root of the tree or Null if the tree is empty
      */
     @Nullable
-    public AbstractNode<T> getRoot();
+    AbstractNode<T> getRoot();
 
     /**
      * @return amount of nodes in tree

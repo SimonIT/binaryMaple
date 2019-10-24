@@ -1,14 +1,33 @@
 package de.szut.simNil.binaryMaple.standard;
 
-import de.szut.simNil.binaryMaple.*;
+import de.szut.simNil.binaryMaple.BNode;
+import de.szut.simNil.binaryMaple.BinarySearchTreeException;
+import de.szut.simNil.binaryMaple.InterfaceBinarySearchTree;
+import de.szut.simNil.binaryMaple.Order;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
+/**
+ * This class contains the logic for a simple binary search tree. Values can be added and removed and the existence of
+ * values in the tree can be checked. The nodes of the tree can be traversed in the orders specified in enum Order. No
+ * rebalancing measures are taken after insertions or deletions so the shape of the tree depends much on the insertion
+ * order. In the worst case, this tree can decay into a list.
+ *
+ * @param <T> type parameter of node values (for example Integer or String)
+ * @author Simon Bullik
+ * @author Nils Malte Kiele
+ */
 public class StandardBinarySearchTree<T extends Comparable<T>> implements InterfaceBinarySearchTree<T> {
+    /**
+     * root node of tree
+     */
     private BNode<T> root;
-    private Integer nodeCount;
+    /**
+     * variable to hold the amount of nodes
+     */
+    private int nodeCount;
 
     public StandardBinarySearchTree() {
         this.root = new BNode<>();
@@ -22,6 +41,10 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
         this.nodeCount = 1;
     }
 
+    /**
+     * @param value value that should be inserted into the tree
+     * @throws BinarySearchTreeException
+     */
     @Override
     public void addValue(@NotNull T value) throws BinarySearchTreeException {
         BNode<T> current = this.root;
@@ -30,14 +53,21 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
             if (c == 0) {
                 throw new BinarySearchTreeException(String.format("Node with value %s already exists", value));
             }
+            // update current node
             current = c < 0 ? current.getLeft() : current.getRight();
         }
+        // change value of current from null to the value that should be inserted and add terminal left and right child
         current.setValue(value);
         current.setLeft(new BNode<>());
         current.setRight(new BNode<>());
         ++this.nodeCount;
+        System.out.println(this.getDepth());
     }
 
+    /**
+     * @param value value that should be deleted from the tree
+     * @throws BinarySearchTreeException
+     */
     @Override
     public void delValue(@NotNull T value) throws BinarySearchTreeException {
         BNode<T> current = this.root;
@@ -45,6 +75,7 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
         while (current.getValue() != null) {
             int c = value.compareTo(current.getValue());
             if (c == 0) {
+                // node with value that should be deleted is found
                 boolean hasLeftValue = current.getLeft().getValue() != null;
                 boolean hasRightValue = current.getRight().getValue() != null;
                 if (!hasLeftValue && !hasRightValue) {
@@ -63,8 +94,8 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
                         nodeWithLargestValueInLeftSubtree = nodeWithLargestValueInLeftSubtree.getRight();
                     }
                     current.setValue(nodeWithLargestValueInLeftSubtree.getValue());
-                    if (parent.getValue() == current.getValue()) {
-                        current.setLeft(nodeWithLargestValueInLeftSubtree.getLeft());
+                    if (parent.getValue().compareTo(current.getValue()) == 0) {
+                        parent.setLeft(nodeWithLargestValueInLeftSubtree.getLeft());
                     } else {
                         parent.setRight(new BNode<>());
                     }
@@ -78,9 +109,11 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
                         parent.setRight(child);
                     }
                 }
+                // node has been successfully deleted
                 --this.nodeCount;
                 return;
             } else {
+                // update current and parent nodes
                 parent = current;
                 current = c < 0 ? current.getLeft() : current.getRight();
             }
@@ -88,11 +121,19 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
         throw new BinarySearchTreeException(String.format("Node with value %s cannot be deleted because it does not exist", value));
     }
 
+    /**
+     * @param value value of node in question
+     * @return true if value exists in tree, false otherwise
+     */
     @Override
     public boolean hasValue(@NotNull T value) {
         return getNodeWithValue(value) != null;
     }
 
+    /**
+     * @param value of node that should be returned
+     * @return node with specified value if it exists or Null otherwise
+     */
     @Override
     @Nullable
     public BNode<T> getNodeWithValue(@NotNull T value) {
@@ -102,14 +143,18 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
             if (c == 0) {
                 return current;
             }
+            // update current node
             current = c < 0 ? current.getLeft() : current.getRight();
         }
         return null;
     }
 
+    /**
+     * @return depth (number of levels) of tree
+     */
     @Override
-    public Integer getDepth() {
-        Integer depth = -1;
+    public int getDepth() {
+        int depth = 0;
         Queue<BNode<T>> q = new LinkedList<>();
         q.add(this.root);
         while (!q.isEmpty()) {
@@ -123,9 +168,13 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
                 }
             }
         }
-        return depth;
+        return depth - 1;   // "- 1" compensates for terminal nodes
     }
 
+    /**
+     * @param order element of Enum order
+     * @return list of all nodes in the tree in specified order
+     */
     @Override
     public List<T> traverse(Order order) {
         List<T> result = new ArrayList<>();
@@ -184,11 +233,18 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
         return result;
     }
 
+    /**
+     * @return root of the tree or Null if the tree is empty
+     */
     @Override
     public BNode<T> getRoot() {
         return this.root;
     }
 
+    /**
+     * @return amount of nodes in tree
+     */
+    @Override
     public int getNodeCount() {
         return this.nodeCount;
     }

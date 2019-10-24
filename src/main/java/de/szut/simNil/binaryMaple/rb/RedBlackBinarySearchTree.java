@@ -314,8 +314,8 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
     }
 
     @Override
-    public Integer getDepth() {
-        Integer depth = -1;
+    public int getDepth() {
+        int depth = 0;
         Queue<RBNode<T>> q = new LinkedList<>();
         q.add(this.root);
         while (!q.isEmpty()) {
@@ -329,7 +329,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
                 }
             }
         }
-        return depth;
+        return depth - 1;   // "- 1" compensates for terminal nodes
     }
 
     @Override
