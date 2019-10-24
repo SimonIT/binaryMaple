@@ -46,6 +46,14 @@ public class TreeVisualizer<T extends Comparable<T>> {
     @Setter
     private boolean showNullNodes = false;
 
+    @Getter
+    @Setter
+    private boolean highlightLeafs = true;
+
+    @Getter
+    @Setter
+    private boolean withGrass = true;
+
     public TreeVisualizer(@NotNull InterfaceBinarySearchTree<T> tree) {
         this.tree = tree;
     }
@@ -108,13 +116,13 @@ public class TreeVisualizer<T extends Comparable<T>> {
 
             BNode<T> left = ((BNode<T>) node).getLeft();
             BNode<T> right = ((BNode<T>) node).getRight();
-            if (left != null && right != null && left.getValue() == null && right.getValue() == null) {
+            if (this.highlightLeafs && left != null && right != null && left.getValue() == null && right.getValue() == null) {
                 root = root.with(Color.GREEN);
             }
 
-            root = addBNode(root, ((BNode<T>) node).getLeft());
+            root = addBNode(root, left);
 
-            root = addBNode(root, ((BNode<T>) node).getRight());
+            root = addBNode(root, right);
 
         }
 
@@ -175,11 +183,11 @@ public class TreeVisualizer<T extends Comparable<T>> {
      * @return a JavaFX image
      */
     @NotNull
-    public Image getGraphvizImage(boolean withGrass) {
+    public Image getGraphvizImage() {
         BufferedImage graphviz = this.graphviz.render(Format.SVG).toImage();
 
         BufferedImage combined;
-        if (withGrass) {
+        if (this.withGrass) {
             BufferedImage grass = null;
             try {
                 grass = ImageIO.read(TreeVisualizer.class.getResourceAsStream("grass_PNG10856.png"));
