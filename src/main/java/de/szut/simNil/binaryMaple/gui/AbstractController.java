@@ -17,8 +17,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import lombok.Setter;
 
 import java.io.*;
@@ -40,28 +43,42 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     private static final Image redBlackImage = new Image(AbstractController.class.getResource("redblack.png").toString());
     private static final String avlTreeMessage = "Von seinen Freunden wird er liebevoll ApVeL-Baum genannt.";
     private static final Image avlImage = new Image(AbstractController.class.getResource("avl.png").toString());
+
+    private static final KeyCombination[] combinations = new KeyCombination[]{
+        new KeyCodeCombination(KeyCode.H, KeyCombination.ALT_DOWN), // Add
+        new KeyCodeCombination(KeyCode.L, KeyCombination.ALT_DOWN), // Delete
+        new KeyCodeCombination(KeyCode.S, KeyCombination.ALT_DOWN), // Search
+        new KeyCodeCombination(KeyCode.K, KeyCombination.ALT_DOWN), // Collapse
+        new KeyCodeCombination(KeyCode.Z, KeyCombination.ALT_DOWN), // Random
+        new KeyCodeCombination(KeyCode.E, KeyCombination.ALT_DOWN), // Standard
+        new KeyCodeCombination(KeyCode.R, KeyCombination.ALT_DOWN), // Red Black
+        new KeyCodeCombination(KeyCode.A, KeyCombination.ALT_DOWN), // AVL
+        new KeyCodeCombination(KeyCode.T, KeyCombination.ALT_DOWN), // Terminal
+        new KeyCodeCombination(KeyCode.B, KeyCombination.ALT_DOWN), // Leafs
+        new KeyCodeCombination(KeyCode.G, KeyCombination.ALT_DOWN), // Grass
+    };
+
     protected InterfaceBinarySearchTree<T> tree;
-    @FXML
-    RadioButton standardTree;
-    @FXML
-    RadioButton redBlackTree;
-    @FXML
-    RadioButton avlTree;
-    @FXML
-    CheckBox showNullCheckBox;
-    @FXML
-    CheckBox showLeafsGreenCheckBox;
-    @FXML
-    CheckBox showGrassCheckBox;
+    private TreeVisualizer<T> visualizer;
+
     @Setter
-    Main main;
+    private Main main;
+    @FXML
+    private RadioButton standardTree;
+    @FXML
+    private RadioButton redBlackTree;
+    @FXML
+    private RadioButton avlTree;
+    @FXML
+    private CheckBox showNullCheckBox;
+    @FXML
+    private CheckBox showLeafsGreenCheckBox;
+    @FXML
+    private CheckBox showGrassCheckBox;
     @FXML
     private TextField valueField;
     @FXML
     private ComboBox<AbstractController> valueTypes;
-    @Setter
-    private Stage stage;
-    private TreeVisualizer<T> visualizer;
     @FXML
     private ImageView graphvizImageView;
     @FXML
@@ -77,11 +94,11 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
 
         this.visualizer = new TreeVisualizer<>(this.tree);
 
-        this.valueTypes.setItems(main.controllers);
+        this.valueTypes.setItems(this.main.getControllers());
         this.valueTypes.getSelectionModel().select(this);
         this.valueTypes.valueProperty().addListener((observableValue, abstractControllerSingleSelectionModel, t1) -> {
             try {
-                main.changeController(t1);
+                this.main.changeController(t1);
             } catch (IOException e) {
                 System.exit(-1);
             }
@@ -162,6 +179,43 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
             this.visualizer.setHighlightLeafs(t1);
             updateGraphvizImage();
         });
+
+        this.main.getStage().addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
+            if (combinations[0].match(keyEvent)) {
+                addValue();
+                keyEvent.consume();
+            } else if (combinations[1].match(keyEvent)) {
+                delValue();
+                keyEvent.consume();
+            } else if (combinations[2].match(keyEvent)) {
+                searchValue();
+                keyEvent.consume();
+            } else if (combinations[3].match(keyEvent)) {
+                collapseAtValue();
+                keyEvent.consume();
+            } else if (combinations[4].match(keyEvent)) {
+                generateValueTimes();
+                keyEvent.consume();
+            } else if (combinations[5].match(keyEvent)) {
+                standardTree.setSelected(true);
+                keyEvent.consume();
+            } else if (combinations[6].match(keyEvent)) {
+                redBlackTree.setSelected(true);
+                keyEvent.consume();
+            } else if (combinations[7].match(keyEvent)) {
+                avlTree.setSelected(true);
+                keyEvent.consume();
+            } else if (combinations[8].match(keyEvent)) {
+                showNullCheckBox.setSelected(!showNullCheckBox.selectedProperty().getValue());
+                keyEvent.consume();
+            } else if (combinations[9].match(keyEvent)) {
+                showLeafsGreenCheckBox.setSelected(!showLeafsGreenCheckBox.selectedProperty().getValue());
+                keyEvent.consume();
+            } else if (combinations[10].match(keyEvent)) {
+                showGrassCheckBox.setSelected(!showGrassCheckBox.selectedProperty().getValue());
+                keyEvent.consume();
+            }
+        });
     }
 
     private void addValuesToTree(List<T> Ts) throws BinarySearchTreeException {
@@ -194,10 +248,11 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     }
 
     @SuppressWarnings("unchecked")
-    public void loadTree() {
+    @FXML
+    private void loadTree() {
         FileChooser chooser = new FileChooser();
         chooser.getExtensionFilters().setAll(TREE_EXTENSION);
-        File file = chooser.showOpenDialog(this.stage);
+        File file = chooser.showOpenDialog(this.main.getStage());
         if (file != null) {
             this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
             new Thread(() -> {
@@ -220,10 +275,11 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         }
     }
 
-    public void saveTree() {
+    @FXML
+    private void saveTree() {
         FileChooser chooser = new FileChooser();
         chooser.getExtensionFilters().setAll(TREE_EXTENSION);
-        File file = chooser.showSaveDialog(this.stage);
+        File file = chooser.showSaveDialog(this.main.getStage());
         if (file != null) {
             this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
             new Thread(() -> {
@@ -243,10 +299,11 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         }
     }
 
-    public void saveImage() {
+    @FXML
+    private void saveImage() {
         FileChooser chooser = new FileChooser();
         chooser.getExtensionFilters().addAll(GRAPHVIZ_EXTENSIONS.keySet());
-        File file = chooser.showSaveDialog(this.stage);
+        File file = chooser.showSaveDialog(this.main.getStage());
         if (file != null) {
             try {
                 this.visualizer.saveGraphviz(file, GRAPHVIZ_EXTENSIONS.get(chooser.getSelectedExtensionFilter()));
@@ -258,7 +315,8 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
 
     abstract T getInput(String input);
 
-    public void addValue() {
+    @FXML
+    private void addValue() {
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         try {
             this.tree.addValue(getInput(this.valueField.getText()));
@@ -269,7 +327,8 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         }
     }
 
-    public void delValue() {
+    @FXML
+    private void delValue() {
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         try {
             this.tree.delValue(getInput(this.valueField.getText()));
@@ -280,7 +339,8 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         }
     }
 
-    public void searchValue() {
+    @FXML
+    private void searchValue() {
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         if (this.valueField.getText().isEmpty()) {
             this.visualizer.setHighlightedNode(null);
@@ -290,7 +350,8 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         updateGraphvizImage();
     }
 
-    public void collapseAtValue() {
+    @FXML
+    private void collapseAtValue() {
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         AbstractNode<T> collapseNode = this.tree.getNodeWithValue(getInput(this.valueField.getText()));
         if (this.visualizer.isCollapsed(collapseNode)) {
@@ -303,7 +364,8 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
 
     abstract T getRandomValue();
 
-    public void generateValueTimes() {
+    @FXML
+    private void generateValueTimes() {
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         new Thread(() -> {
             for (int i = 0; i < Integer.parseInt(this.valueField.getText()); i++) {
