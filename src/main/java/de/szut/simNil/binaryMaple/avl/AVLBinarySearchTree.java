@@ -1,17 +1,16 @@
 package de.szut.simNil.binaryMaple.avl;
 
+import de.szut.simNil.binaryMaple.AbstractBinarySearchTree;
 import de.szut.simNil.binaryMaple.BinarySearchTreeException;
-import de.szut.simNil.binaryMaple.InterfaceBinarySearchTree;
 import de.szut.simNil.binaryMaple.Order;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
 
-public class AVLBinarySearchTree<T extends Comparable<T>> implements InterfaceBinarySearchTree<T> {
-    private AVLNode<T> root;
-    private Integer nodeCount;
-
+public class AVLBinarySearchTree<T extends Comparable<T>> extends AbstractBinarySearchTree<T> {
     public AVLBinarySearchTree() {
         this.root = new AVLNode<>();
         this.nodeCount = 0;
@@ -23,7 +22,6 @@ public class AVLBinarySearchTree<T extends Comparable<T>> implements InterfaceBi
         this.root.setRight(new AVLNode<>());
         this.nodeCount = 1;
     }
-
 
     private AVLNode<T> rotate(AVLNode<T> current, AVLNode<T> parent) {
         // ab can be LL, RR, LR or RL (L = left, R = right) -> path from unbalanced node (L = true | R = false)
@@ -105,7 +103,6 @@ public class AVLBinarySearchTree<T extends Comparable<T>> implements InterfaceBi
         return new AVLNode<>();
     }
 
-
     private void rebalanceInsertion(AVLNode<T> current, T value, Stack<AVLNode<T>> ancestors) {
         while (true) {
             if (Math.abs(current.getBalanceFactor()) > 1) {
@@ -137,7 +134,7 @@ public class AVLBinarySearchTree<T extends Comparable<T>> implements InterfaceBi
     @Override
     public void addValue(@NotNull T value) throws BinarySearchTreeException {
         Stack<AVLNode<T>> ancestors = new Stack<>();
-        AVLNode<T> current = this.root;
+        AVLNode<T> current = (AVLNode<T>) this.root;
         while (current.getValue() != null) {
             int c = value.compareTo(current.getValue());
             if (c == 0) {
@@ -198,14 +195,20 @@ public class AVLBinarySearchTree<T extends Comparable<T>> implements InterfaceBi
                     System.out.print(xx);
                     System.out.print(" | ");
                     System.out.println(Math.max(current.getHeightLeft(), current.getHeightRight()) + 1);
-                    if (Math.max(current.getHeightLeft(), current.getHeightRight()) + 1 == xx) {return;}
+                    if (Math.max(current.getHeightLeft(), current.getHeightRight()) + 1 == xx) {
+                        return;
+                    }
 
                     if (current.getValue().compareTo(parent.getValue()) < 0) {
                         parent.decreaseHeightLeft();
-                        if (parent.getHeightRight() > parent.getHeightLeft()) {return;}
+                        if (parent.getHeightRight() > parent.getHeightLeft()) {
+                            return;
+                        }
                     } else {
                         parent.decreaseHeightRight();
-                        if (parent.getHeightLeft() > parent.getHeightRight()) {return;}
+                        if (parent.getHeightLeft() > parent.getHeightRight()) {
+                            return;
+                        }
                     }
                     current = parent;
                 }
@@ -218,7 +221,7 @@ public class AVLBinarySearchTree<T extends Comparable<T>> implements InterfaceBi
     public void delValue(@NotNull T value) throws BinarySearchTreeException {
         traverse(Order.PREORDER);
         Stack<AVLNode<T>> ancestors = new Stack<>();
-        AVLNode<T> current = this.root;
+        AVLNode<T> current = (AVLNode<T>) this.root;
         while (current.getValue() != null) {
             int c = value.compareTo(current.getValue());
             if (c == 0) {
@@ -247,7 +250,7 @@ public class AVLBinarySearchTree<T extends Comparable<T>> implements InterfaceBi
 
                     if (ancestors.peek().getValue() == current.getValue()) {
                         ancestors.peek().setLeft(nodeWithLargestValueInLeftSubtree.getLeft());
-                        rebalanceDeletion(ancestors.peek().getLeft(), valueOfDeletedNode,  ancestors);
+                        rebalanceDeletion(ancestors.peek().getLeft(), valueOfDeletedNode, ancestors);
                     } else {
                         ancestors.peek().setRight(nodeWithLargestValueInLeftSubtree.getLeft());
                         rebalanceDeletion(ancestors.peek().getRight(), valueOfDeletedNode, ancestors);
@@ -267,7 +270,7 @@ public class AVLBinarySearchTree<T extends Comparable<T>> implements InterfaceBi
 
                 List<T> l = this.traverse(Order.PREORDER);
                 for (T i : l) {
-                    AVLNode<T> x = this.getNodeWithValue(i);
+                    AVLNode<T> x = (AVLNode<T>) this.getNodeWithValue(i);
                     if (x.getHeightLeft() != this.getDepth2(x.getLeft())) {
                         System.out.println("ALARM LEFT");
                         System.out.println(i);
@@ -293,45 +296,7 @@ public class AVLBinarySearchTree<T extends Comparable<T>> implements InterfaceBi
 
     }
 
-    @Override
-    public boolean hasValue(@NotNull T value) {
-        return getNodeWithValue(value) != null;
-    }
-
-    @Override
-    @Nullable
-    public AVLNode<T> getNodeWithValue(@NotNull T value) {
-        AVLNode<T> current = this.root;
-        while (current.getValue() != null) {
-            int c = value.compareTo(current.getValue());
-            if (c == 0) {
-                return current;
-            }
-            current = c < 0 ? current.getLeft() : current.getRight();
-        }
-        return null;
-    }
-
-    @Override
-    public int getDepth() {
-        int depth = 0;
-        Queue<AVLNode<T>> q = new LinkedList<>();
-        q.add(this.root);
-        while (!q.isEmpty()) {
-            ++depth;
-            int levelSize = q.size();
-            while (levelSize-- > 0) {
-                AVLNode<T> node = q.poll();
-                if (node.getValue() != null) {
-                    q.add(node.getLeft());
-                    q.add(node.getRight());
-                }
-            }
-        }
-        return depth - 1;   // "- 1" compensates for terminal nodes
-    }
-
-    public Integer getDepth2(AVLNode<T> x) {
+    public Integer getDepth2(AVLNode<T> x) {    // TODO: remove (this is just for debugging)
         Integer depth = -1;
         Queue<AVLNode<T>> q = new LinkedList<>();
         q.add(x);
@@ -347,72 +312,5 @@ public class AVLBinarySearchTree<T extends Comparable<T>> implements InterfaceBi
             }
         }
         return depth;
-    }
-
-    @Override
-    public List<T> traverse(Order order) {
-        List<T> result = new ArrayList<>();
-        if (order == Order.PREORDER) {
-            Stack<AVLNode<T>> s = new Stack<>();
-            s.push(this.root);
-            while (!s.isEmpty()) {
-                AVLNode<T> p = s.pop();
-                if (p.getValue() != null) {
-                    result.add(p.getValue());
-                    s.push(p.getRight());
-                    s.push(p.getLeft());
-                }
-            }
-        } else if (order == Order.INORDER) {
-            Stack<AVLNode<T>> s = new Stack<>();
-            AVLNode<T> node = this.root;
-            while (true) {
-                while (node.getValue() != null) {
-                    s.push(node);
-                    node = node.getLeft();
-                }
-                if (s.isEmpty()) {
-                    break;
-                }
-                AVLNode<T> p = s.pop();
-                result.add(p.getValue());
-                node = p.getRight();
-            }
-        } else if (order == Order.POSTORDER) {
-            Stack<AVLNode<T>> s = new Stack<>(), s2 = new Stack<>();
-            s.push(this.root);
-            while (!s.isEmpty()) {
-                AVLNode<T> p = s.pop();
-                if (p.getValue() != null) {
-                    s2.push(p);
-                    s.push(p.getLeft());
-                    s.push(p.getRight());
-                }
-            }
-            while (!s2.isEmpty()) {
-                result.add(s2.pop().getValue());
-            }
-        } else if (order == Order.LEVELORDER) {
-            Queue<AVLNode<T>> q = new LinkedList<>();
-            q.add(root);
-            while (!q.isEmpty()) {
-                AVLNode<T> p = q.poll();
-                if (p.getValue() != null) {
-                    result.add(p.getValue());
-                    q.add(p.getLeft());
-                    q.add(p.getRight());
-                }
-            }
-        }
-        return result;
-    }
-
-    @Override
-    public AVLNode<T> getRoot() {
-        return this.root;
-    }
-
-    public int getNodeCount() {
-        return this.nodeCount;
     }
 }
