@@ -61,7 +61,6 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
         current.setLeft(new BNode<>());
         current.setRight(new BNode<>());
         ++this.nodeCount;
-        System.out.println(this.getDepth());
     }
 
     /**
@@ -75,7 +74,7 @@ public class StandardBinarySearchTree<T extends Comparable<T>> implements Interf
         while (current.getValue() != null) {
             int c = value.compareTo(current.getValue());
             if (c == 0) {
-                // node with value that should be deleted is found
+                // node with value that should be deleted is found and referenced by current
                 boolean hasLeftValue = current.getLeft().getValue() != null;
                 boolean hasRightValue = current.getRight().getValue() != null;
                 if (!hasLeftValue && !hasRightValue) {
