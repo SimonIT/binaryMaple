@@ -25,10 +25,9 @@ import java.io.*;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable {
+public abstract class AbstractController<T extends Comparable<T>> implements Initializable {
 
     private static final FileChooser.ExtensionFilter[] TREE_EXTENSION = new FileChooser.ExtensionFilter[]{
         new FileChooser.ExtensionFilter("XML", "*.xml")
@@ -36,12 +35,12 @@ public class Controller implements Initializable {
     private static final Map<FileChooser.ExtensionFilter, Format> GRAPHVIZ_EXTENSIONS = FormatExtensionFilter.getFilters();
 
     private static final String standardTreeMessage = "Dieser Baum ist einfach gestrickt, kann aber ganz schön listig werden.";
-    private static final Image standardImage = new Image(Controller.class.getResource("normal.png").toString());
+    private static final Image standardImage = new Image(AbstractController.class.getResource("normal.png").toString());
     private static final String redBlackTreeMessage = "Als dieser Baum noch jung war, konnte er sich nie für eine Farbe entscheiden, sodass am Ende alle Knoten dunkelrot waren.";
-    private static final Image redBlackImage = new Image(Controller.class.getResource("redblack.png").toString());
+    private static final Image redBlackImage = new Image(AbstractController.class.getResource("redblack.png").toString());
     private static final String avlTreeMessage = "Von seinen Freunden wird er liebevoll ApVeL-Baum genannt.";
-    private static final Image avlImage = new Image(Controller.class.getResource("avl.png").toString());
-
+    private static final Image avlImage = new Image(AbstractController.class.getResource("avl.png").toString());
+    protected InterfaceBinarySearchTree<T> tree;
     @FXML
     RadioButton standardTree;
     @FXML
@@ -55,13 +54,16 @@ public class Controller implements Initializable {
     @FXML
     CheckBox showGrassCheckBox;
     @Setter
-    private Stage stage;
-    private InterfaceBinarySearchTree<Integer> tree;
-    private TreeVisualizer<Integer> visualizer;
-    @FXML
-    private ImageView graphvizImageView;
+    Main main;
     @FXML
     private TextField valueField;
+    @FXML
+    private ComboBox<AbstractController> valueTypes;
+    @Setter
+    private Stage stage;
+    private TreeVisualizer<T> visualizer;
+    @FXML
+    private ImageView graphvizImageView;
     @FXML
     private ProgressIndicator showProgress;
     @FXML
@@ -75,6 +77,16 @@ public class Controller implements Initializable {
 
         this.visualizer = new TreeVisualizer<>(this.tree);
 
+        this.valueTypes.setItems(main.controllers);
+        this.valueTypes.getSelectionModel().select(this);
+        this.valueTypes.valueProperty().addListener((observableValue, abstractControllerSingleSelectionModel, t1) -> {
+            try {
+                main.changeController(t1);
+            } catch (IOException e) {
+                System.exit(-1);
+            }
+        });
+
         updateGraphvizImage();
         this.treeMessage.setText(standardTreeMessage);
         this.treeImage.setImage(standardImage);
@@ -85,7 +97,7 @@ public class Controller implements Initializable {
                 this.treeMessage.setText(standardTreeMessage);
                 this.treeImage.setImage(standardImage);
 
-                List<Integer> values = this.tree.traverse(Order.PREORDER);
+                List<T> values = this.tree.traverse(Order.PREORDER);
                 this.tree = new StandardBinarySearchTree<>();
                 try {
                     addValuesToTree(values);
@@ -103,7 +115,7 @@ public class Controller implements Initializable {
                 this.treeMessage.setText(redBlackTreeMessage);
                 this.treeImage.setImage(redBlackImage);
 
-                List<Integer> values = this.tree.traverse(Order.PREORDER);
+                List<T> values = this.tree.traverse(Order.PREORDER);
                 this.tree = new RedBlackBinarySearchTree<>();
                 try {
                     addValuesToTree(values);
@@ -121,7 +133,7 @@ public class Controller implements Initializable {
                 this.treeMessage.setText(avlTreeMessage);
                 this.treeImage.setImage(avlImage);
 
-                List<Integer> values = this.tree.traverse(Order.PREORDER);
+                List<T> values = this.tree.traverse(Order.PREORDER);
                 this.tree = new AVLBinarySearchTree<>();
                 try {
                     addValuesToTree(values);
@@ -152,8 +164,8 @@ public class Controller implements Initializable {
         });
     }
 
-    private void addValuesToTree(List<Integer> integers) throws BinarySearchTreeException {
-        for (int i : integers) {
+    private void addValuesToTree(List<T> Ts) throws BinarySearchTreeException {
+        for (T i : Ts) {
             this.tree.addValue(i);
         }
     }
@@ -193,7 +205,7 @@ public class Controller implements Initializable {
                     BufferedReader reader = new BufferedReader(new FileReader(file));
                     if (chooser.getSelectedExtensionFilter().equals(TREE_EXTENSION[0])) {
                         XStream xStream = new XStream(new StaxDriver());
-                        this.tree = (InterfaceBinarySearchTree<Integer>) xStream.fromXML(reader);
+                        this.tree = (InterfaceBinarySearchTree<T>) xStream.fromXML(reader);
                     }
                     reader.close();
                     this.standardTree.setSelected(this.tree instanceof StandardBinarySearchTree);
@@ -244,10 +256,12 @@ public class Controller implements Initializable {
         }
     }
 
+    abstract T getInput(String input);
+
     public void addValue() {
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         try {
-            this.tree.addValue(Integer.valueOf(this.valueField.getText()));
+            this.tree.addValue(getInput(this.valueField.getText()));
             updateGraphvizImage();
         } catch (BinarySearchTreeException e) {
             System.out.println(e.getMessage());
@@ -258,7 +272,7 @@ public class Controller implements Initializable {
     public void delValue() {
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         try {
-            this.tree.delValue(Integer.valueOf(this.valueField.getText()));
+            this.tree.delValue(getInput(this.valueField.getText()));
             updateGraphvizImage();
         } catch (BinarySearchTreeException e) {
             System.out.println(e.getMessage());
@@ -271,14 +285,14 @@ public class Controller implements Initializable {
         if (this.valueField.getText().isEmpty()) {
             this.visualizer.setHighlightedNode(null);
         } else {
-            this.visualizer.setHighlightedNode(this.tree.getNodeWithValue(Integer.valueOf(this.valueField.getText())));
+            this.visualizer.setHighlightedNode(this.tree.getNodeWithValue(getInput(this.valueField.getText())));
         }
         updateGraphvizImage();
     }
 
     public void collapseAtValue() {
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
-        AbstractNode<Integer> collapseNode = this.tree.getNodeWithValue(Integer.valueOf(this.valueField.getText()));
+        AbstractNode<T> collapseNode = this.tree.getNodeWithValue(getInput(this.valueField.getText()));
         if (this.visualizer.isCollapsed(collapseNode)) {
             this.visualizer.removeCollapseNode(collapseNode);
         } else {
@@ -287,13 +301,14 @@ public class Controller implements Initializable {
         updateGraphvizImage();
     }
 
+    abstract T getRandomValue();
+
     public void generateValueTimes() {
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         new Thread(() -> {
-            Random random = new Random();
             for (int i = 0; i < Integer.parseInt(this.valueField.getText()); i++) {
                 try {
-                    this.tree.addValue(random.nextInt(Math.max(20, 4 * this.tree.getNodeCount())) - 2 * this.tree.getNodeCount());
+                    this.tree.addValue(getRandomValue());
                 } catch (BinarySearchTreeException e) {
                     i--;
                 }
@@ -301,4 +316,7 @@ public class Controller implements Initializable {
             updateGraphvizImage();
         }).start();
     }
+
+    @Override
+    public abstract String toString();
 }

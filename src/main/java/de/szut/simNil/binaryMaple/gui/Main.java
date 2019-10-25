@@ -1,6 +1,8 @@
 package de.szut.simNil.binaryMaple.gui;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,15 +30,25 @@ public class Main extends Application {
         new KeyCodeCombination(KeyCode.G, KeyCombination.ALT_DOWN), // Grass
     };
 
+    Stage stage;
+    ObservableList<AbstractController> controllers = FXCollections.observableArrayList(new IntegerController(), new DoubleController(), new StringController());
+
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage stage) throws IOException {
+        this.stage = stage;
+        changeController(controllers.get(0));
+    }
+
+    void changeController(AbstractController controller) throws IOException {
+        controller.setMain(this);
+        if (stage.isShowing()) stage.close();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("style.fxml"));
+        loader.setController(controller);
         Parent root = loader.load();
-        Controller controller = loader.getController();
         controller.setStage(stage);
         stage.setTitle("BinaryMaple");
         stage.setMaximized(true);
