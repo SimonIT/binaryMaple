@@ -27,16 +27,15 @@ public class Main extends Application {
         this.stage = stage;
         this.stage.setTitle("BinaryMaple");
         this.stage.setMaximized(true);
-        changeController(this.controllers.get(0));
+        this.changeController(this.controllers.get(0));
+        this.stage.show();
     }
 
     void changeController(AbstractController controller) throws IOException {
         controller.setMain(this);
-        if (this.stage.isShowing()) this.stage.close();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("style.fxml"));
         loader.setController(controller);
         Parent root = loader.load();
         this.stage.setScene(new Scene(root));
-        this.stage.show();
     }
 }
