@@ -13,8 +13,9 @@ public class DoubleController extends AbstractController<Double> {
 
     @Override
     Double getRandomValue() {
-        return r.nextDouble();
-    }   // TODO: create distribution similar to IntegerController
+        int bounds = Math.max(40, (int) Math.pow(this.tree.getNodeCount(), 2));
+        return r.nextDouble() * bounds - (bounds / 2);
+    }
 
     @Override
     public String toString() {
