@@ -42,23 +42,22 @@ public class Controller implements Initializable {
     private static final String avlTreeMessage = "Von seinen Freunden wird er liebevoll ApVeL-Baum genannt.";
     private static final Image avlImage = new Image(Controller.class.getResource("avl.png").toString());
 
+    @FXML
+    RadioButton standardTree;
+    @FXML
+    RadioButton redBlackTree;
+    @FXML
+    RadioButton avlTree;
+    @FXML
+    CheckBox showNullCheckBox;
+    @FXML
+    CheckBox showLeafsGreenCheckBox;
+    @FXML
+    CheckBox showGrassCheckBox;
     @Setter
     private Stage stage;
     private InterfaceBinarySearchTree<Integer> tree;
     private TreeVisualizer<Integer> visualizer;
-
-    @FXML
-    private RadioButton standardTree;
-    @FXML
-    private RadioButton redBlackTree;
-    @FXML
-    private RadioButton avlTree;
-    @FXML
-    private CheckBox showNullCheckBox;
-    @FXML
-    private CheckBox showLeafsGreenCheckBox;
-    @FXML
-    private CheckBox showGrassCheckBox;
     @FXML
     private ImageView graphvizImageView;
     @FXML
@@ -82,22 +81,55 @@ public class Controller implements Initializable {
 
         this.standardTree.selectedProperty().addListener((observableValue, aBoolean, t1) -> {
             if (t1) {
+                this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
                 this.treeMessage.setText(standardTreeMessage);
                 this.treeImage.setImage(standardImage);
+
+                List<Integer> values = this.tree.traverse(Order.PREORDER);
+                this.tree = new StandardBinarySearchTree<>();
+                try {
+                    addValuesToTree(values);
+                } catch (BinarySearchTreeException e) {
+                    e.printStackTrace();
+                }
+                this.visualizer.setTree(this.tree);
+                updateGraphvizImage();
             }
         });
 
         this.redBlackTree.selectedProperty().addListener((observableValue, aBoolean, t1) -> {
             if (t1) {
+                this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
                 this.treeMessage.setText(redBlackTreeMessage);
                 this.treeImage.setImage(redBlackImage);
+
+                List<Integer> values = this.tree.traverse(Order.PREORDER);
+                this.tree = new RedBlackBinarySearchTree<>();
+                try {
+                    addValuesToTree(values);
+                    updateGraphvizImage();
+                } catch (BinarySearchTreeException e) {
+                    this.showProgress.setProgress(0);
+                    e.printStackTrace();
+                }
             }
         });
 
         this.avlTree.selectedProperty().addListener((observableValue, aBoolean, t1) -> {
             if (t1) {
+                this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
                 this.treeMessage.setText(avlTreeMessage);
                 this.treeImage.setImage(avlImage);
+
+                List<Integer> values = this.tree.traverse(Order.PREORDER);
+                this.tree = new AVLBinarySearchTree<>();
+                try {
+                    addValuesToTree(values);
+                    updateGraphvizImage();
+                } catch (BinarySearchTreeException e) {
+                    this.showProgress.setProgress(0);
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -209,45 +241,6 @@ public class Controller implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    public void convertToStandardTree() {
-        this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
-        List<Integer> values = this.tree.traverse(Order.PREORDER);
-        this.tree = new StandardBinarySearchTree<>();
-        try {
-            addValuesToTree(values);
-        } catch (BinarySearchTreeException e) {
-            e.printStackTrace();
-        }
-        this.visualizer.setTree(this.tree);
-        updateGraphvizImage();
-    }
-
-    public void convertToRedBlackTree() {
-        this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
-        List<Integer> values = this.tree.traverse(Order.PREORDER);
-        this.tree = new RedBlackBinarySearchTree<>();
-        try {
-            addValuesToTree(values);
-            updateGraphvizImage();
-        } catch (BinarySearchTreeException e) {
-            this.showProgress.setProgress(0);
-            e.printStackTrace();
-        }
-    }
-
-    public void convertToAvlTree() {
-        this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
-        List<Integer> values = this.tree.traverse(Order.PREORDER);
-        this.tree = new AVLBinarySearchTree<>();
-        try {
-            addValuesToTree(values);
-            updateGraphvizImage();
-        } catch (BinarySearchTreeException e) {
-            this.showProgress.setProgress(0);
-            e.printStackTrace();
         }
     }
 

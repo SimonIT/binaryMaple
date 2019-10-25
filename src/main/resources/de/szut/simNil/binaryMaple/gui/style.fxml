@@ -18,11 +18,9 @@
     </MenuBar>
     <HBox VBox.vgrow="ALWAYS">
         <VBox minWidth="200.0" spacing="10.0">
-            <RadioButton fx:id="standardTree" onAction="#convertToStandardTree" selected="true" text="Standard-Baum"
-                         toggleGroup="$treeType"/>
-            <RadioButton fx:id="redBlackTree" onAction="#convertToRedBlackTree" text="Rot-Schwarz-Baum"
-                         toggleGroup="$treeType"/>
-            <RadioButton fx:id="avlTree" onAction="#convertToAvlTree" text="AVL-Baum" toggleGroup="$treeType"/>
+            <RadioButton fx:id="standardTree" selected="true" text="Einfacher-Baum" toggleGroup="$treeType"/>
+            <RadioButton fx:id="redBlackTree" text="Rot-Schwarz-Baum" toggleGroup="$treeType"/>
+            <RadioButton fx:id="avlTree" text="AVL-Baum" toggleGroup="$treeType"/>
             <Separator prefWidth="200.0"/>
             <CheckBox fx:id="showNullCheckBox" text="Terminal-Knoten anzeigen"/>
             <CheckBox fx:id="showLeafsGreenCheckBox" selected="true" text="Blätter grün anzeigen"/>
