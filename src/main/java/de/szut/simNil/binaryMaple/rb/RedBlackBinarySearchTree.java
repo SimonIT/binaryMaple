@@ -1,27 +1,22 @@
 package de.szut.simNil.binaryMaple.rb;
 
+import de.szut.simNil.binaryMaple.AbstractBinarySearchTree;
 import de.szut.simNil.binaryMaple.BinarySearchTreeException;
-import de.szut.simNil.binaryMaple.InterfaceBinarySearchTree;
-import de.szut.simNil.binaryMaple.Order;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Stack;
 
-public class RedBlackBinarySearchTree<T extends Comparable<T>> implements InterfaceBinarySearchTree<T> {
-    private RBNode<T> root;
-    private Integer nodeCount;
-
+public class RedBlackBinarySearchTree<T extends Comparable<T>> extends AbstractBinarySearchTree<T> {
     public RedBlackBinarySearchTree() {
         this.root = new RBNode<>();
-        nodeCount = 0;
+        this.nodeCount = 0;
     }
 
     public RedBlackBinarySearchTree(@NotNull T value) {
         this.root = new RBNode<>(value);
         this.root.setLeft(new RBNode<>());
         this.root.setRight(new RBNode<>());
-        nodeCount = 1;
+        this.nodeCount = 1;
     }
 
     private void rebalanceInsertion(RBNode<T> current, Stack<RBNode<T>> ancestors) {
@@ -97,7 +92,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
     @Override
     public void addValue(@NotNull T value) throws BinarySearchTreeException {
         Stack<RBNode<T>> ancestors = new Stack<>();
-        RBNode<T> current = this.root;
+        RBNode<T> current = (RBNode<T>) this.root;  // TODO: why is this cast necessary?
         while (current.getValue() != null) {
             int c = value.compareTo(current.getValue());
             if (c == 0) {
@@ -217,7 +212,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
     @Override
     public void delValue(@NotNull T value) throws BinarySearchTreeException {
         Stack<RBNode<T>> ancestors = new Stack<>();
-        RBNode<T> current = this.root;
+        RBNode<T> current = (RBNode<T>) this.root;
         while (current.getValue() != null) {
             int c = value.compareTo(current.getValue());
             if (c == 0) {
@@ -292,111 +287,5 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> implements Interf
             }
         }
         throw new BinarySearchTreeException(String.format("Node with value %s cannot be deleted because it does not exist", value));
-    }
-
-    @Override
-    public boolean hasValue(@NotNull T value) {
-        return getNodeWithValue(value) != null;
-    }
-
-    @Override
-    @Nullable
-    public RBNode<T> getNodeWithValue(@NotNull T value) {
-        RBNode<T> current = this.root;
-        while (current.getValue() != null) {
-            int c = value.compareTo(current.getValue());
-            if (c == 0) {
-                return current;
-            }
-            current = c < 0 ? current.getLeft() : current.getRight();
-        }
-        return null;
-    }
-
-    @Override
-    public int getDepth() {
-        int depth = 0;
-        Queue<RBNode<T>> q = new LinkedList<>();
-        q.add(this.root);
-        while (!q.isEmpty()) {
-            ++depth;
-            int levelSize = q.size();
-            while (levelSize-- > 0) {
-                RBNode<T> node = q.poll();
-                if (node.getValue() != null) {
-                    q.add(node.getLeft());
-                    q.add(node.getRight());
-                }
-            }
-        }
-        return depth - 1;   // "- 1" compensates for terminal nodes
-    }
-
-    @Override
-    public List<T> traverse(Order order) {
-        List<T> result = new ArrayList<>();
-        if (order == Order.PREORDER) {
-            Stack<RBNode<T>> s = new Stack<>();
-            s.push(this.root);
-            while (!s.isEmpty()) {
-                RBNode<T> p = s.pop();
-                if (p.getValue() != null) {
-                    result.add(p.getValue());
-                    s.push(p.getRight());
-                    s.push(p.getLeft());
-                }
-            }
-        } else if (order == Order.INORDER) {
-            Stack<RBNode<T>> s = new Stack<>();
-            RBNode<T> node = this.root;
-            while (true) {
-                while (node.getValue() != null) {
-                    s.push(node);
-                    node = node.getLeft();
-                }
-                if (s.isEmpty()) {
-                    break;
-                }
-                RBNode<T> p = s.pop();
-                result.add(p.getValue());
-                node = p.getRight();
-            }
-        } else if (order == Order.POSTORDER) {
-            Stack<RBNode<T>> s = new Stack<>(), s2 = new Stack<>();
-            s.push(this.root);
-            while (!s.isEmpty()) {
-                RBNode<T> p = s.pop();
-                if (p.getValue() != null) {
-                    s2.push(p);
-                    s.push(p.getLeft());
-                    s.push(p.getRight());
-                }
-            }
-            while (!s2.isEmpty()) {
-                result.add(s2.pop().getValue());
-            }
-        } else if (order == Order.LEVELORDER) {
-            Queue<RBNode<T>> q = new LinkedList<>();
-            q.add(root);
-            while (!q.isEmpty()) {
-                RBNode<T> p = q.poll();
-                if (p.getValue() != null) {
-                    result.add(p.getValue());
-                    q.add(p.getLeft());
-                    q.add(p.getRight());
-                }
-            }
-        }
-        return result;
-    }
-
-    @Override
-    public RBNode<T> getRoot() {
-        return this.root;
-    }
-
-    @Override
-    public int getNodeCount() {
-        return this.nodeCount;
     }
 }

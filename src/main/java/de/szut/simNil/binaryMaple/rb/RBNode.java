@@ -10,12 +10,14 @@ public class RBNode<T extends Comparable<T>> extends BNode<T> {
 
     RBNode() {
         super();
-        this.color = Color.BLACK;   // initialize terminal nodes as black
+        // initialize terminal nodes as black
+        this.color = Color.BLACK;
     }
 
     public RBNode(@NotNull T value) {
         super(value);
-        this.color = Color.RED; // initialize nodes with values as red
+        // initialize nodes with values as red
+        this.color = Color.RED;
     }
 
     @Nullable
