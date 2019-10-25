@@ -20,17 +20,17 @@ class RedBlackBinarySearchTreeTest {
         }
 
         assertEquals(8, tree.getRoot().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getColor());
 
         assertNull(tree.getRoot().getLeft().getValue());
         assertNull(tree.getRoot().getLeft().getLeft());
         assertNull(tree.getRoot().getLeft().getRight());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getLeft().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getLeft().getColor());
 
         assertNull(tree.getRoot().getRight().getValue());
         assertNull(tree.getRoot().getRight().getLeft());
         assertNull(tree.getRoot().getRight().getRight());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getRight().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getRight().getColor());
 
         // check insertion case 1
         try {
@@ -39,12 +39,12 @@ class RedBlackBinarySearchTreeTest {
             e.printStackTrace();
         }
         assertEquals(8, tree.getRoot().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getColor());
 
         assertNull(tree.getRoot().getLeft().getValue());
 
         assertEquals(17, tree.getRoot().getRight().getValue());
-        assertEquals(RBNode.Color.RED, tree.getRoot().getRight().getColor());
+        assertEquals(RBNode.Color.RED, ((RBNode<Integer>) tree.getRoot()).getRight().getColor());
 
         // check insertion case 3 and case 4
         try {
@@ -53,15 +53,15 @@ class RedBlackBinarySearchTreeTest {
             e.printStackTrace();
         }
         assertEquals(13, tree.getRoot().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getColor());
 
         assertEquals(8, tree.getRoot().getLeft().getValue());
-        assertEquals(RBNode.Color.RED, tree.getRoot().getLeft().getColor());
+        assertEquals(RBNode.Color.RED, ((RBNode<Integer>) tree.getRoot()).getLeft().getColor());
         assertNull(tree.getRoot().getLeft().getLeft().getValue());
         assertNull(tree.getRoot().getLeft().getRight().getValue());
 
         assertEquals(17, tree.getRoot().getRight().getValue());
-        assertEquals(RBNode.Color.RED, tree.getRoot().getRight().getColor());
+        assertEquals(RBNode.Color.RED, ((RBNode<Integer>) tree.getRoot()).getRight().getColor());
         assertNull(tree.getRoot().getRight().getLeft().getValue());
         assertNull(tree.getRoot().getRight().getRight().getValue());
 
@@ -73,19 +73,19 @@ class RedBlackBinarySearchTreeTest {
         }
 
         assertEquals(13, tree.getRoot().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getColor());
 
         assertEquals(8, tree.getRoot().getLeft().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getLeft().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getLeft().getColor());
         assertNull(tree.getRoot().getLeft().getRight().getValue());
 
         assertEquals(-3, tree.getRoot().getLeft().getLeft().getValue());
-        assertEquals(RBNode.Color.RED, tree.getRoot().getLeft().getLeft().getColor());
+        assertEquals(RBNode.Color.RED, ((RBNode<Integer>) tree.getRoot()).getLeft().getLeft().getColor());
         assertNull(tree.getRoot().getLeft().getLeft().getLeft().getValue());
         assertNull(tree.getRoot().getLeft().getLeft().getRight().getValue());
 
         assertEquals(17, tree.getRoot().getRight().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getRight().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getRight().getColor());
         assertNull(tree.getRoot().getRight().getLeft().getValue());
         assertNull(tree.getRoot().getRight().getRight().getValue());
     }
@@ -104,16 +104,16 @@ class RedBlackBinarySearchTreeTest {
         }
 
         assertEquals(3, tree.getRoot().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getColor());
 
         assertEquals(-5, tree.getRoot().getLeft().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getLeft().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getLeft().getColor());
         assertNull(tree.getRoot().getLeft().getLeft().getValue());
         assertNull(tree.getRoot().getLeft().getRight().getValue());
 
 
         assertEquals(4, tree.getRoot().getRight().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getRight().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getRight().getColor());
         assertNull(tree.getRoot().getRight().getLeft().getValue());
         assertNull(tree.getRoot().getRight().getRight().getValue());
     }
@@ -132,16 +132,16 @@ class RedBlackBinarySearchTreeTest {
         }
 
         assertEquals(3, tree.getRoot().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getColor());
 
         assertEquals(-5, tree.getRoot().getLeft().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getLeft().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getLeft().getColor());
         assertNull(tree.getRoot().getLeft().getLeft().getValue());
         assertNull(tree.getRoot().getLeft().getRight().getValue());
 
 
         assertEquals(7, tree.getRoot().getRight().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getRight().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getRight().getColor());
         assertNull(tree.getRoot().getRight().getLeft().getValue());
         assertNull(tree.getRoot().getRight().getRight().getValue());
     }
@@ -174,10 +174,10 @@ class RedBlackBinarySearchTreeTest {
         }
 
         assertEquals(3, tree.getRoot().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getColor());
 
         assertEquals(-5, tree.getRoot().getLeft().getValue());
-        assertEquals(RBNode.Color.RED, tree.getRoot().getLeft().getColor());
+        assertEquals(RBNode.Color.RED, ((RBNode<Integer>) tree.getRoot()).getLeft().getColor());
         assertNull(tree.getRoot().getLeft().getLeft().getValue());
         assertNull(tree.getRoot().getLeft().getRight().getValue());
 
@@ -201,23 +201,23 @@ class RedBlackBinarySearchTreeTest {
         }
 
         assertEquals(7, tree.getRoot().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getColor());
 
         assertEquals(3, tree.getRoot().getLeft().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getLeft().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getLeft().getColor());
         assertNull(tree.getRoot().getLeft().getLeft().getValue());
 
         assertEquals(4, tree.getRoot().getLeft().getRight().getValue());
-        assertEquals(RBNode.Color.RED, tree.getRoot().getLeft().getRight().getColor());
+        assertEquals(RBNode.Color.RED, ((RBNode<Integer>) tree.getRoot()).getLeft().getRight().getColor());
         assertNull(tree.getRoot().getLeft().getRight().getLeft().getValue());
         assertNull(tree.getRoot().getLeft().getRight().getRight().getValue());
 
         assertEquals(10, tree.getRoot().getRight().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getRight().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getRight().getColor());
         assertNull(tree.getRoot().getRight().getLeft().getValue());
 
         assertEquals(13, tree.getRoot().getRight().getRight().getValue());
-        assertEquals(RBNode.Color.RED, tree.getRoot().getRight().getRight().getColor());
+        assertEquals(RBNode.Color.RED, ((RBNode<Integer>) tree.getRoot()).getRight().getRight().getColor());
         assertNull(tree.getRoot().getRight().getRight().getLeft().getValue());
         assertNull(tree.getRoot().getRight().getRight().getRight().getValue());
     }
@@ -239,19 +239,19 @@ class RedBlackBinarySearchTreeTest {
         }
 
         assertEquals(3, tree.getRoot().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getColor());
 
         assertEquals(-5, tree.getRoot().getLeft().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getLeft().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getLeft().getColor());
         assertNull(tree.getRoot().getLeft().getLeft().getValue());
         assertNull(tree.getRoot().getLeft().getRight().getValue());
 
         assertEquals(7, tree.getRoot().getRight().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getRight().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getRight().getColor());
         assertNull(tree.getRoot().getRight().getLeft().getValue());
 
         assertEquals(8, tree.getRoot().getRight().getRight().getValue());
-        assertEquals(RBNode.Color.RED, tree.getRoot().getRight().getRight().getColor());
+        assertEquals(RBNode.Color.RED, ((RBNode<Integer>) tree.getRoot()).getRight().getRight().getColor());
         assertNull(tree.getRoot().getRight().getRight().getLeft().getValue());
         assertNull(tree.getRoot().getRight().getRight().getRight().getValue());
     }
@@ -271,15 +271,15 @@ class RedBlackBinarySearchTreeTest {
         }
 
         assertEquals(5, tree.getRoot().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getColor());
 
         assertEquals(2, tree.getRoot().getLeft().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getLeft().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getLeft().getColor());
         assertNull(tree.getRoot().getLeft().getLeft().getValue());
         assertNull(tree.getRoot().getLeft().getRight().getValue());
 
         assertEquals(7, tree.getRoot().getRight().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getRight().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getRight().getColor());
         assertNull(tree.getRoot().getRight().getLeft().getValue());
         assertNull(tree.getRoot().getRight().getRight().getValue());
     }
@@ -298,15 +298,15 @@ class RedBlackBinarySearchTreeTest {
         }
 
         assertEquals(7, tree.getRoot().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getColor());
 
         assertEquals(2, tree.getRoot().getLeft().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getLeft().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getLeft().getColor());
         assertNull(tree.getRoot().getLeft().getLeft().getValue());
         assertNull(tree.getRoot().getLeft().getRight().getValue());
 
         assertEquals(10, tree.getRoot().getRight().getValue());
-        assertEquals(RBNode.Color.BLACK, tree.getRoot().getRight().getColor());
+        assertEquals(RBNode.Color.BLACK, ((RBNode<Integer>) tree.getRoot()).getRight().getColor());
         assertNull(tree.getRoot().getRight().getLeft().getValue());
         assertNull(tree.getRoot().getRight().getRight().getValue());
     }
