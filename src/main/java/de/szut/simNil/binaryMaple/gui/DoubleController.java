@@ -14,7 +14,7 @@ public class DoubleController extends AbstractController<Double> {
     @Override
     Double getRandomValue() {
         return r.nextDouble();
-    }
+    }   // TODO: create distribution similar to IntegerController
 
     @Override
     public String toString() {
