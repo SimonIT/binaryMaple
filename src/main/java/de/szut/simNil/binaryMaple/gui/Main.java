@@ -36,6 +36,9 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("style.fxml"));
         loader.setController(controller);
         Parent root = loader.load();
+        boolean maximized = this.stage.isMaximized();
+        this.stage.setMaximized(false);
         this.stage.setScene(new Scene(root));
+        this.stage.setMaximized(maximized);
     }
 }

@@ -1,10 +1,8 @@
 package de.szut.simNil.binaryMaple.gui;
 
-import java.util.Random;
+import org.apache.commons.lang3.RandomUtils;
 
 public class IntegerController extends AbstractController<Integer> {
-
-    private static Random r = new Random();
 
     @Override
     Integer getInput(String input) {
@@ -14,7 +12,7 @@ public class IntegerController extends AbstractController<Integer> {
     @Override
     Integer getRandomValue() {
         int bounds = Math.max(40, (int) Math.pow(this.tree.getNodeCount(), 2));
-        return r.nextInt(bounds) - (bounds / 2);
+        return RandomUtils.nextInt(0, bounds) - (bounds / 2);
     }
 
     @Override
