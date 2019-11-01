@@ -47,6 +47,9 @@ public class RBNode<T extends Comparable<T>> extends BNode<T> {
         this.color = color;
     }
 
+    /**
+     * This enum contains the two colors (red and black) an RBNode can have
+     */
     public enum Color {
         RED, BLACK
     }
