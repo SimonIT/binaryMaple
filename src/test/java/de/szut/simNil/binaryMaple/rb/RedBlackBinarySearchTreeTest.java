@@ -8,7 +8,6 @@ import javax.swing.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RedBlackBinarySearchTreeTest {
-
     @Test
     void addValue() {
         // check insertion case 0 and leaf node colors
