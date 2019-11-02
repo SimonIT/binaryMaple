@@ -64,15 +64,15 @@ public abstract class AbstractBinarySearchTree<T extends Comparable<T>> implemen
     }
 
     /**
-     * @return depth (number of levels) of tree
+     * @return height (number of levels) of tree
      */
     @Override
-    public int getDepth() {
-        int depth = 0;
+    public int getHeight() {
+        int height = 0;
         Queue<BNode<T>> q = new LinkedList<>();
         q.add(this.root);
         while (!q.isEmpty()) {
-            ++depth;
+            ++height;
             int levelSize = q.size();
             while (levelSize-- > 0) {
                 BNode<T> node = q.poll();
@@ -83,7 +83,7 @@ public abstract class AbstractBinarySearchTree<T extends Comparable<T>> implemen
             }
         }
         // "- 1" compensates for terminal nodes
-        return depth - 1;
+        return height - 1;
     }
 
     /**

@@ -42,9 +42,9 @@ public interface InterfaceBinarySearchTree<T extends Comparable<T>> {
     AbstractNode<T> getNodeWithValue(@NotNull T value);
 
     /**
-     * @return depth (number of levels) of tree
+     * @return height (number of levels) of tree
      */
-    int getDepth();
+    int getHeight();
 
     /**
      * @param order element of Enum order
