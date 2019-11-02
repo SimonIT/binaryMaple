@@ -9,9 +9,12 @@ public class StringController extends AbstractController<String> {
         return input;
     }
 
+    /**
+     * @return random string with at least one character; the maximum length of the string depends on the tree's height
+     */
     @Override
     String getRandomValue() {
-        return RandomStringUtils.randomAlphanumeric(0, Math.max(5, this.tree.getDepth()));
+        return RandomStringUtils.randomAlphanumeric(1, Math.max(5, this.tree.getHeight()));
     }
 
     @Override
