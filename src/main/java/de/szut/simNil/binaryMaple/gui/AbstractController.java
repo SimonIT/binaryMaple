@@ -23,6 +23,8 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URL;
@@ -59,6 +61,9 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     };
 
     protected InterfaceBinarySearchTree<T> tree;
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
     private TreeVisualizer<T> visualizer;
 
     @Setter
@@ -100,6 +105,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
             try {
                 this.main.changeController(t1);
             } catch (IOException e) {
+                this.logger.error("Failed changing the controller", e);
                 System.exit(-1);
             }
         });
@@ -118,11 +124,10 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
                 this.tree = new StandardBinarySearchTree<>();
                 try {
                     addValuesToTree(values);
+                    updateGraphvizImage();
                 } catch (BinarySearchTreeException e) {
-                    e.printStackTrace();
+                    warn("Fehler beim Übertragen der Werte", "Es konnten nicht alle Werte zum Standard Baum übertragen werden", e);
                 }
-                this.visualizer.setTree(this.tree);
-                updateGraphvizImage();
             }
         });
 
@@ -138,8 +143,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
                     addValuesToTree(values);
                     updateGraphvizImage();
                 } catch (BinarySearchTreeException e) {
-                    this.showProgress.setProgress(0);
-                    e.printStackTrace();
+                    warn("Fehler beim Übertragen der Werte", "Es konnten nicht alle Werte zum AVL Baum übertragen werden", e);
                 }
             }
         });
@@ -157,7 +161,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
                     updateGraphvizImage();
                 } catch (BinarySearchTreeException e) {
                     this.showProgress.setProgress(0);
-                    e.printStackTrace();
+                    warn("Fehler beim Übertragen der Werte", "Es konnten nicht alle Werte zum Standard Baum übertraben werden", e);
                 }
             }
         });
@@ -237,11 +241,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
             } catch (OutOfMemoryError e) {
                 Platform.runLater(() -> {
                     this.graphvizImageView.setImage(null);
-                    this.showProgress.setProgress(0);
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setHeaderText("Fehler beim Erstellen des Bildes!");
-                    alert.setContentText("Es scheint, als hätte Java zu wenig Arbeitsspeicher zur Verfügung um das Graphviz zu erstellen.");
-                    alert.show();
+                    warn("Fehler beim Erstellen des Bildes!", "Es scheint, als hätte Java zu wenig Arbeitsspeicher zur Verfügung um das Graphviz zu erstellen.", e);
                 });
             }
         }).start();
@@ -268,8 +268,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
                     this.avlTree.setSelected(this.tree instanceof AVLBinarySearchTree);
                     updateGraphvizImage();
                 } catch (IOException e) {
-                    Platform.runLater(() -> this.showProgress.setProgress(0));
-                    e.printStackTrace();
+                    Platform.runLater(() -> warn("Fehler beim Lesen der Datei", String.format("Die Datei %s konnte nicht eingelesen werden", file), e));
                 }
             }).start();
         }
@@ -291,8 +290,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
                     }
                     writer.close();
                 } catch (IOException e) {
-                    Platform.runLater(() -> this.showProgress.setProgress(0));
-                    e.printStackTrace();
+                    Platform.runLater(() -> warn("Fehler beim Speichern der Datei", String.format("Die Datei %s konnte nicht gespeichert werden", file), e));
                 }
                 Platform.runLater(() -> this.showProgress.setProgress(1));
             }).start();
@@ -308,7 +306,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
             try {
                 this.visualizer.saveGraphviz(file, GRAPHVIZ_EXTENSIONS.get(chooser.getSelectedExtensionFilter()));
             } catch (IOException e) {
-                e.printStackTrace();
+                warn("Fehler beim Speichern des Bildes", String.format("Das Bild konnte nicht als Datei %s  espeichert werden", file), e);
             }
         }
     }
@@ -321,9 +319,10 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         try {
             this.tree.addValue(getInput(this.valueField.getText()));
             updateGraphvizImage();
+        } catch (NumberFormatException e) {
+            warn("Falsche Eingabe", "Es scheint, als hätten Sie keine Zahl eingegeben", e);
         } catch (BinarySearchTreeException e) {
-            System.out.println(e.getMessage());
-            this.showProgress.setProgress(0);
+            warn("Falsche Eingabe", "Es ist ein Fehler beim Hinzufügen des Wertes aufgetreten", e);
         }
     }
 
@@ -333,9 +332,10 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         try {
             this.tree.delValue(getInput(this.valueField.getText()));
             updateGraphvizImage();
+        } catch (NumberFormatException e) {
+            warn("Falsche Eingabe", "Es scheint, als hätten Sie keine Zahl eingegeben", e);
         } catch (BinarySearchTreeException e) {
-            System.out.println(e.getMessage());
-            this.showProgress.setProgress(0);
+            warn("Falsche Eingabe", "Es ist ein Fehler beim Löschen des Wertes aufgetreten", e);
         }
     }
 
@@ -345,7 +345,11 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         if (this.valueField.getText().isEmpty()) {
             this.visualizer.setHighlightedNode(null);
         } else {
-            this.visualizer.setHighlightedNode(this.tree.getNodeWithValue(getInput(this.valueField.getText())));
+            try {
+                this.visualizer.setHighlightedNode(this.tree.getNodeWithValue(getInput(this.valueField.getText())));
+            } catch (NumberFormatException e) {
+                warn("Falsche Eingabe", "Es scheint, als hätten Sie keine Zahl eingegeben", e);
+            }
         }
         updateGraphvizImage();
     }
@@ -353,13 +357,17 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     @FXML
     private void collapseAtValue() {
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
-        AbstractNode<T> collapseNode = this.tree.getNodeWithValue(getInput(this.valueField.getText()));
-        if (this.visualizer.isCollapsed(collapseNode)) {
-            this.visualizer.removeCollapseNode(collapseNode);
-        } else {
-            this.visualizer.addCollapseNode(collapseNode);
+        try {
+            AbstractNode<T> collapseNode = this.tree.getNodeWithValue(getInput(this.valueField.getText()));
+            if (this.visualizer.isCollapsed(collapseNode)) {
+                this.visualizer.removeCollapseNode(collapseNode);
+            } else {
+                this.visualizer.addCollapseNode(collapseNode);
+            }
+            updateGraphvizImage();
+        } catch (NumberFormatException e) {
+            warn("Falsche Eingabe", "Es scheint, als hätten Sie keine Zahl eingegeben", e);
         }
-        updateGraphvizImage();
     }
 
     abstract T getRandomValue();
@@ -368,17 +376,30 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     private void generateValueTimes() {
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         new Thread(() -> {
-            for (int i = 0; i < Integer.parseInt(this.valueField.getText()); i++) {
-                try {
-                    this.tree.addValue(getRandomValue());
-                } catch (BinarySearchTreeException e) {
-                    i--;
+            try {
+                for (int i = 0; i < Integer.parseInt(this.valueField.getText()); i++) {
+                    try {
+                        this.tree.addValue(getRandomValue());
+                    } catch (BinarySearchTreeException e) {
+                        i--;
+                    }
                 }
+                updateGraphvizImage();
+            } catch (NumberFormatException e) {
+                Platform.runLater(() -> warn("Falsche Eingabe", "Es scheint, als hätten Sie keine Zahl eingegeben", e));
             }
-            updateGraphvizImage();
         }).start();
     }
 
     @Override
     public abstract String toString();
+
+    private void warn(String heading, String text, Throwable e) {
+        this.showProgress.setProgress(0);
+        this.logger.warn(text, e);
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setHeaderText(heading);
+        alert.setContentText(String.format("%s\n\n\n%s", text, e.toString()));
+        alert.show();
+    }
 }
