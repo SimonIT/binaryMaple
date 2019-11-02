@@ -4,6 +4,14 @@ import de.szut.simNil.binaryMaple.BNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * This class extends BNode and is used in red black trees. In addition to the functionality of BNode, every node of
+ * this class contains a color (red or black) which is specified by an Enum within the class.
+ *
+ * @param <T> type parameter of node values (for example Integer or String)
+ * @author Simon Bullik
+ * @author Nils Malte Kiele
+ */
 public class RBNode<T extends Comparable<T>> extends BNode<T> {
     @NotNull
     private Color color;
@@ -48,7 +56,7 @@ public class RBNode<T extends Comparable<T>> extends BNode<T> {
     }
 
     /**
-     * This enum contains the two colors (red and black) an RBNode can have
+     * This enum contains the two colors (RED and BLACK) an RBNode can have
      */
     public enum Color {
         RED, BLACK
