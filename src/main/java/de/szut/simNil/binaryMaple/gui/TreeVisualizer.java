@@ -87,79 +87,68 @@ public class TreeVisualizer<T extends Comparable<T>> {
     public List<Node> getNodes() {
         this.nodes.clear();
         this.duplicateNodeNumber = 0;
-        if (this.collapseNodes.contains(this.tree.getRoot())) {
-            this.nodes.add(createCollapseNode(this.tree.getRoot()));
-        } else {
-            addNode(this.tree.getRoot());
-        }
+        addNode(this.tree.getRoot(), null);
         return this.nodes;
     }
 
-    private void addNode(@Nullable AbstractNode<T> node) {
-        if (node == null || node.getValue() == null) {
-            return;
-        }
-
-        Node root = node(node.toString()).with(Style.FILLED.and(Style.lineWidth(2)), Color.WHITE.fill(), Color.BLACK.font());
-
-        if (node instanceof BNode) {
-            if (node instanceof RBNode) {
-                switch (((RBNode) node).getColor()) {
-                    case RED:
-                        root = root.with(Color.RED.fill(), Color.RED);
-                        break;
-                    case BLACK:
-                        root = root.with(Color.BLACK.fill(), Color.WHITE.font());
-                        break;
-                }
-            }
-
-            BNode<T> left = ((BNode<T>) node).getLeft();
-            BNode<T> right = ((BNode<T>) node).getRight();
-            if (this.highlightLeafs && left != null && right != null && left.getValue() == null && right.getValue() == null) {
-                root = root.with(Color.GREEN);
-            }
-
-            root = addBNode(root, left);
-
-            root = addBNode(root, right);
-
-        }
-
-        if (this.tree.getRoot().equals(node)) {
-            root = root.with(Color.BROWN.fill(), Color.BROWN, Color.WHITE.font());
-        }
-
-        if (this.highlightedNode != null && this.highlightedNode.getValue() != null && this.highlightedNode.getValue().compareTo(node.getValue()) == 0) {
-            root = root.with(Color.PURPLE.fill(), Color.WHITE.font());
-        }
-
-        this.nodes.add(root);
-    }
-
-    @NotNull
-    private Node addBNode(@NotNull Node root, @Nullable BNode<T> node) {
+    /**
+     * Creates a graphviz node from the root node, sets the style, does the same process with its childs and adds the gnode to a list
+     *
+     * @param node   the node to create a gnode from
+     * @param parent the parent node, needed for linking
+     */
+    private Node addNode(@Nullable AbstractNode<T> node, @Nullable Node parent) {
+        Node me = null;
         if (node != null && node.getValue() != null) {
             if (!this.collapseNodes.contains(node)) {
 
-                Node graphNode = node(node.toString());
+                me = node(node.toString()).with(Style.FILLED.and(Style.lineWidth(2)), Color.WHITE.fill(), Color.BLACK.font());
 
-                root = root.link(to(graphNode));
+                if (node instanceof BNode) {
+                    if (node instanceof RBNode) {
+                        switch (((RBNode) node).getColor()) {
+                            case RED:
+                                me = me.with(Color.RED.fill(), Color.RED);
+                                break;
+                            case BLACK:
+                                me = me.with(Color.BLACK.fill(), Color.WHITE.font());
+                                break;
+                        }
+                    }
 
-                addNode(node);
+                    BNode<T> left = ((BNode<T>) node).getLeft();
+                    BNode<T> right = ((BNode<T>) node).getRight();
+                    if (this.highlightLeafs && left != null && right != null && left.getValue() == null && right.getValue() == null) {
+                        me = me.with(Color.GREEN);
+                    }
+
+                    me = addNode(left, me);
+
+                    me = addNode(right, me);
+                }
+
+                if (this.tree.getRoot() != null && this.tree.getRoot().equals(node)) {
+                    me = me.with(Color.BROWN.fill(), Color.BROWN, Color.WHITE.font());
+                }
+
+                if (this.highlightedNode != null && this.highlightedNode.getValue() != null && this.highlightedNode.getValue().compareTo(node.getValue()) == 0) {
+                    me = me.with(Color.PURPLE.fill(), Color.WHITE.font());
+                }
             } else {
-                Node nodeCollapse = createCollapseNode(node);
-                this.nodes.add(nodeCollapse);
-                root = root.link(to(nodeCollapse));
+                me = createCollapseNode(node);
             }
         } else {
             if (this.showNullNodes) {
-                Node nodeNull = node(String.format("null%d", duplicateNodeNumber++)).with(Shape.RECTANGLE, Label.of("null"));
-                this.nodes.add(nodeNull);
-                root = root.link(to(nodeNull));
+                me = node(String.format("null%d", duplicateNodeNumber++)).with(Shape.RECTANGLE, Label.of("null"));
             }
         }
-        return root;
+        if (me != null) {
+            this.nodes.add(me);
+            if (parent != null) {
+                parent = parent.link(to(me));
+            }
+        }
+        return parent;
     }
 
     /**
@@ -190,7 +179,7 @@ public class TreeVisualizer<T extends Comparable<T>> {
         if (this.withGrass) {
             BufferedImage grass = null;
             try {
-                grass = ImageIO.read(TreeVisualizer.class.getResourceAsStream("grass_PNG10856.png"));
+                grass = ImageIO.read(getClass().getResourceAsStream("grass_PNG10856.png"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
