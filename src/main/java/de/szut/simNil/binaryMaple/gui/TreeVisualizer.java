@@ -118,7 +118,8 @@ public class TreeVisualizer<T extends Comparable<T>> {
 
                     BNode<T> left = ((BNode<T>) node).getLeft();
                     BNode<T> right = ((BNode<T>) node).getRight();
-                    if (this.highlightLeafs && left != null && right != null && left.getValue() == null && right.getValue() == null) {
+                    if (this.highlightLeafs && left != null && right != null
+                        && left.getValue() == null && right.getValue() == null) {
                         me = me.with(Color.GREEN);
                     }
 
@@ -131,11 +132,12 @@ public class TreeVisualizer<T extends Comparable<T>> {
                     me = me.with(Color.BROWN.fill(), Color.BROWN, Color.WHITE.font());
                 }
 
-                if (this.highlightedNode != null && this.highlightedNode.getValue() != null && this.highlightedNode.getValue().compareTo(node.getValue()) == 0) {
+                if (this.highlightedNode != null && this.highlightedNode.getValue() != null
+                    && this.highlightedNode.getValue().compareTo(node.getValue()) == 0) {
                     me = me.with(Color.PURPLE.fill(), Color.WHITE.font());
                 }
             } else {
-                me = createCollapseNode(node);
+                me = node(String.format("collapse%d", duplicateNodeNumber++)).with(Label.of(node.toString()), Shape.TRIANGLE);
             }
         } else {
             if (this.showNullNodes) {
@@ -149,14 +151,6 @@ public class TreeVisualizer<T extends Comparable<T>> {
             }
         }
         return parent;
-    }
-
-    /**
-     * @param node a binary tree node
-     * @return a graphviz triangle node with the value of the binary tree node
-     */
-    private Node createCollapseNode(AbstractNode<T> node) {
-        return node(String.format("collapse%d", duplicateNodeNumber++)).with(Label.of(node.toString()), Shape.TRIANGLE);
     }
 
     /**
