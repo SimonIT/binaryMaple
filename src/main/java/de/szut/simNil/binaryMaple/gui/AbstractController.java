@@ -34,9 +34,15 @@ import java.util.ResourceBundle;
 
 public abstract class AbstractController<T extends Comparable<T>> implements Initializable {
 
-    private static final FileChooser.ExtensionFilter[] TREE_EXTENSION = new FileChooser.ExtensionFilter[]{
+    /**
+     * File extensions for saving and loading the tree
+     */
+    private static final FileChooser.ExtensionFilter[] TREE_EXTENSIONS = new FileChooser.ExtensionFilter[]{
         new FileChooser.ExtensionFilter("XML", "*.xml")
     };
+    /**
+     * The image file extensions mapped with the format supported by graphviz
+     */
     private static final Map<FileChooser.ExtensionFilter, Format> GRAPHVIZ_EXTENSIONS = FormatExtensionFilter.getFilters();
 
     private static final String standardTreeMessage = "Dieser Baum ist einfach gestrickt, kann aber ganz schön listig werden.";
@@ -46,6 +52,9 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     private static final String avlTreeMessage = "Von seinen Freunden wird er liebevoll ApVeL-Baum genannt.";
     private static final Image avlImage = new Image(AbstractController.class.getResource("avl.png").toString());
 
+    /**
+     * all implemented key shortcuts
+     */
     private static final KeyCombination[] combinations = new KeyCombination[]{
         new KeyCodeCombination(KeyCode.H, KeyCombination.ALT_DOWN), // Add
         new KeyCodeCombination(KeyCode.L, KeyCombination.ALT_DOWN), // Delete
@@ -60,12 +69,24 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         new KeyCodeCombination(KeyCode.G, KeyCombination.ALT_DOWN), // Grass
     };
 
+    /**
+     * out tree
+     */
     protected InterfaceBinarySearchTree<T> tree;
 
+    /**
+     * logger for logging exceptions
+     */
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    /**
+     * For creating the graphviz
+     */
     private TreeVisualizer<T> visualizer;
 
+    /**
+     * for getting the stage
+     */
     @Setter
     private Main main;
     @FXML
@@ -222,12 +243,21 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         });
     }
 
+    /**
+     * adds a values to the tree
+     *
+     * @param Ts all values
+     * @throws BinarySearchTreeException if a value is already present
+     */
     private void addValuesToTree(List<T> Ts) throws BinarySearchTreeException {
         for (T i : Ts) {
             this.tree.addValue(i);
         }
     }
 
+    /**
+     * creates a new graphviz
+     */
     private void updateGraphvizImage() {
         new Thread(() -> {
             this.visualizer.setTree(this.tree);
@@ -247,18 +277,21 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         }).start();
     }
 
+    /**
+     * loads a tree from a file
+     */
     @SuppressWarnings("unchecked")
     @FXML
     private void loadTree() {
         FileChooser chooser = new FileChooser();
-        chooser.getExtensionFilters().setAll(TREE_EXTENSION);
+        chooser.getExtensionFilters().setAll(TREE_EXTENSIONS);
         File file = chooser.showOpenDialog(this.main.getStage());
         if (file != null) {
             this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
             new Thread(() -> {
                 try {
                     BufferedReader reader = new BufferedReader(new FileReader(file));
-                    if (chooser.getSelectedExtensionFilter().equals(TREE_EXTENSION[0])) {
+                    if (chooser.getSelectedExtensionFilter().equals(TREE_EXTENSIONS[0])) {
                         XStream xStream = new XStream(new StaxDriver());
                         this.tree = (InterfaceBinarySearchTree<T>) xStream.fromXML(reader);
                     }
@@ -274,17 +307,20 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         }
     }
 
+    /**
+     * saves the tree as file
+     */
     @FXML
     private void saveTree() {
         FileChooser chooser = new FileChooser();
-        chooser.getExtensionFilters().setAll(TREE_EXTENSION);
+        chooser.getExtensionFilters().setAll(TREE_EXTENSIONS);
         File file = chooser.showSaveDialog(this.main.getStage());
         if (file != null) {
             this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
             new Thread(() -> {
                 try {
                     BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                    if (chooser.getSelectedExtensionFilter().equals(TREE_EXTENSION[0])) {
+                    if (chooser.getSelectedExtensionFilter().equals(TREE_EXTENSIONS[0])) {
                         XStream xStream = new XStream(new StaxDriver());
                         xStream.toXML(this.tree, writer);
                     }
@@ -297,6 +333,9 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         }
     }
 
+    /**
+     * saves the graphviz as image
+     */
     @FXML
     private void saveImage() {
         FileChooser chooser = new FileChooser();
@@ -311,8 +350,15 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         }
     }
 
+    /**
+     * @param input input from the text field
+     * @return parsed input
+     */
     abstract T getInput(String input);
 
+    /**
+     * adds a value to the tree
+     */
     @FXML
     private void addValue() {
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
@@ -326,6 +372,9 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         }
     }
 
+    /**
+     * removes a value from the tree
+     */
     @FXML
     private void delValue() {
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
@@ -339,6 +388,9 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         }
     }
 
+    /**
+     * searches a value and highlights it
+     */
     @FXML
     private void searchValue() {
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
@@ -354,6 +406,9 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         updateGraphvizImage();
     }
 
+    /**
+     * collapse at a specific node
+     */
     @FXML
     private void collapseAtValue() {
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
@@ -370,8 +425,14 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         }
     }
 
+    /**
+     * @return a random value
+     */
     abstract T getRandomValue();
 
+    /**
+     * generates random values input times
+     */
     @FXML
     private void generateValueTimes() {
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
@@ -391,9 +452,21 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         }).start();
     }
 
+    /**
+     * required for the combobox
+     *
+     * @return controller name
+     */
     @Override
     public abstract String toString();
 
+    /**
+     * shows a warning alert and logs it
+     *
+     * @param heading alert heading, not logged
+     * @param text    the content
+     * @param e       an exception to log
+     */
     private void warn(String heading, String text, Throwable e) {
         this.showProgress.setProgress(0);
         this.logger.warn(text, e);

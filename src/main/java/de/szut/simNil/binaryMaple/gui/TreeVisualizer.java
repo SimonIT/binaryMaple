@@ -28,32 +28,71 @@ import java.util.List;
 
 import static guru.nidi.graphviz.model.Factory.*;
 
+/**
+ * graphviz generator
+ * @param <T> tree value type
+ */
 public class TreeVisualizer<T extends Comparable<T>> {
+    /**
+     * a unique id number for gnodes with duplicate names like null
+     */
     private int duplicateNodeNumber = 0;
+
+    /**
+     * the tree which should be visualized
+     */
+    @NotNull
     @Setter
     private InterfaceBinarySearchTree<T> tree;
+    /**
+     * a list for gnodes
+     */
+    @NotNull
     private List<Node> nodes;
 
+    /**
+     * a node which should highlighted
+     */
     @Getter
     @Setter
+    @Nullable
     private AbstractNode<T> highlightedNode;
 
+    /**
+     * a cached graphviz for reusing
+     */
+    @Nullable
     private Graphviz graphviz;
 
+    /**
+     * A list with nodes where to collapse
+     */
     private List<AbstractNode<T>> collapseNodes = new ArrayList<>();
 
+    /**
+     * If terminal nodes should be shown
+     */
     @Getter
     @Setter
     private boolean showNullNodes = false;
 
+    /**
+     * If the leafs should have a green border
+     */
     @Getter
     @Setter
     private boolean highlightLeafs = true;
 
+    /**
+     * If grass should be shown in the background
+     */
     @Getter
     @Setter
     private boolean withGrass = true;
 
+    /**
+     * @param tree the tree to visualize
+     */
     public TreeVisualizer(@NotNull InterfaceBinarySearchTree<T> tree) {
         this.tree = tree;
         this.nodes = new ArrayList<>(this.tree.getNodeCount());
@@ -168,6 +207,9 @@ public class TreeVisualizer<T extends Comparable<T>> {
      */
     @NotNull
     public Image getGraphvizImage() {
+        if (this.graphviz == null)
+            throw new RuntimeException("Call createGraphviz before getGraphvizImage");
+
         BufferedImage graphviz = this.graphviz.render(Format.SVG).toImage();
 
         BufferedImage combined;
@@ -203,6 +245,9 @@ public class TreeVisualizer<T extends Comparable<T>> {
      * @throws IOException not possible to save the file
      */
     public void saveGraphviz(File file, Format format) throws IOException {
+        if (this.graphviz == null)
+            throw new RuntimeException("Call createGraphviz before saveGraphviz");
+
         this.graphviz.render(format).toFile(file);
     }
 }
