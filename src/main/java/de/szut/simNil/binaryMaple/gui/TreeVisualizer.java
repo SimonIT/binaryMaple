@@ -32,7 +32,7 @@ public class TreeVisualizer<T extends Comparable<T>> {
     private int duplicateNodeNumber = 0;
     @Setter
     private InterfaceBinarySearchTree<T> tree;
-    private List<Node> nodes = new ArrayList<>();
+    private List<Node> nodes;
 
     @Getter
     @Setter
@@ -56,6 +56,7 @@ public class TreeVisualizer<T extends Comparable<T>> {
 
     public TreeVisualizer(@NotNull InterfaceBinarySearchTree<T> tree) {
         this.tree = tree;
+        this.nodes = new ArrayList<>(this.tree.getNodeCount());
     }
 
     /**
@@ -173,7 +174,7 @@ public class TreeVisualizer<T extends Comparable<T>> {
         if (this.withGrass) {
             BufferedImage grass = null;
             try {
-                grass = ImageIO.read(getClass().getResourceAsStream("grass_PNG10856.png"));
+                grass = ImageIO.read(getClass().getResource("grass_PNG10856.png"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
