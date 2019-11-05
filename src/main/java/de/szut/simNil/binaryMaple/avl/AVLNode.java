@@ -4,6 +4,14 @@ import de.szut.simNil.binaryMaple.BNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * This class extends BNode and is used in AVL trees. In addition to the functionality of BNode, every node of
+ * this class keeps track of the height of its left and right subtree. This information is relevant for rebalancing.
+ *
+ * @param <T> type parameter of node values (for example Integer or String)
+ * @author Simon Bullik
+ * @author Nils Malte Kiele
+ */
 public class AVLNode<T extends Comparable<T>> extends BNode<T> {
     @NotNull
     private int heightLeft, heightRight;
@@ -70,6 +78,9 @@ public class AVLNode<T extends Comparable<T>> extends BNode<T> {
         --this.heightRight;
     }
 
+    /**
+     * @return balance factor of a node instance (height of right subtree minus height of left subtree)
+     */
     int getBalanceFactor() {
         return this.heightRight - this.heightLeft;
     }
