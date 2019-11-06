@@ -27,7 +27,7 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         this.stage = stage;
         this.stage.setTitle("BinaryMaple");
-        this.stage.getIcons().add(new Image(getClass().getResource("canadian_digital_maple_leaf_with_binary_code_large_tote_bag.png").toString()));
+        this.stage.getIcons().add(new Image(getClass().getResource("binary_maple_logo.png").toString()));
         this.stage.setMaximized(true);
         this.changeController(this.controllers.get(0));
         this.stage.show();
