@@ -20,7 +20,7 @@ public interface InterfaceBinarySearchTree<T extends Comparable<T>> {
      * @param value value that should be inserted into the tree
      * @throws BinarySearchTreeException
      */
-    void addValue(T value) throws BinarySearchTreeException;
+    void addValue(@NotNull T value) throws BinarySearchTreeException;
 
     /**
      * @param value value that should be deleted from the tree
@@ -50,7 +50,7 @@ public interface InterfaceBinarySearchTree<T extends Comparable<T>> {
      * @param order element of Enum order
      * @return list of all nodes in the tree in specified order
      */
-    List<T> traverse(Order order);
+    List<T> traverse(@NotNull Order order);
 
     /**
      * @return root of the tree or Null if the tree is empty

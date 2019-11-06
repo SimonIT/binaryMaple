@@ -13,7 +13,6 @@ import org.jetbrains.annotations.Nullable;
  * @author Nils Malte Kiele
  */
 public class AVLNode<T extends Comparable<T>> extends BNode<T> {
-    @NotNull
     private int heightLeft, heightRight;
 
     AVLNode() {

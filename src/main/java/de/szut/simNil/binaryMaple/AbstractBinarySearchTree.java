@@ -48,8 +48,8 @@ public abstract class AbstractBinarySearchTree<T extends Comparable<T>> implemen
      * @param value of node that should be returned
      * @return node with specified value if it exists or Null otherwise
      */
-    @Override
     @Nullable
+    @Override
     public AbstractNode<T> getNodeWithValue(@NotNull T value) {
         BNode<T> current = this.root;
         while (current.getValue() != null) {
@@ -91,7 +91,7 @@ public abstract class AbstractBinarySearchTree<T extends Comparable<T>> implemen
      * @return list of all nodes in the tree in specified order
      */
     @Override
-    public List<T> traverse(Order order) {
+    public List<T> traverse(@NotNull Order order) {
         List<T> result = new ArrayList<>();
         if (order == Order.PREORDER) {
             Stack<BNode<T>> s = new Stack<>();
@@ -151,6 +151,7 @@ public abstract class AbstractBinarySearchTree<T extends Comparable<T>> implemen
     /**
      * @return root of the tree or Null if the tree is empty
      */
+    @Nullable
     @Override
     public BNode<T> getRoot() {
         return this.root;

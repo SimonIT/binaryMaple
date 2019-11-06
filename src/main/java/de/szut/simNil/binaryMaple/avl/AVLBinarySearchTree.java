@@ -34,7 +34,7 @@ public class AVLBinarySearchTree<T extends Comparable<T>> extends AbstractBinary
      * @param parent  parent node of current; if current is root, parent is a node with value null
      * @return node that takes the place of current after rotation
      */
-    private AVLNode<T> rotate(AVLNode<T> current, AVLNode<T> parent) {
+    private AVLNode<T> rotate(@NotNull AVLNode<T> current, @NotNull AVLNode<T> parent) {
         /* The four possible rotations are pictured below. In each case, only three nodes as well as the directions from
          * their parents are considered (L = left, R = right). Note that all relevant nodes (current, its relevant child
          * and its relevant grandchild) might have further subtrees. The rules of handling these are described in detail
@@ -106,7 +106,7 @@ public class AVLBinarySearchTree<T extends Comparable<T>> extends AbstractBinary
      * @param current   node from which a search for imbalance going up until the root starts
      * @param ancestors stack of nodes starting with the parent of the current node and ending at the root
      */
-    private void rebalanceAfterInsertion(AVLNode<T> current, Stack<AVLNode<T>> ancestors) {
+    private void rebalanceAfterInsertion(@NotNull AVLNode<T> current, @NotNull Stack<AVLNode<T>> ancestors) {
         while (true) {
             if (Math.abs(current.getBalanceFactor()) > 1) {
                 rotate(current, ancestors.isEmpty() ? new AVLNode<>() : ancestors.pop());
@@ -164,7 +164,7 @@ public class AVLBinarySearchTree<T extends Comparable<T>> extends AbstractBinary
      * @param value     value of current (in case it's a terminal node now, the value it had before is still important)
      * @param ancestors stack of nodes starting with the parent of the current node and ending at the root
      */
-    private void rebalanceAfterDeletion(AVLNode<T> current, T value, Stack<AVLNode<T>> ancestors) {
+    private void rebalanceAfterDeletion(@NotNull AVLNode<T> current, @NotNull T value, @NotNull Stack<AVLNode<T>> ancestors) {
         while (!ancestors.isEmpty()) {
             AVLNode<T> parent = ancestors.pop();
             int heightBefore = Math.max(parent.getHeightLeft(), parent.getHeightRight());

@@ -32,7 +32,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> extends AbstractB
      * @param current   node that might violate the conditions of a red black tree
      * @param ancestors stack of nodes starting with the parent of the current node and ending at the root
      */
-    private void rebalanceAfterInsertion(RBNode<T> current, Stack<RBNode<T>> ancestors) {
+    private void rebalanceAfterInsertion(@NotNull RBNode<T> current, @NotNull Stack<RBNode<T>> ancestors) {
         if (ancestors.isEmpty()) {
             // insertion case 0
             current.setColor(RBNode.Color.BLACK);
@@ -137,7 +137,7 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> extends AbstractB
      * @param currentValue value of node that might violate the conditions of a red black tree
      * @param ancestors    stack of nodes starting with the parent of the current (now leaf) node and ending at the root
      */
-    public void rebalanceAfterDeletion(T currentValue, Stack<RBNode<T>> ancestors) {
+    public void rebalanceAfterDeletion(@NotNull T currentValue, @NotNull Stack<RBNode<T>> ancestors) {
         if (ancestors.isEmpty()) {
             // deletion case 0
             return;

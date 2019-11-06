@@ -1,5 +1,7 @@
 package de.szut.simNil.binaryMaple;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * This exception can be used when something goes wrong within a method of a binary search tree.
  *
@@ -18,7 +20,7 @@ public class BinarySearchTreeException extends Exception {
     /**
      * @param string the exception message that should be displayed
      */
-    public BinarySearchTreeException(String string) {
+    public BinarySearchTreeException(@NotNull String string) {
         super(string);
     }
 }
