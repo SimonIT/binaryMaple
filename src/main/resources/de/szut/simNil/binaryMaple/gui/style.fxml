@@ -29,27 +29,27 @@
             <TextField fx:id="valueField"/>
             <Button maxWidth="1.7976931348623157E308" onAction="#addValue" text="Hinzufügen">
                 <tooltip>
-                    <Tooltip text="Hinzufügen der Wertes"/>
+                    <Tooltip text="angegebenen Wert hinzufügen"/>
                 </tooltip>
             </Button>
             <Button maxWidth="1.7976931348623157E308" onAction="#delValue" text="Löschen">
                 <tooltip>
-                    <Tooltip text="Löschen des Wertes"/>
+                    <Tooltip text="angegebenen Wert löschen"/>
                 </tooltip>
             </Button>
             <Button maxWidth="1.7976931348623157E308" onAction="#searchValue" text="Suchen">
                 <tooltip>
-                    <Tooltip text="Sucht und hebt den Wert hervor"/>
+                    <Tooltip text="angegebenen Wert suchen und hervorheben"/>
                 </tooltip>
             </Button>
             <Button maxWidth="1.7976931348623157E308" onAction="#collapseAtValue" text="Ein-/Ausklappen">
                 <tooltip>
-                    <Tooltip text="Klappt den Baum beim angegebenen Wert ein oder aus"/>
+                    <Tooltip text="Baum ab angegebenem Wert ein- oder ausklappen"/>
                 </tooltip>
             </Button>
             <Button maxWidth="1.7976931348623157E308" onAction="#generateValueTimes" text="Zufall">
                 <tooltip>
-                    <Tooltip text="Fügt die angegebene Zahl an Zufallszahlen hinzu"/>
+                    <Tooltip text="So viele Zufallswerte hinzufügen wie angegeben"/>
                 </tooltip>
             </Button>
             <ProgressIndicator fx:id="showProgress" maxWidth="1.7976931348623157E308" progress="0.0"/>
