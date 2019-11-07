@@ -19,4 +19,9 @@ public class IntegerController extends AbstractController<Integer> {
     public String toString() {
         return "Integer";
     }
+
+    @Override
+    public Class<?> getType() {
+        return Integer.class;
+    }
 }

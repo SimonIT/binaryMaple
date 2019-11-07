@@ -19,4 +19,9 @@ public class DoubleController extends AbstractController<Double> {
     public String toString() {
         return "Double";
     }
+
+    @Override
+    public Class<?> getType() {
+        return Double.class;
+    }
 }

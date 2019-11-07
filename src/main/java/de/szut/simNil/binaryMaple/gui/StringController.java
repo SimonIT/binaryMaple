@@ -21,4 +21,9 @@ public class StringController extends AbstractController<String> {
     public String toString() {
         return "String";
     }
+
+    @Override
+    public Class<?> getType() {
+        return String.class;
+    }
 }

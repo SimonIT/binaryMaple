@@ -72,7 +72,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     /**
      * out tree
      */
-    protected InterfaceBinarySearchTree<T> tree;
+    protected InterfaceBinarySearchTree<T> tree = new StandardBinarySearchTree<>();
 
     /**
      * logger for logging exceptions
@@ -82,7 +82,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     /**
      * For creating the graphviz
      */
-    private TreeVisualizer<T> visualizer;
+    private TreeVisualizer<T> visualizer = new TreeVisualizer<>(this.tree);
 
     /**
      * for getting the stage
@@ -116,10 +116,6 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.tree = new StandardBinarySearchTree<>();
-
-        this.visualizer = new TreeVisualizer<>(this.tree);
-
         this.valueTypes.setItems(this.main.getControllers());
         this.valueTypes.getSelectionModel().select(this);
         this.valueTypes.valueProperty().addListener((observableValue, abstractControllerSingleSelectionModel, t1) -> {
@@ -130,6 +126,10 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
                 System.exit(-1);
             }
         });
+
+        this.standardTree.setSelected(this.tree instanceof StandardBinarySearchTree);
+        this.redBlackTree.setSelected(this.tree instanceof RedBlackBinarySearchTree);
+        this.avlTree.setSelected(this.tree instanceof AVLBinarySearchTree);
 
         updateGraphvizImage();
         this.treeMessage.setText(standardTreeMessage);
@@ -291,15 +291,35 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
             new Thread(() -> {
                 try {
                     BufferedReader reader = new BufferedReader(new FileReader(file));
+                    InterfaceBinarySearchTree<T> loadedTree = null;
+                    AbstractController<T> newController = null;
                     if (chooser.getSelectedExtensionFilter().equals(TREE_EXTENSIONS[0])) {
                         XStream xStream = new XStream(new StaxDriver());
-                        this.tree = (InterfaceBinarySearchTree<T>) xStream.fromXML(reader);
+                        loadedTree = (InterfaceBinarySearchTree<T>) xStream.fromXML(reader);
                     }
                     reader.close();
-                    this.standardTree.setSelected(this.tree instanceof StandardBinarySearchTree);
-                    this.redBlackTree.setSelected(this.tree instanceof RedBlackBinarySearchTree);
-                    this.avlTree.setSelected(this.tree instanceof AVLBinarySearchTree);
-                    updateGraphvizImage();
+                    if (loadedTree != null && loadedTree.getRoot().getValue() != null) {
+                        for (AbstractController<T> controller : this.main.getControllers()) {
+                            if (loadedTree.getRoot().getValue().getClass().equals(controller.getType())) {
+                                newController = controller;
+                                break;
+                            }
+                        }
+                    } else {
+                        newController = this;
+                    }
+                    if (newController == null) {
+                        throw new RuntimeException("No Controller found for this tree");
+                    }
+                    newController.tree = loadedTree;
+                    AbstractController<T> finalNewController = newController;
+                    Platform.runLater(() -> {
+                        try {
+                            this.main.changeController(finalNewController);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
                 } catch (IOException e) {
                     Platform.runLater(() -> warn("Fehler beim Lesen der Datei", String.format("Die Datei %s konnte nicht eingelesen werden", file), e));
                 }
@@ -459,6 +479,8 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
      */
     @Override
     public abstract String toString();
+
+    public abstract Class<?> getType();
 
     /**
      * shows a warning alert and logs it

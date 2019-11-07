@@ -151,7 +151,7 @@ public abstract class AbstractBinarySearchTree<T extends Comparable<T>> implemen
     /**
      * @return root of the tree or Null if the tree is empty
      */
-    @Nullable
+    @NotNull
     @Override
     public BNode<T> getRoot() {
         return this.root;
