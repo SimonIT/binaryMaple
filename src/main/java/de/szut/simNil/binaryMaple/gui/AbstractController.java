@@ -114,6 +114,8 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     @FXML
     private ImageView treeImage;
 
+    private Order traverseConversionOrder = Order.LEVELORDER;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.valueTypes.setItems(this.main.getControllers());
@@ -141,7 +143,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
                 this.treeMessage.setText(standardTreeMessage);
                 this.treeImage.setImage(standardImage);
 
-                List<T> values = this.tree.traverse(Order.PREORDER);
+                List<T> values = this.tree.traverse(traverseConversionOrder);
                 this.tree = new StandardBinarySearchTree<>();
                 try {
                     addValuesToTree(values);
@@ -158,7 +160,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
                 this.treeMessage.setText(redBlackTreeMessage);
                 this.treeImage.setImage(redBlackImage);
 
-                List<T> values = this.tree.traverse(Order.PREORDER);
+                List<T> values = this.tree.traverse(traverseConversionOrder);
                 this.tree = new RedBlackBinarySearchTree<>();
                 try {
                     addValuesToTree(values);
@@ -175,7 +177,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
                 this.treeMessage.setText(avlTreeMessage);
                 this.treeImage.setImage(avlImage);
 
-                List<T> values = this.tree.traverse(Order.PREORDER);
+                List<T> values = this.tree.traverse(traverseConversionOrder);
                 this.tree = new AVLBinarySearchTree<>();
                 try {
                     addValuesToTree(values);
