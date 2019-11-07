@@ -23,6 +23,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -113,6 +114,9 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     private Label treeMessage;
     @FXML
     private ImageView treeImage;
+
+    @FXML
+    private TextArea traverseOutput;
 
     private Order traverseConversionOrder = Order.LEVELORDER;
 
@@ -472,6 +476,26 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
                 Platform.runLater(() -> warn("Falsche Eingabe", "Es scheint, als hätten Sie keine Zahl eingegeben", e));
             }
         }).start();
+    }
+
+    @FXML
+    private void traverseInorder() {
+        this.traverseOutput.setText(StringUtils.join(this.tree.traverse(Order.INORDER), " "));
+    }
+
+    @FXML
+    private void traversePreorder() {
+        this.traverseOutput.setText(StringUtils.join(this.tree.traverse(Order.PREORDER), " "));
+    }
+
+    @FXML
+    private void traversePostorder() {
+        this.traverseOutput.setText(StringUtils.join(this.tree.traverse(Order.POSTORDER), " "));
+    }
+
+    @FXML
+    private void traverseLevelorder() {
+        this.traverseOutput.setText(StringUtils.join(this.tree.traverse(Order.LEVELORDER), " "));
     }
 
     /**

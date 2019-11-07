@@ -17,7 +17,7 @@
     </MenuBar>
     <HBox VBox.vgrow="ALWAYS">
         <VBox minWidth="200.0" spacing="10.0">
-            <ComboBox fx:id="valueTypes"/>
+            <ComboBox maxWidth="1.7976931348623157E308" fx:id="valueTypes"/>
             <RadioButton fx:id="standardTree" selected="true" text="Einfacher-Baum" toggleGroup="$treeType"/>
             <RadioButton fx:id="redBlackTree" text="Rot-Schwarz-Baum" toggleGroup="$treeType"/>
             <RadioButton fx:id="avlTree" text="AVL-Baum" toggleGroup="$treeType"/>
@@ -53,6 +53,29 @@
                 </tooltip>
             </Button>
             <ProgressIndicator fx:id="showProgress" maxWidth="1.7976931348623157E308" progress="0.0"/>
+            <Separator prefWidth="200.0"/>
+            <Label maxWidth="1.7976931348623157E308" alignment="CENTER">Traversieren</Label>
+            <Button maxWidth="1.7976931348623157E308" onAction="#traverseInorder" text="INORDER">
+                <tooltip>
+                    <Tooltip text="angegebenen Wert hinzufügen"/>
+                </tooltip>
+            </Button>
+            <Button maxWidth="1.7976931348623157E308" onAction="#traversePreorder" text="PREORDER">
+                <tooltip>
+                    <Tooltip text="angegebenen Wert löschen"/>
+                </tooltip>
+            </Button>
+            <Button maxWidth="1.7976931348623157E308" onAction="#traversePostorder" text="POSTORDER">
+                <tooltip>
+                    <Tooltip text="angegebenen Wert suchen und hervorheben"/>
+                </tooltip>
+            </Button>
+            <Button maxWidth="1.7976931348623157E308" onAction="#traverseLevelorder" text="LEVELORDER">
+                <tooltip>
+                    <Tooltip text="Baum ab angegebenem Wert ein- oder ausklappen"/>
+                </tooltip>
+            </Button>
+            <TextArea prefWidth="200" fx:id="traverseOutput" wrapText="true"/>
             <HBox.margin>
                 <Insets/>
             </HBox.margin>
