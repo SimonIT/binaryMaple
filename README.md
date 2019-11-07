@@ -1,6 +1,8 @@
+[![Build Status](https://travis-ci.com/SimonIT/binaryMaple.svg?token=ZaZJqsZKYGqos74fJp9i&branch=master)](https://travis-ci.com/SimonIT/binaryMaple)
+
 # How to start
 
-The following maven command can be used: `mvn clean javafx:run -f pom.xml`
+The provided run configuration or the following maven command can be used: `clean javafx:compile exec:java -Dexec.mainClass=de.szut.simNil.binaryMaple.gui.Main -Dexec.args=args -f pom.xml`
 
 ## If you use Intellij
 
