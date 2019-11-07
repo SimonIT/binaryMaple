@@ -22,8 +22,8 @@ class RBNodeTest {
     @Test
     void getSetColor() {
         RBNode<Integer> node = new RBNode<>();
-        assertEquals(RBNode.Color.BLACK, node.getRight().getColor());
+        assertEquals(RBNode.Color.BLACK, node.getColor());
         node.setColor(RBNode.Color.RED);
-        assertEquals(RBNode.Color.RED, node.getRight().getColor());
+        assertEquals(RBNode.Color.RED, node.getColor());
     }
 }
