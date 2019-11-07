@@ -396,7 +396,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
      */
     @FXML
     private void addValue() {
-        this.playSoundEffect();
+        this.playBirdSoundEffect();
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         try {
             this.tree.addValue(getInput(this.valueField.getText()));
