@@ -21,6 +21,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
@@ -119,6 +121,13 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     private TextArea traverseOutput;
 
     private Order traverseConversionOrder = Order.LEVELORDER;
+
+    private void playBirdSoundEffect() {
+        String musicFile = "birdSound.mp3";
+        Media sound = new Media(new File(musicFile).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -387,6 +396,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
      */
     @FXML
     private void addValue() {
+        this.playSoundEffect();
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         try {
             this.tree.addValue(getInput(this.valueField.getText()));
