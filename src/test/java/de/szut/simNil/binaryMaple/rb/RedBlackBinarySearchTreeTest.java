@@ -311,35 +311,16 @@ class RedBlackBinarySearchTreeTest {
     }
 
     @Test
-    void delValue() {
-        // done in separate tests
-    }
-
-    @Test
-    void hasValue() {
-    }
-
-    @Test
-    void getNodeWithValue() {
-    }
-
-    @Test
-    void getDepth() {
-    }
-
-    @Test
-    void traverse() {
-    }
-
-    @Test
-    void getRoot() {
-    }
-
-    @Test
-    void getNodeCount() {
-    }
-
-    @Test
-    void testEquals() {
+    void getNodeWithValueAndChangeColor() {
+        RedBlackBinarySearchTree<Integer> tree = new RedBlackBinarySearchTree<>();
+        try {
+            tree.addValue(66);
+        } catch(BinarySearchTreeException e) {
+            e.printStackTrace();
+        }
+        assertEquals(66, tree.getNodeWithValue(66).getValue());
+        tree.getNodeWithValue(66).setValue(5);
+        assertFalse(tree.hasValue(66));
+        assertEquals(5, tree.getNodeWithValue(5).getValue());
     }
 }
