@@ -9,10 +9,10 @@
         <ToggleGroup fx:id="treeType"/>
     </fx:define>
     <MenuBar>
-        <Menu text="File">
-            <MenuItem onAction="#loadTree" text="Load Tree"/>
-            <MenuItem onAction="#saveTree" text="Save Tree as"/>
-            <MenuItem onAction="#saveImage" text="Save Image as"/>
+        <Menu text="Datei">
+            <MenuItem onAction="#loadTree" text="Baum aus XML-Datei laden"/>
+            <MenuItem onAction="#saveTree" text="Baum als XML-Datei speichern"/>
+            <MenuItem onAction="#saveImage" text="Baum als Bild speichern"/>
         </Menu>
     </MenuBar>
     <HBox VBox.vgrow="ALWAYS">
