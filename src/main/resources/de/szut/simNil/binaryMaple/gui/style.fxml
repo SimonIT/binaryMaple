@@ -17,16 +17,48 @@
     </MenuBar>
     <HBox VBox.vgrow="ALWAYS">
         <VBox minWidth="200.0" spacing="10.0">
-            <ComboBox maxWidth="1.7976931348623157E308" fx:id="valueTypes"/>
-            <RadioButton fx:id="standardTree" selected="true" text="Einfacher-Baum" toggleGroup="$treeType"/>
-            <RadioButton fx:id="redBlackTree" text="Rot-Schwarz-Baum" toggleGroup="$treeType"/>
-            <RadioButton fx:id="avlTree" text="AVL-Baum" toggleGroup="$treeType"/>
+            <ComboBox maxWidth="1.7976931348623157E308" fx:id="valueTypes">
+                <tooltip>
+                    <Tooltip text="ändere Datentyp der Knoten (neuer Baum wird erstellt)"/>
+                </tooltip>
+            </ComboBox>
+            <RadioButton fx:id="standardTree" selected="true" text="Einfacher Baum" toggleGroup="$treeType">
+                <tooltip>
+                    <Tooltip text="wandle aktuellen Baum in einfachen Baum um"/>
+                </tooltip>
+            </RadioButton>
+            <RadioButton fx:id="redBlackTree" text="Rot-Schwarz-Baum" toggleGroup="$treeType">
+                <tooltip>
+                    <Tooltip text="wandle aktuellen Baum in Rot-Schwarz-Baum um"/>
+                </tooltip>
+            </RadioButton>
+            <RadioButton fx:id="avlTree" text="AVL-Baum" toggleGroup="$treeType">
+                <tooltip>
+                    <Tooltip text="wandle aktuellen Baum in AVL-Baum um"/>
+                </tooltip>
+            </RadioButton>
             <Separator prefWidth="200.0"/>
-            <CheckBox fx:id="showNullCheckBox" text="Terminal-Knoten anzeigen"/>
-            <CheckBox fx:id="showLeafsGreenCheckBox" selected="true" text="Blätter grün anzeigen"/>
-            <CheckBox fx:id="showGrassCheckBox" selected="true" text="Grass anzeigen"/>
+            <CheckBox fx:id="showNullCheckBox" text="Terminal-Knoten anzeigen">
+                <tooltip>
+                    <Tooltip text="wenn aktiviert, haben alle Knoten mit Werten immer zwei Kinder (evtl. Null-Knoten)"/>
+                </tooltip>
+            </CheckBox>
+            <CheckBox fx:id="showLeafsGreenCheckBox" selected="true" text="Blätter grün anzeigen">
+                <tooltip>
+                    <Tooltip text="wenn aktiviert, begnint für die Blätter der Frühling"/>
+                </tooltip>
+            </CheckBox>
+            <CheckBox fx:id="showGrassCheckBox" selected="true" text="Grass anzeigen">
+                <tooltip>
+                    <Tooltip text="Entwickler empfehlen Gras für optimale Darstellung des Baums"/>
+                </tooltip>
+            </CheckBox>
             <Separator prefWidth="200.0"/>
-            <TextField fx:id="valueField"/>
+            <TextField fx:id="valueField">
+                <tooltip>
+                    <Tooltip text="Wert von passendem Datentyp eingeben"/>
+                </tooltip>
+            </TextField>
             <Button maxWidth="1.7976931348623157E308" onAction="#addValue" text="Hinzufügen">
                 <tooltip>
                     <Tooltip text="angegebenen Wert hinzufügen"/>
@@ -55,24 +87,24 @@
             <ProgressIndicator fx:id="showProgress" maxWidth="1.7976931348623157E308" progress="0.0"/>
             <Separator prefWidth="200.0"/>
             <Label maxWidth="1.7976931348623157E308" alignment="CENTER">Traversieren</Label>
-            <Button maxWidth="1.7976931348623157E308" onAction="#traverseInorder" text="INORDER">
+            <Button maxWidth="1.7976931348623157E308" onAction="#traverseInorder" text="In-Order">
                 <tooltip>
-                    <Tooltip text="angegebenen Wert hinzufügen"/>
+                    <Tooltip text="Baum in In-Order traversieren"/>
                 </tooltip>
             </Button>
-            <Button maxWidth="1.7976931348623157E308" onAction="#traversePreorder" text="PREORDER">
+            <Button maxWidth="1.7976931348623157E308" onAction="#traversePreorder" text="Pre-Order">
                 <tooltip>
-                    <Tooltip text="angegebenen Wert löschen"/>
+                    <Tooltip text="Baum in Pre-Order traversieren"/>
                 </tooltip>
             </Button>
-            <Button maxWidth="1.7976931348623157E308" onAction="#traversePostorder" text="POSTORDER">
+            <Button maxWidth="1.7976931348623157E308" onAction="#traversePostorder" text="Post-Order">
                 <tooltip>
-                    <Tooltip text="angegebenen Wert suchen und hervorheben"/>
+                    <Tooltip text="Baum in Post-Order traversieren"/>
                 </tooltip>
             </Button>
-            <Button maxWidth="1.7976931348623157E308" onAction="#traverseLevelorder" text="LEVELORDER">
+            <Button maxWidth="1.7976931348623157E308" onAction="#traverseLevelorder" text="Level-Order">
                 <tooltip>
-                    <Tooltip text="Baum ab angegebenem Wert ein- oder ausklappen"/>
+                    <Tooltip text="Baum in Level-Order traversieren"/>
                 </tooltip>
             </Button>
             <TextArea prefWidth="200" fx:id="traverseOutput" wrapText="true"/>
