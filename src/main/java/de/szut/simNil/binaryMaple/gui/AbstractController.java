@@ -116,17 +116,15 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     private Label treeMessage;
     @FXML
     private ImageView treeImage;
-
     @FXML
     private TextArea traverseOutput;
+
+    private Media birdSound = new Media(getClass().getResource("birdSound.mp3").toString());
 
     private Order traverseConversionOrder = Order.LEVELORDER;
 
     private void playBirdSoundEffect() {
-        String musicFile = "birdSound.mp3";
-        Media sound = new Media(new File(musicFile).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
+        new MediaPlayer(this.birdSound).play();
     }
 
     @Override
@@ -396,8 +394,8 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
      */
     @FXML
     private void addValue() {
-        this.playBirdSoundEffect();
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+        this.playBirdSoundEffect();
         try {
             this.tree.addValue(getInput(this.valueField.getText()));
             updateGraphvizImage();
@@ -472,6 +470,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     @FXML
     private void generateValueTimes() {
         this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+        this.playBirdSoundEffect();
         new Thread(() -> {
             try {
                 for (int i = 0; i < Integer.parseInt(this.valueField.getText()); i++) {

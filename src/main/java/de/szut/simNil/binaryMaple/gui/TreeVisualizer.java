@@ -168,7 +168,7 @@ public class TreeVisualizer<T extends Comparable<T>> {
                     me = addNode(right, me);
                 }
 
-                if (this.tree.getRoot() != null && this.tree.getRoot().equals(node)) {
+                if (this.tree.getRoot().equals(node)) {
                     me = me.with(Color.BROWN.fill(), Color.BROWN, Color.WHITE.font());
                 }
 
