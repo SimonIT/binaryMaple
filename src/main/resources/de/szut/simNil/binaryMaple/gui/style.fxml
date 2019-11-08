@@ -24,7 +24,7 @@
             </ComboBox>
             <RadioButton fx:id="standardTree" selected="true" text="Einfacher Baum" toggleGroup="$treeType">
                 <tooltip>
-                    <Tooltip text="wandle aktuellen Baum in einfachen Baum u (ALT + S)"/>
+                    <Tooltip text="wandle aktuellen Baum in einfachen Baum um (ALT + E)"/>
                 </tooltip>
             </RadioButton>
             <RadioButton fx:id="redBlackTree" text="Rot-Schwarz-Baum" toggleGroup="$treeType">
