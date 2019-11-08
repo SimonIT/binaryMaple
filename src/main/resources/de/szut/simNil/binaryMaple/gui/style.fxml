@@ -48,7 +48,7 @@
                     <Tooltip text="wenn aktiviert, begnint für die Blätter der Frühling"/>
                 </tooltip>
             </CheckBox>
-            <CheckBox fx:id="showGrassCheckBox" selected="true" text="Grass anzeigen">
+            <CheckBox fx:id="showGrassCheckBox" selected="true" text="Gras anzeigen">
                 <tooltip>
                     <Tooltip text="Entwickler empfehlen Gras für optimale Darstellung des Baums"/>
                 </tooltip>
