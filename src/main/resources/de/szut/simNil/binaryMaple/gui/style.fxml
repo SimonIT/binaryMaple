@@ -24,33 +24,33 @@
             </ComboBox>
             <RadioButton fx:id="standardTree" selected="true" text="Einfacher Baum" toggleGroup="$treeType">
                 <tooltip>
-                    <Tooltip text="wandle aktuellen Baum in einfachen Baum um"/>
+                    <Tooltip text="wandle aktuellen Baum in einfachen Baum um (ALT + E)"/>
                 </tooltip>
             </RadioButton>
             <RadioButton fx:id="redBlackTree" text="Rot-Schwarz-Baum" toggleGroup="$treeType">
                 <tooltip>
-                    <Tooltip text="wandle aktuellen Baum in Rot-Schwarz-Baum um"/>
+                    <Tooltip text="wandle aktuellen Baum in Rot-Schwarz-Baum um (ALT + R)"/>
                 </tooltip>
             </RadioButton>
             <RadioButton fx:id="avlTree" text="AVL-Baum" toggleGroup="$treeType">
                 <tooltip>
-                    <Tooltip text="wandle aktuellen Baum in AVL-Baum um"/>
+                    <Tooltip text="wandle aktuellen Baum in AVL-Baum um (ALT + A)"/>
                 </tooltip>
             </RadioButton>
             <Separator prefWidth="200.0"/>
             <CheckBox fx:id="showNullCheckBox" text="Terminal-Knoten anzeigen">
                 <tooltip>
-                    <Tooltip text="wenn aktiviert, haben alle Knoten mit Werten immer zwei Kinder (evtl. Null-Knoten)"/>
+                    <Tooltip text="wenn aktiviert, haben alle Knoten mit Werten immer zwei Kinder (evtl. Null-Knoten)  (ALT + T)"/>
                 </tooltip>
             </CheckBox>
             <CheckBox fx:id="showLeafsGreenCheckBox" selected="true" text="Blätter grün anzeigen">
                 <tooltip>
-                    <Tooltip text="wenn aktiviert, begnint für die Blätter der Frühling"/>
+                    <Tooltip text="wenn aktiviert, begnint für die Blätter der Frühling (ALT + B)"/>
                 </tooltip>
             </CheckBox>
-            <CheckBox fx:id="showGrassCheckBox" selected="true" text="Grass anzeigen">
+            <CheckBox fx:id="showGrassCheckBox" selected="true" text="Gras anzeigen">
                 <tooltip>
-                    <Tooltip text="Entwickler empfehlen Gras für optimale Darstellung des Baums"/>
+                    <Tooltip text="Entwickler empfehlen Gras für optimale Darstellung des Baums (ALT + G)"/>
                 </tooltip>
             </CheckBox>
             <Separator prefWidth="200.0"/>
@@ -61,27 +61,27 @@
             </TextField>
             <Button maxWidth="1.7976931348623157E308" onAction="#addValue" text="Hinzufügen">
                 <tooltip>
-                    <Tooltip text="angegebenen Wert hinzufügen"/>
+                    <Tooltip text="angegebenen Wert hinzufügen (ALT + H)"/>
                 </tooltip>
             </Button>
             <Button maxWidth="1.7976931348623157E308" onAction="#delValue" text="Löschen">
                 <tooltip>
-                    <Tooltip text="angegebenen Wert löschen"/>
+                    <Tooltip text="angegebenen Wert löschen (ALT + L)"/>
                 </tooltip>
             </Button>
             <Button maxWidth="1.7976931348623157E308" onAction="#searchValue" text="Suchen">
                 <tooltip>
-                    <Tooltip text="angegebenen Wert suchen und hervorheben"/>
+                    <Tooltip text="angegebenen Wert suchen und hervorheben (ALT + S)"/>
                 </tooltip>
             </Button>
             <Button maxWidth="1.7976931348623157E308" onAction="#collapseAtValue" text="Ein-/Ausklappen">
                 <tooltip>
-                    <Tooltip text="Baum ab angegebenem Wert ein- oder ausklappen"/>
+                    <Tooltip text="Baum ab angegebenem Wert ein- oder ausklappen (ALT + K)"/>
                 </tooltip>
             </Button>
             <Button maxWidth="1.7976931348623157E308" onAction="#generateValueTimes" text="Zufall">
                 <tooltip>
-                    <Tooltip text="So viele Zufallswerte hinzufügen wie angegeben"/>
+                    <Tooltip text="So viele Zufallswerte hinzufügen wie angegeben (ALT + Z)"/>
                 </tooltip>
             </Button>
             <ProgressIndicator fx:id="showProgress" maxWidth="1.7976931348623157E308" progress="0.0"/>
