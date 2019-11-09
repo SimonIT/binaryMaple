@@ -3,6 +3,7 @@ package de.szut.simNil.binaryMaple.gui;
 import de.szut.simNil.binaryMaple.AbstractNode;
 import de.szut.simNil.binaryMaple.BNode;
 import de.szut.simNil.binaryMaple.InterfaceBinarySearchTree;
+import de.szut.simNil.binaryMaple.Utils;
 import de.szut.simNil.binaryMaple.rb.RBNode;
 import guru.nidi.graphviz.attribute.Color;
 import guru.nidi.graphviz.attribute.Label;
@@ -30,6 +31,7 @@ import static guru.nidi.graphviz.model.Factory.*;
 
 /**
  * graphviz generator
+ *
  * @param <T> tree value type
  */
 public class TreeVisualizer<T extends Comparable<T>> {
@@ -140,9 +142,12 @@ public class TreeVisualizer<T extends Comparable<T>> {
     private Node addNode(@Nullable AbstractNode<T> node, @Nullable Node parent) {
         Node me = null;
         if (node != null && node.getValue() != null) {
+
+            String text = Utils.makeBeautifulMultiline(node.getValue().toString());
+
             if (!this.collapseNodes.contains(node)) {
 
-                me = node(node.toString()).with(Style.FILLED.and(Style.lineWidth(2)), Color.WHITE.fill(), Color.BLACK.font());
+                me = node(text).with(Style.FILLED.and(Style.lineWidth(2)), Color.WHITE.fill(), Color.BLACK.font());
 
                 if (node instanceof BNode) {
                     if (node instanceof RBNode) {
@@ -177,7 +182,7 @@ public class TreeVisualizer<T extends Comparable<T>> {
                     me = me.with(Color.PURPLE.fill(), Color.WHITE.font());
                 }
             } else {
-                me = node(String.format("collapse%d", duplicateNodeNumber++)).with(Label.of(node.toString()), Shape.TRIANGLE);
+                me = node(String.format("collapse%d", duplicateNodeNumber++)).with(Label.of(text), Shape.TRIANGLE);
             }
         } else {
             if (this.showNullNodes) {

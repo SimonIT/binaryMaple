@@ -13,8 +13,6 @@
               <option value="clean" />
               <option value="javafx:compile" />
               <option value="exec:java" />
-              <option value="-Dexec.mainClass=de.szut.simNil.binaryMaple.gui.Main" />
-              <option value="-Dexec.args=args" />
             </list>
           </option>
           <option name="pomFileName" value="pom.xml" />

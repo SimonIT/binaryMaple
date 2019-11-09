@@ -2,7 +2,7 @@
 
 # How to start
 
-The provided run configuration or the following maven command can be used: `mvn clean javafx:run -f pom.xml` or with debugging: `mvn clean javafx:compile exec:java -Dexec.mainClass=de.szut.simNil.binaryMaple.gui.Main -Dexec.args=args -f pom.xml`
+The provided run configuration or the following maven command can be used: `mvn clean javafx:run -f pom.xml` or with debugging: `mvn clean javafx:compile exec:java -f pom.xml`
 
 ## If you use Intellij
 
