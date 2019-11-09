@@ -26,6 +26,9 @@
         </MavenRunnerParameters>
       </option>
     </MavenSettings>
+    <RunnerSettings RunnerId="Debug with VisualVM">
+      <option name="visualVMId" value="996451822112600" />
+    </RunnerSettings>
     <method v="2" />
   </configuration>
 </component>
