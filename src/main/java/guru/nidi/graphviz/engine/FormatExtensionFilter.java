@@ -1,7 +1,6 @@
 package guru.nidi.graphviz.engine;
 
 import javafx.stage.FileChooser;
-import org.apache.commons.text.WordUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -18,7 +17,7 @@ public class FormatExtensionFilter {
      */
     @NotNull
     public static FileChooser.ExtensionFilter formatAsFilter(@NotNull Format format) {
-        return new FileChooser.ExtensionFilter(WordUtils.capitalize(format.name().toLowerCase().replace("_", " ")), String.format("*.%s", format.fileExtension));
+        return new FileChooser.ExtensionFilter(format.name().toLowerCase().replace("_", " "), String.format("*.%s", format.fileExtension));
     }
 
     /**
