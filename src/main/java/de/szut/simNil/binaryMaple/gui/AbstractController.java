@@ -11,7 +11,9 @@ import de.szut.simNil.binaryMaple.rb.RedBlackBinarySearchTree;
 import de.szut.simNil.binaryMaple.standard.StandardBinarySearchTree;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.FormatExtensionFilter;
+import guru.nidi.graphviz.use.FontTools;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -98,6 +100,8 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     private RadioButton redBlackTree;
     @FXML
     private RadioButton avlTree;
+    @FXML
+    private ComboBox<String> graphvizFonts;
     @FXML
     private CheckBox showNullCheckBox;
     @FXML
@@ -198,6 +202,14 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
                     warn("Fehler beim Übertragen der Werte", "Es konnten nicht alle Werte zum Standard Baum übertraben werden", e);
                 }
             }
+        });
+
+        this.graphvizFonts.setItems(FXCollections.observableArrayList(FontTools.availableFontNames()));
+
+        this.graphvizFonts.valueProperty().addListener((observableValue, abstractControllerSingleSelectionModel, t1) -> {
+            this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+            this.visualizer.setFont(t1);
+            updateGraphvizImage();
         });
 
         this.showNullCheckBox.selectedProperty().addListener((observableValue, aBoolean, t1) -> {

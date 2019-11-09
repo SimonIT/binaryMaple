@@ -38,6 +38,11 @@
                 </tooltip>
             </RadioButton>
             <Separator prefWidth="200.0"/>
+            <ComboBox maxWidth="1.7976931348623157E308" fx:id="graphvizFonts">
+                <tooltip>
+                    <Tooltip text="ändere Schrift"/>
+                </tooltip>
+            </ComboBox>
             <CheckBox fx:id="showNullCheckBox" text="Terminal-Knoten anzeigen">
                 <tooltip>
                     <Tooltip text="wenn aktiviert, haben alle Knoten mit Werten immer zwei Kinder (evtl. Null-Knoten)  (ALT + T)"/>

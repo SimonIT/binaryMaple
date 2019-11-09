@@ -6,9 +6,10 @@ import de.szut.simNil.binaryMaple.InterfaceBinarySearchTree;
 import de.szut.simNil.binaryMaple.Utils;
 import de.szut.simNil.binaryMaple.rb.RBNode;
 import guru.nidi.graphviz.attribute.Color;
+import guru.nidi.graphviz.attribute.Font;
 import guru.nidi.graphviz.attribute.Label;
 import guru.nidi.graphviz.attribute.Shape;
-import guru.nidi.graphviz.attribute.Style;
+import guru.nidi.graphviz.attribute.*;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.Node;
@@ -45,6 +46,7 @@ public class TreeVisualizer<T extends Comparable<T>> {
      */
     @NotNull
     @Setter
+    @Getter
     private InterfaceBinarySearchTree<T> tree;
     /**
      * a list for gnodes
@@ -59,6 +61,14 @@ public class TreeVisualizer<T extends Comparable<T>> {
     @Setter
     @Nullable
     private AbstractNode<T> highlightedNode;
+
+    /**
+     * font name for graphviz, if null the default is taken
+     */
+    @Getter
+    @Setter
+    @Nullable
+    private String font;
 
     /**
      * a cached graphviz for reusing
@@ -202,7 +212,7 @@ public class TreeVisualizer<T extends Comparable<T>> {
      * creates the graphviz from the nodes
      */
     public void createGraphviz() {
-        this.graphviz = Graphviz.fromGraph(graph().with(this.getNodes()).graphAttr().with(Color.rgba("00000000").background()));
+        this.graphviz = Graphviz.fromGraph(graph().nodeAttr().with(Font.name(this.font)).with(this.getNodes()).graphAttr().with(Color.rgba("00000000").background()));
     }
 
     /**
