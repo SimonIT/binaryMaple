@@ -300,7 +300,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
             } catch (OutOfMemoryError e) {
                 Platform.runLater(() -> {
                     this.graphvizImageView.setImage(null);
-                    warn("Fehler beim Erstellen des Bildes!", "Es scheint, als hätte Java zu wenig Arbeitsspeicher zur Verfügung um das Graphviz zu erstellen.", e);
+                    warn("Fehler beim Erstellen des Bildes!", "Es scheint, als hätte Java zu wenig Arbeitsspeicher zur Verfügung, um das Graphviz zu erstellen", e);
                 });
             }
         }).start();
