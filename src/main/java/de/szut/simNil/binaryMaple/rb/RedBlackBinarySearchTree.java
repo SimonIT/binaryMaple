@@ -9,7 +9,7 @@ import java.util.Stack;
 /**
  * This class contains the logic for a red black binary search tree. Values can be added and removed. To keep the tree
  * balanced, the conditions of a red black tree have to be met after any interaction with the tree. The insertion and
- * deletion cases used to balance the tree are described here --> https://de.wikipedia.org/wiki/Rot-Schwarz-Baum
+ * deletion cases used to balance the tree are described here → https://de.wikipedia.org/wiki/Rot-Schwarz-Baum
  *
  * @param <T> type parameter of node values (for example Integer or String)
  * @author Simon Bullik
