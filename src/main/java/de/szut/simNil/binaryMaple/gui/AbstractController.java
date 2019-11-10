@@ -37,6 +37,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for the GUI
+ * it is abstract for different data type like string, int and double and they need different data conversion from the input
+ *
+ * @param <T> type of the tree
+ */
+@SuppressWarnings("unused")
+// needed because the fxml variables and methods are marked as unused, because I didn't declare a controller in the fxml to b e able to change the controller
 public abstract class AbstractController<T extends Comparable<T>> implements Initializable {
 
     /**
@@ -127,10 +135,6 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
 
     private Order traverseConversionOrder = Order.LEVELORDER;
 
-    private void playBirdSoundEffect() {
-        new MediaPlayer(this.birdSound).play();
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.valueTypes.setItems(this.main.getControllers());
@@ -181,7 +185,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
                     addValuesToTree(values);
                     updateGraphvizImage();
                 } catch (BinarySearchTreeException e) {
-                    warn("Fehler beim Übertragen der Werte", "Es konnten nicht alle Werte zum AVL Baum übertragen werden", e);
+                    warn("Fehler beim Übertragen der Werte", "Es konnten nicht alle Werte zum Rot Schwarz Baum übertragen werden", e);
                 }
             }
         });
@@ -199,7 +203,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
                     updateGraphvizImage();
                 } catch (BinarySearchTreeException e) {
                     this.showProgress.setProgress(0);
-                    warn("Fehler beim Übertragen der Werte", "Es konnten nicht alle Werte zum Standard Baum übertraben werden", e);
+                    warn("Fehler beim Übertragen der Werte", "Es konnten nicht alle Werte zum AVL Baum übertragen werden", e);
                 }
             }
         });
@@ -303,9 +307,16 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     }
 
     /**
+     * plays our beautiful chirp
+     */
+    private void playBirdSoundEffect() {
+        new MediaPlayer(this.birdSound).play();
+    }
+
+    /**
      * loads a tree from a file
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") // needed, because xstream delivers an object which I have to cast to our tree
     @FXML
     private void loadTree() {
         FileChooser chooser = new FileChooser();
@@ -472,7 +483,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     }
 
     /**
-     * @return a random value
+     * @return a random value with the given type
      */
     abstract T getRandomValue();
 
@@ -527,6 +538,11 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     @Override
     public abstract String toString();
 
+    /**
+     * needed to check during loading from the xml to which controller we must change
+     *
+     * @return class of T
+     */
     public abstract Class<?> getType();
 
     /**
