@@ -14,7 +14,7 @@ public class StringController extends AbstractController<String> {
      */
     @Override
     String getRandomValue() {
-        return RandomStringUtils.randomAlphanumeric(1, Math.max(5, this.tree.getHeight()));
+        return RandomStringUtils.random(Math.max(5, this.tree.getHeight()));
     }
 
     @Override
