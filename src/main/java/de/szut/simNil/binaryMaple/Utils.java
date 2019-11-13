@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class Utils {
     public static String makeBeautifulMultiline(String inline) {
-        return makeMultiline(inline, (int) Math.ceil(Math.sqrt(inline.length() / 0.2)));
+        return makeMultiline(inline, (int) Math.ceil(Math.sqrt(inline.codePointCount(0, inline.length()) / 0.2)));
     }
 
     /**
@@ -16,14 +16,15 @@ public class Utils {
      * @return multiline string
      */
     public static String makeMultiline(String inline, int charsPerLine) {
-        int lines = (int) Math.ceil(inline.length() / (double) charsPerLine);
-        StringBuilder builder = new StringBuilder(inline.length() + lines - 1);
-        for (int i = 0; i < inline.length(); i += charsPerLine) {
-            if (i + charsPerLine < inline.length()) {
-                builder.append(inline, i, i + charsPerLine);
-                builder.append(StringUtils.LF);
+        int len = inline.codePointCount(0, inline.length());
+        int lines = (int) Math.ceil(len / (double) charsPerLine);
+        StringBuilder builder = new StringBuilder(len + lines - 1);
+        for (int i = 0; i < len; i += charsPerLine) {
+            if (i + charsPerLine < len) {
+                builder.append(inline,inline.offsetByCodePoints(0, i), inline.offsetByCodePoints(0, i+charsPerLine));
+                builder.append('\n');
             } else {
-                builder.append(inline, i, inline.length());
+                builder.append(inline,inline.offsetByCodePoints(0, i), inline.offsetByCodePoints(0, len));
             }
         }
         return builder.toString();
