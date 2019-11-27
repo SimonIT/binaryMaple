@@ -178,6 +178,12 @@ public class AVLBinarySearchTree<T extends Comparable<T>> extends AbstractBinary
             if (Math.abs(current.getBalanceFactor()) > 1) {
                 // current is a different node after rotation; max height of new current = max height of old current - 1
                 current = rotate(current, ancestors.isEmpty() ? new AVLNode<>() : ancestors.peek());
+                // in certain cases like inserting 3, 6, 8, 4, 2, 7, 1, 5 in that order and deleting 8, this is needed
+                if (Math.abs(current.getLeft().getBalanceFactor()) > 1) {
+                    rotate(current.getLeft(), current);
+                } else if (Math.abs(current.getRight().getBalanceFactor()) > 1) {
+                    rotate(current.getRight(), current);
+                }
             }
 
             int heightAfter = Math.max(current.getHeightLeft(), current.getHeightRight());
