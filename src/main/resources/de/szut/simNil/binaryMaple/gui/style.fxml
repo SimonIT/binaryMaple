@@ -21,6 +21,7 @@
             </CheckMenuItem>
             <CheckMenuItem fx:id="showGrassCheckBox" selected="true" text="Gras anzeigen">
             </CheckMenuItem>
+            <Menu fx:id="graphvizFonts" text="Schriftart"/>
         </Menu>
     </MenuBar>
     <HBox VBox.vgrow="ALWAYS">
@@ -46,11 +47,6 @@
                 </tooltip>
             </RadioButton>
             <Separator prefWidth="200.0"/>
-            <ComboBox maxWidth="1.7976931348623157E308" fx:id="graphvizFonts">
-                <tooltip>
-                    <Tooltip text="ändere Schrift"/>
-                </tooltip>
-            </ComboBox>
             <Separator prefWidth="200.0"/>
             <TextField fx:id="valueField">
                 <tooltip>

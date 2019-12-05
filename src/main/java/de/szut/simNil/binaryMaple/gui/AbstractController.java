@@ -13,7 +13,6 @@ import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.FormatExtensionFilter;
 import guru.nidi.graphviz.use.FontTools;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -109,7 +108,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     @FXML
     private RadioButton avlTree;
     @FXML
-    private ComboBox<String> graphvizFonts;
+    private Menu graphvizFonts;
     @FXML
     private CheckMenuItem showNullCheckBox;
     @FXML
@@ -131,6 +130,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     @FXML
     private TextArea traverseOutput;
 
+    private ToggleGroup fontGroup = new ToggleGroup();
     private Media birdSound = new Media(getClass().getResource("birdSound.mp3").toString());
 
     private Order traverseConversionOrder = Order.LEVELORDER;
@@ -208,13 +208,16 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
             }
         });
 
-        this.graphvizFonts.setItems(FXCollections.observableArrayList(FontTools.availableFontNames()));
-
-        this.graphvizFonts.valueProperty().addListener((observableValue, abstractControllerSingleSelectionModel, t1) -> {
-            this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
-            this.visualizer.setFont(t1);
-            updateGraphvizImage();
-        });
+        for (String font : FontTools.availableFontNames()) {
+            RadioMenuItem radioMenuItem = new RadioMenuItem(font);
+            radioMenuItem.setToggleGroup(this.fontGroup);
+            radioMenuItem.setOnAction(actionEvent -> {
+                this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+                this.visualizer.setFont(font);
+                updateGraphvizImage();
+            });
+            this.graphvizFonts.getItems().add(radioMenuItem);
+        }
 
         this.showNullCheckBox.selectedProperty().addListener((observableValue, aBoolean, t1) -> {
             this.showProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
