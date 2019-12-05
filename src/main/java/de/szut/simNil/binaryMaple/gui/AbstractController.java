@@ -406,6 +406,15 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         }
     }
 
+
+    /**
+     * close application
+     */
+    @FXML
+    private void close() {
+        this.main.getStage().close();
+    }
+
     /**
      * @param input input from the text field
      * @return parsed input

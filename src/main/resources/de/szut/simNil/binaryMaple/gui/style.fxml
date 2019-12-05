@@ -13,6 +13,7 @@
             <MenuItem onAction="#loadTree" text="Baum aus XML-Datei laden"/>
             <MenuItem onAction="#saveTree" text="Baum als XML-Datei speichern"/>
             <MenuItem onAction="#saveImage" text="Baum als Bild speichern"/>
+            <MenuItem onAction="#close" text="Applikation schließen"/>
         </Menu>
         <Menu text="Spielerein">
             <CheckMenuItem fx:id="showNullCheckBox" text="Terminal-Knoten anzeigen">
