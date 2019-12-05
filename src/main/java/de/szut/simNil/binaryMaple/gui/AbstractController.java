@@ -7,7 +7,6 @@ import de.szut.simNil.binaryMaple.avl.AVLBinarySearchTree;
 import de.szut.simNil.binaryMaple.rb.RedBlackBinarySearchTree;
 import de.szut.simNil.binaryMaple.standard.StandardBinarySearchTree;
 import guru.nidi.graphviz.engine.Format;
-import guru.nidi.graphviz.engine.FormatExtensionFilter;
 import guru.nidi.graphviz.use.FontTools;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -52,7 +51,7 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     /**
      * The image file extensions mapped with the format supported by graphviz
      */
-    private static final Map<FileChooser.ExtensionFilter, Format> GRAPHVIZ_EXTENSIONS = FormatExtensionFilter.getFilters();
+    private static final Map<FileChooser.ExtensionFilter, Format> GRAPHVIZ_EXTENSIONS = Utils.getFilters();
 
     private static final String standardTreeMessage = "Dieser Baum ist einfach gestrickt, kann aber ganz schön listig werden.";
     private static final Image standardImage = new Image(AbstractController.class.getResource("normal.png").toString());
@@ -551,6 +550,11 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     @FXML
     private void traverseLevelorder() {
         this.traverseOutput.setText(StringUtils.join(this.tree.traverse(Order.LEVELORDER), " "));
+    }
+
+    @FXML
+    private void showAbout() {
+
     }
 
     /**

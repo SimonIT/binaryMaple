@@ -22,6 +22,9 @@
             <CheckMenuItem fx:id="tweet" selected="true" text="Zwitschern"/>
             <Menu fx:id="graphvizFonts" text="Schriftart"/>
         </Menu>
+        <Menu text="Hilfe">
+            <MenuItem onAction="#showAbout" text="Über"/>
+        </Menu>
     </MenuBar>
     <HBox VBox.vgrow="ALWAYS">
         <VBox minWidth="200.0" spacing="10.0">
