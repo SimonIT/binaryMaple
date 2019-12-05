@@ -258,4 +258,11 @@ public class AVLBinarySearchTree<T extends Comparable<T>> extends AbstractBinary
         }
         throw new BinarySearchTreeException(String.format("Node with value %s cannot be deleted because it does not exist", value));
     }
+
+    /**
+     * delete all nodes of the tree
+     */
+    public void resetTree() {
+        this.root = new AVLNode<>();
+    }
 }

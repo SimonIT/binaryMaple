@@ -53,6 +53,11 @@ public interface InterfaceBinarySearchTree<T extends Comparable<T>> {
     List<T> traverse(@NotNull Order order);
 
     /**
+     * delete all nodes of the tree
+     */
+    void resetTree();
+
+    /**
      * @return root of the tree or Null if the tree is empty
      */
     @NotNull

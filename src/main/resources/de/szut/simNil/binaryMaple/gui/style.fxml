@@ -15,7 +15,7 @@
             <MenuItem onAction="#saveImage" text="Baum als Bild speichern"/>
             <MenuItem onAction="#close" text="Applikation schließen"/>
         </Menu>
-        <Menu text="Spielerein">
+        <Menu text="Spielereien">
             <CheckMenuItem fx:id="showNullCheckBox" text="Terminal-Knoten anzeigen"/>
             <CheckMenuItem fx:id="showLeafsGreenCheckBox" selected="true" text="Blätter grün anzeigen"/>
             <CheckMenuItem fx:id="showGrassCheckBox" selected="true" text="Gras anzeigen"/>
@@ -57,9 +57,19 @@
                     <Tooltip text="angegebenen Wert hinzufügen (ALT + H)"/>
                 </tooltip>
             </Button>
+            <Button maxWidth="1.7976931348623157E308" onAction="#generateValueTimes" text="zufälliges Hinzufügen">
+                <tooltip>
+                    <Tooltip text="So viele Zufallswerte hinzufügen wie angegeben (ALT + Z)"/>
+                </tooltip>
+            </Button>
             <Button maxWidth="1.7976931348623157E308" onAction="#delValue" text="Löschen">
                 <tooltip>
                     <Tooltip text="angegebenen Wert löschen (ALT + L)"/>
+                </tooltip>
+            </Button>
+            <Button maxWidth="1.7976931348623157E308" onAction="#createNewTree" text="Baum zurücksetzen">
+                <tooltip>
+                    <Tooltip text="Alle Knoten löschen"/>
                 </tooltip>
             </Button>
             <Button maxWidth="1.7976931348623157E308" onAction="#searchValue" text="Suchen">
@@ -70,11 +80,6 @@
             <Button maxWidth="1.7976931348623157E308" onAction="#collapseAtValue" text="Ein-/Ausklappen">
                 <tooltip>
                     <Tooltip text="Baum ab angegebenem Wert ein- oder ausklappen (ALT + K)"/>
-                </tooltip>
-            </Button>
-            <Button maxWidth="1.7976931348623157E308" onAction="#generateValueTimes" text="Zufall">
-                <tooltip>
-                    <Tooltip text="So viele Zufallswerte hinzufügen wie angegeben (ALT + Z)"/>
                 </tooltip>
             </Button>
             <ProgressIndicator fx:id="showProgress" maxWidth="1.7976931348623157E308" progress="0.0"/>

@@ -301,4 +301,12 @@ public class RedBlackBinarySearchTree<T extends Comparable<T>> extends AbstractB
         }
         throw new BinarySearchTreeException(String.format("Node with value %s cannot be deleted because it does not exist", value));
     }
+
+    /**
+     * delete all nodes of the tree
+     */
+    public void resetTree() {
+        this.root = new RBNode<>();
+    }
+
 }

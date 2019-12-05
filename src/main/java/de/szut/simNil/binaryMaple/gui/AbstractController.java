@@ -2,10 +2,7 @@ package de.szut.simNil.binaryMaple.gui;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
-import de.szut.simNil.binaryMaple.AbstractNode;
-import de.szut.simNil.binaryMaple.BinarySearchTreeException;
-import de.szut.simNil.binaryMaple.InterfaceBinarySearchTree;
-import de.szut.simNil.binaryMaple.Order;
+import de.szut.simNil.binaryMaple.*;
 import de.szut.simNil.binaryMaple.avl.AVLBinarySearchTree;
 import de.szut.simNil.binaryMaple.rb.RedBlackBinarySearchTree;
 import de.szut.simNil.binaryMaple.standard.StandardBinarySearchTree;
@@ -526,7 +523,17 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
         }).start();
     }
 
+    /**
+     * generates random values input times
+     */
     @FXML
+    private void createNewTree() {
+        this.tree.resetTree();
+        updateGraphvizImage();
+    }
+
+    @FXML
+
     private void traverseInorder() {
         this.traverseOutput.setText(StringUtils.join(this.tree.traverse(Order.INORDER), " "));
     }

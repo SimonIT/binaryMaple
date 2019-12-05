@@ -149,6 +149,13 @@ public abstract class AbstractBinarySearchTree<T extends Comparable<T>> implemen
     }
 
     /**
+     * delete all nodes of the tree
+     */
+    public void resetTree() {
+        this.root = new BNode<>();
+    }
+
+    /**
      * @return root of the tree or Null if the tree is empty
      */
     @NotNull
