@@ -111,11 +111,11 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     @FXML
     private ComboBox<String> graphvizFonts;
     @FXML
-    private CheckBox showNullCheckBox;
+    private CheckMenuItem showNullCheckBox;
     @FXML
-    private CheckBox showLeafsGreenCheckBox;
+    private CheckMenuItem showLeafsGreenCheckBox;
     @FXML
-    private CheckBox showGrassCheckBox;
+    private CheckMenuItem showGrassCheckBox;
     @FXML
     private TextField valueField;
     @FXML
