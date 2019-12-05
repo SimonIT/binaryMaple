@@ -116,6 +116,8 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
     @FXML
     private CheckMenuItem showGrassCheckBox;
     @FXML
+    private CheckMenuItem tweet;
+    @FXML
     private TextField valueField;
     @FXML
     private ComboBox<AbstractController> valueTypes;
@@ -313,7 +315,9 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
      * plays our beautiful chirp
      */
     private void playBirdSoundEffect() {
-        new MediaPlayer(this.birdSound).play();
+        if (this.tweet.isSelected()) {
+            new MediaPlayer(this.birdSound).play();
+        }
     }
 
     /**

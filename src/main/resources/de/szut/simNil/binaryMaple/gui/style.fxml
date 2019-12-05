@@ -16,12 +16,10 @@
             <MenuItem onAction="#close" text="Applikation schließen"/>
         </Menu>
         <Menu text="Spielerein">
-            <CheckMenuItem fx:id="showNullCheckBox" text="Terminal-Knoten anzeigen">
-            </CheckMenuItem>
-            <CheckMenuItem fx:id="showLeafsGreenCheckBox" selected="true" text="Blätter grün anzeigen">
-            </CheckMenuItem>
-            <CheckMenuItem fx:id="showGrassCheckBox" selected="true" text="Gras anzeigen">
-            </CheckMenuItem>
+            <CheckMenuItem fx:id="showNullCheckBox" text="Terminal-Knoten anzeigen"/>
+            <CheckMenuItem fx:id="showLeafsGreenCheckBox" selected="true" text="Blätter grün anzeigen"/>
+            <CheckMenuItem fx:id="showGrassCheckBox" selected="true" text="Gras anzeigen"/>
+            <CheckMenuItem fx:id="tweet" selected="true" text="Zwitschern"/>
             <Menu fx:id="graphvizFonts" text="Schriftart"/>
         </Menu>
     </MenuBar>
