@@ -39,7 +39,7 @@ import java.util.ResourceBundle;
  * @param <T> type of the tree
  */
 @SuppressWarnings("unused")
-// needed because the fxml variables and methods are marked as unused, because I didn't declare a controller in the fxml to b e able to change the controller
+// needed because the fxml variables and methods are marked as unused, because I didn't declare a controller in the fxml to be able to change the controller
 public abstract class AbstractController<T extends Comparable<T>> implements Initializable {
 
     /**
