@@ -10,7 +10,11 @@ import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.use.FontTools;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,6 +22,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
@@ -26,11 +31,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.*;
 import java.io.*;
-import java.net.URL;
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 /**
  * Controller for the GUI
@@ -554,7 +559,26 @@ public abstract class AbstractController<T extends Comparable<T>> {
 
     @FXML
     private void showAbout() {
+        Dialog<Void> aboutDialog = new Dialog<>();
+        aboutDialog.setTitle("Über binaryMaple");
+        aboutDialog.setHeaderText("Über binaryMaple");
 
+        DialogPane pane = aboutDialog.getDialogPane();
+        Hyperlink gitHubLink = new Hyperlink("SourceCode auf GitHub");
+        gitHubLink.setOnAction(actionEvent -> {
+            Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+            if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+                try {
+                    desktop.browse(new URI("https://github.com/SimonIT/binaryMaple"));
+                } catch (Exception e) {
+
+                }
+            }
+        });
+        pane.setExpandableContent(new VBox(new Label("binaryMaple ist ein Programm von Nils Kiele und Simon Bullik."), gitHubLink));
+        pane.getButtonTypes().addAll(new ButtonType("Okay!", ButtonBar.ButtonData.CANCEL_CLOSE));
+
+        aboutDialog.show();
     }
 
     /**
