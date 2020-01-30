@@ -11,7 +11,7 @@
           <option name="goals">
             <list>
               <option value="clean" />
-              <option value="javafx:compile" />
+              <option value="compile" />
               <option value="exec:java" />
             </list>
           </option>

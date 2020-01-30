@@ -40,7 +40,7 @@ import java.util.ResourceBundle;
  */
 @SuppressWarnings("unused")
 // needed because the fxml variables and methods are marked as unused, because I didn't declare a controller in the fxml to be able to change the controller
-public abstract class AbstractController<T extends Comparable<T>> implements Initializable {
+public abstract class AbstractController<T extends Comparable<T>> {
 
     /**
      * File extensions for saving and loading the tree
@@ -133,8 +133,8 @@ public abstract class AbstractController<T extends Comparable<T>> implements Ini
 
     private Order traverseConversionOrder = Order.LEVELORDER;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    @FXML
+    public void initialize() {
         this.valueTypes.setItems(this.main.getControllers());
         this.valueTypes.getSelectionModel().select(this);
         this.valueTypes.valueProperty().addListener((observableValue, abstractControllerSingleSelectionModel, t1) -> {
