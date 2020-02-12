@@ -1,11 +1,15 @@
+# binaryMaple
+
 [![Build Status](https://travis-ci.com/SimonIT/binaryMaple.svg?token=ZaZJqsZKYGqos74fJp9i&branch=master)](https://travis-ci.com/SimonIT/binaryMaple)
 
-# How to start
+A project by @codingWhale13 and @SimonIT
 
-The provided run configuration or the following maven command can be used: `mvn clean javafx:run -f pom.xml` or with debugging: `mvn clean javafx:compile exec:java -f pom.xml`
+## How to start
 
-## If you use Intellij
+The following maven command can be used: `mvn clean javafx:run -f pom.xml` or with debugging: `mvn clean compile exec:java -f pom.xml`
 
+### If you use Intellij
+The provided run configuration can be used or follow these steps:
 1. Open the **Run/Debug Configuration** dialog 
 2. Click the **Add New Configuration** button
 3. Select **Maven**
