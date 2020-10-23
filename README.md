@@ -6,6 +6,12 @@ A project by @codingWhale13 and @SimonIT
 
 ## How to start
 
+### Download
+
+Go to the [Actions tab](https://github.com/SimonIT/binaryMaple/actions?query=workflow%3A%22Build+binaryMaple%22), click on the latest build and download the _snapshot.jar_ zip. In it, you will find two .jar files. Open the file with the suffix _-fat_ via double-click or via terminal `java -jar binaryMaple-1.0-SNAPSHOT-fat.jar`.
+
+### CMD
+
 The following maven command can be used: `mvn clean javafx:run -f pom.xml` or with debugging: `mvn clean compile exec:java -f pom.xml`
 
 ### If you use Intellij
