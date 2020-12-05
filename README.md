@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/SimonIT/binaryMaple.svg?token=ZaZJqsZKYGqos74fJp9i&branch=master)](https://travis-ci.com/SimonIT/binaryMaple)
 
-A project by @codingWhale13 and @SimonIT
+A project by [@codingWhale13](https://github.com/codingWhale13) and [@SimonIT](https://github.com/SimonIT)
 
 ## How to start
 
