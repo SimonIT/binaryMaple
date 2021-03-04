@@ -157,11 +157,11 @@ public class TreeVisualizer<T extends Comparable<T>> {
 
             if (!this.collapseNodes.contains(node)) {
 
-                me = node(text).with(Style.FILLED.and(Style.lineWidth(2)), Color.WHITE.fill(), Color.BLACK.font());
+                me = node(text).with(Style.FILLED, Style.lineWidth(2), Color.WHITE.fill(), Color.BLACK.font());
 
                 if (node instanceof BNode) {
                     if (node instanceof RBNode) {
-                        switch (((RBNode) node).getColor()) {
+                        switch (((RBNode<T>) node).getColor()) {
                             case RED:
                                 me = me.with(Color.RED.fill(), Color.RED);
                                 break;
