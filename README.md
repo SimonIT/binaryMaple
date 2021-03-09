@@ -1,6 +1,6 @@
 # binaryMaple
 
-[![Build Status](https://travis-ci.com/SimonIT/binaryMaple.svg?token=ZaZJqsZKYGqos74fJp9i&branch=master)](https://travis-ci.com/SimonIT/binaryMaple)
+[![Build binaryMaple](https://github.com/SimonIT/binaryMaple/actions/workflows/build.yml/badge.svg)](https://github.com/SimonIT/binaryMaple/actions/workflows/build.yml)
 
 A project by [@codingWhale13](https://github.com/codingWhale13) and [@SimonIT](https://github.com/SimonIT)
 
